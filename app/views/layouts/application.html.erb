@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Prashna</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Quora" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Quora-clone(Prashna)" %>">
   </head>
 
   <body>
-    <%= yield %>
+
+    <header class="main">
+      <%= render 'layouts/navigation' %>
+    </header>
+    <section class="content">
+      
+      <main class='<%= controller.controller_name %>'>
+      <% if notice %>
+        <aside id="notice"><%= notice %></aside>
+      <% end %>
+      <%= yield %>
+      </main>
+    </section>
+
   </body>
 </html>
