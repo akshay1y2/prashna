@@ -11,4 +11,11 @@ class UserMailer < ApplicationMailer
       mail to: @user.email, subject: 'Account Confirmation-Token'
     end
   end
+
+  def reset_password
+    @user = User.find(params[:id])
+    if @user
+      mail to: @user.email, subject: 'Password Reset Link'
+    end
+  end
 end

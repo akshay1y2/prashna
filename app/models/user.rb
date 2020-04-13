@@ -22,6 +22,11 @@ class User < ApplicationRecord
     end
   end
 
+  def send_reset_link
+    update(reset_token: SecureRandom.urlsafe_base64, reset_sent_at: Time.current)
+    UserMailer.with(id: id).reset_password.deliver_later
+  end
+
   private
     def set_token
       self.confirm_token = SecureRandom.urlsafe_base64
