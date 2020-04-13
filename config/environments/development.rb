@@ -59,4 +59,11 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # ActionView::Template::Error (Missing host to link to!
+  # Please provide the :host parameter, set default_url_options[:host], or set :only_path to true)
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
+  # preview mails
+  config.action_mailer.delivery_method = :letter_opener
 end

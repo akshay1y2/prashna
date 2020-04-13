@@ -1,0 +1,18 @@
+<%= form_tag do %>
+  <h2>Log In</h2>
+  <div class="field">
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email] %>
+  </div>
+  <div class="field">
+    <%= label_tag :password %>
+    <%= password_field_tag :password, params[:password] %>
+  </div>
+  <div class="field">
+    <%= label_tag :remember_me %>
+    <%= check_box_tag :remember_me, params[:remember_me] %>
+  </div>
+  <div class="actions">
+    <%= submit_tag "Login" %>
+  </div>
+<% end %>
