@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
 
+#FIXME_AB:  remove unwanted actions
   # GET /users
   # GET /users.json
   def index
@@ -63,12 +64,15 @@ class UsersController < ApplicationController
   end
 
   def verify
+    #FIXME_AB: before action :check_if_already_activated   @user.activated?
+    #FIXME_AB: @user.activate should return true false
     redirect_to root_path, notice: @user.activate(params[:token])
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
+      #FIXME_AB: what if user not found
       @user = User.find(params[:id])
     end
 

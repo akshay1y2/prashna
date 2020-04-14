@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root action: :index, controller: :home
 
   resources :users do
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
   post 'password_resets/create'
 
   controller :sessions do
+    #FIXME_AB: use new syntax
     get 'login' => :new
     post 'login' => :create
     delete 'logout' => :destroy

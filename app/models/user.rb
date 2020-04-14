@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  #FIXME_AB:  active boolean
+  #FIXME_AB: admin boolean
   enum state: { inactive: false, active: true }
   enum role:  { user: false, admin: true }
 
@@ -7,6 +9,7 @@ class User < ApplicationRecord
   has_secure_password
 
   before_create :set_token, if: :user?
+  #FIXME_AB: should be after_comit on create or after_create_commit
   after_create :send_token, if: :user?
 
   def activate(token)
@@ -15,6 +18,7 @@ class User < ApplicationRecord
     elsif token == confirm_token
       self.state = 'active'
       self.confirm_token = nil
+      #FIXME_AB: what if save fails
       save
       "User: #{name} is activated!"
     else
@@ -28,10 +32,12 @@ class User < ApplicationRecord
   end
 
   private
+    #FIXME_AB: rename to set_verification_token
     def set_token
       self.confirm_token = SecureRandom.urlsafe_base64
     end
 
+    #FIXME_AB: send_verification_token
     def send_token
       UserMailer.with(id: id).verification.deliver_later
     end

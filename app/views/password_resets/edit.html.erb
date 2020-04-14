@@ -1,4 +1,7 @@
+<% #FIXME_AB: make this bootstrap form -%>
 <%= form_with model: @user, url: reset_password_user_url(@user, params[:token]), method: :post, local: true do |f| %>
+
+  <% #FIXME_AB: make a helper. show_model_error(@user) -%>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>

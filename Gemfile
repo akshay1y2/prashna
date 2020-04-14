@@ -54,4 +54,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # open emails when sent
+#FIXME_AB: specify the version of the gem
+#FIXME_AB: read about gemfile.lock
 gem "letter_opener", group: :development
