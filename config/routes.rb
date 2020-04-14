@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-
-  root action: :index, controller: :home
-
   resources :users do
     member do
       get 'verify/:token', action: :verify, as: 'verification_token'
@@ -14,11 +11,11 @@ Rails.application.routes.draw do
   post 'password_resets/create'
 
   controller :sessions do
-    #FIXME_AB: use new syntax
-    get 'login' => :new
-    post 'login' => :create
-    delete 'logout' => :destroy
+    get 'login', action: :new
+    post 'login', action: :create
+    delete 'logout', action: :destroy
   end
 
+  root action: :index, controller: :home
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

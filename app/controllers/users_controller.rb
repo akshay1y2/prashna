@@ -1,26 +1,17 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
+  before_action :check_if_already_activated, only: [:verify]
 
-#FIXME_AB:  remove unwanted actions
   # GET /users
   # GET /users.json
   def index
     @users = User.all
   end
 
-  # GET /users/1
-  # GET /users/1.json
-  def show
-  end
-
   # GET /users/new
   def new
     @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
   end
 
   # POST /users
@@ -30,7 +21,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to root_path, notice: "Sign-up successfull" }
+        format.html { redirect_to root_path, notice: "Sign-up successful." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -64,20 +55,30 @@ class UsersController < ApplicationController
   end
 
   def verify
-    #FIXME_AB: before action :check_if_already_activated   @user.activated?
-    #FIXME_AB: @user.activate should return true false
-    redirect_to root_path, notice: @user.activate(params[:token])
+    if @user.activate(params[:token])
+      redirect_to root_path, notice: "User '#{@user.name}' is activated."
+    else
+      redirect_to root_path, notice: "Cannot activate the user."
+    end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      #FIXME_AB: what if user not found
       @user = User.find(params[:id])
+      if @user.blank?
+        redirect_to root_path, notice: "Cannot find the user."
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def check_if_already_activated
+      if @user.active?
+        redirect_to root_path, notice: 'User is already activated.'
+      end
     end
 end

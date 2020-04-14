@@ -1,46 +1,44 @@
 class PasswordResetsController < ApplicationController
-  skip_before_action :authorize
-
-  def new
-  end
+  skip_before_action :authorize, only: [:new, :create, :edit, :update]
+  before_action :find_user_by_email, only: [:create]
+  before_action :set_user, only: [:edit, :update]
+  before_action :validate_token, only: [:edit, :update]
 
   def create
-    #FIXME_AB: before_action to check whether user with email is found or not
-    user = User.find_by_email(params[:email])
-    user.send_reset_link if user
+    @user.send_reset_link
     redirect_to root_path, notice: 'Reset link will be sent to this email!'
   end
 
-  def edit
-    #FIXME_AB: before action to load user
-    #FIXME_AB: in a before action verify token
-    @user = User.find_by_id(params[:id])
-    unless @user
-      redirect_to root_path, notice: 'User not found' and return
-    end
-  end
-
   def update
-    @user = User.find_by_id(params[:id])
-    #FIXME_AB: @user.verify_password_reset_token(params[:token])
-    unless @user.reset_token == params[:token]
-      #FIXME_AB: use new syntax
-      redirect_to password_resets_new_path, :notice => "Reset Token is Incorrect." and return
-    end
-    if @user.reset_sent_at < 2.hours.ago
-      redirect_to password_resets_new_path, :notice => "Password reset has expired." and return
-    end
-
-    if @user.update(passwords)
-      redirect_to root_path, :notice => "Password has been reset!"
+    if @user.update(reset_password_params)
+      redirect_to root_path, notice: "Password has been reset!"
     else
       render :edit
     end
   end
 
   private
-    #FIXME_AB: reset_password_params
-    def passwords
+    def reset_password_params
       params.require(:user).permit(:password, :password_confirmation)
+    end
+
+    def find_user_by_email
+      @user = User.find_by(email: params[:email])
+      if @user.blank?
+        redirect_to password_resets_new_path, notice: 'User not found!'
+      end
+    end
+
+    def set_user
+      @user = User.find_by_id(params[:id])
+      if @user.blank?
+        redirect_to root_path, notice: 'User not found'
+      end
+    end
+
+    def validate_token
+      unless @user.verify_password_reset_token(params[:token])
+        redirect_to root_path, notice: 'Token is either incorrect or expired!'
+      end
     end
 end

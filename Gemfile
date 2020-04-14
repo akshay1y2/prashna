@@ -6,7 +6,9 @@ ruby '2.6.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', '~> 1.4'
+# gem 'sqlite3', '~> 1.4'
+# Use sqlite3 as the database for Active Record
+gem 'pg', '~> 1.2.3'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
@@ -54,6 +56,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # open emails when sent
-#FIXME_AB: specify the version of the gem
-#FIXME_AB: read about gemfile.lock
-gem "letter_opener", group: :development
+gem "letter_opener", '~>1.7.0', group: :development
+
+# to configure application
+gem 'figaro', '~> 1.1'

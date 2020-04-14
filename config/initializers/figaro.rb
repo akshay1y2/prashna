@@ -1,0 +1,1 @@
+Figaro.require_keys("admin_email")

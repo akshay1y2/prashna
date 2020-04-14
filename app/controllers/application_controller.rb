@@ -4,17 +4,16 @@ class ApplicationController < ActionController::Base
 
   protected
     def authorize
-      #FIXME_AB: what if session don't have user_id
-      @user = User.find_by_id(session[:user_id])
-      unless @user
-        redirect_to login_url, notice: "Please log in."
+      if session[:user_id]
+        @user = User.find_by_id(session[:user_id])
+        return if @user.present?
       end
+      redirect_to login_url, notice: "Please log in."
     end
 
     def set_user_id_in_session
-      #FIXME_AB: make this a signed cookie
-      if session[:user_id].blank? && cookies.permanent[:user_id].present?
-        session[:user_id] = cookies.permanent[:user_id]
+      if cookies.permanent.signed[:user_id]
+        session[:user_id] = cookies.permanent.signed[:user_id]
       end
     end
 end
