@@ -1,0 +1,8 @@
+en:
+  users:
+    new:
+      new_user_heading: 'Sign Up.'
+    edit:
+      edit_heading: Editing User
+    index:
+      index_heading: All Users

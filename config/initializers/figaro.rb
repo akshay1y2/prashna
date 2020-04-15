@@ -1,1 +1,1 @@
-Figaro.require_keys("admin_email")
+Figaro.require_keys("admin_email", "cookie_expiry_days")

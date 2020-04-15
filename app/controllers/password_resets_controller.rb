@@ -6,13 +6,12 @@ class PasswordResetsController < ApplicationController
 
   def create
     @user.send_reset_link
-    redirect_to root_path, notice: 'Reset link will be sent to this email!'
+    redirect_to root_path, notice: t('.link_will_be_sent')
   end
 
   def update
-    if @user.update(reset_password_params)
-      #FIXME_AB: we need to set token and time both to null here once updated
-      redirect_to root_path, notice: "Password has been reset!"
+    if @user.update(reset_password_params.merge(reset_token: nil, reset_sent_at: nil))
+      redirect_to root_path, notice: t('.password_reset')
     else
       render :edit
     end
@@ -26,20 +25,20 @@ class PasswordResetsController < ApplicationController
     def find_user_by_email
       @user = User.find_by(email: params[:email])
       if @user.blank?
-        redirect_to password_resets_new_path, notice: 'User not found!'
+        redirect_to password_resets_new_path, notice: t('users.not_found')
       end
     end
 
     def set_user
       @user = User.find_by_id(params[:id])
       if @user.blank?
-        redirect_to root_path, notice: 'User not found'
+        redirect_to root_path, notice: t('users.not_found')
       end
     end
 
     def validate_token
       unless @user.verify_password_reset_token(params[:token])
-        redirect_to root_path, notice: 'Token is either incorrect or expired!'
+        redirect_to root_path, notice: t('.unvalidated_token')
       end
     end
 end

@@ -1,17 +1,22 @@
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+<div class="media">
+  <%= image_tag @user.avatar, alt: "avatar", class:"align-self-start mr-3" if @user.avatar.attached? %>
+  <div class="media-body">
+  <p>
+    <strong>Name:</strong>
+    <%= @user.name %>
+  </p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+  <p>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </p>
 
-<p>
-  <strong>Credits:</strong>
-  <%= @user.credits %>
-</p>
+  <p>
+    <strong>Credits:</strong>
+    <%= @user.credits %>
+  </p>
+  </div>
+</div>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

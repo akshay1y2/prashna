@@ -1,0 +1,9 @@
+en:
+  users:
+    not_found: "Cannot find the user."
+    signed_up: "Sign-up successful."
+    updated: 'User was successfully updated.'
+    destroyed: 'User was successfully destroyed.'
+    activated: "User '%{name}' is activated."
+    cannot_activate: "Cannot activate the user."
+    already_active: 'User is already activated.'

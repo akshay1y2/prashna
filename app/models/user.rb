@@ -1,9 +1,11 @@
 class User < ApplicationRecord
+  has_secure_password
+  has_one_attached :avatar
+
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
-  #FIXME_AB: add uniqueness validation for the reset password token
-  #FIXME_AB: also add index on token
-  has_secure_password
+  validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
+  validates :avatar, absence: { message: I18n.t('user.errors.inactive_image_update') }, unless: :active?
 
   before_create :set_verification_token, unless: :admin
   after_commit :send_verification_token, unless: :admin, on: [:create]
@@ -12,6 +14,7 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
+      self.credits = 5
       save
     else
       false
@@ -24,12 +27,12 @@ class User < ApplicationRecord
   end
 
   def verify_password_reset_token(token)
-    (reset_token == token) && (reset_sent_at > 2.hours.ago)
+    (reset_token == token) &&
+      (reset_sent_at > ENV['reset_token_valid_hours'].to_i.hours.ago)
   end
 
   private
     def set_verification_token
-      #FIXME_AB: confirm_token should also have uniqueess validation
       self.confirm_token = SecureRandom.urlsafe_base64
     end
 

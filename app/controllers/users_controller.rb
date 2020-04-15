@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to root_path, notice: "Sign-up successful." }
+        format.html { redirect_to root_path, notice: t('.signed_up') }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: t('.updated') }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -49,36 +49,36 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: t('.destroyed') }
       format.json { head :no_content }
     end
   end
 
   def verify
     if @user.activate(params[:token])
-      redirect_to root_path, notice: "User '#{@user.name}' is activated."
+      redirect_to root_path, notice: t('.activated', name: @user.name)
     else
-      redirect_to root_path, notice: "Cannot activate the user."
+      redirect_to root_path, notice: t('cannot_activate')
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by_id(params[:id])
       if @user.blank?
-        redirect_to root_path, notice: "Cannot find the user."
+        redirect_to root_path, notice: t('.not_found')
       end
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.require(:user).permit(:avatar, :name, :email, :password, :password_confirmation)
     end
 
     def check_if_already_activated
       if @user.active?
-        redirect_to root_path, notice: 'User is already activated.'
+        redirect_to root_path, notice: t('.already_active')
       end
     end
 end

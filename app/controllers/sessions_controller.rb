@@ -7,26 +7,28 @@ class SessionsController < ApplicationController
       if user.active?
         set_remember_me(user.id)
         session[:user_id] = user.id
-        redirect_to root_path, notice: "Welcome #{user.name}"
+        redirect_to root_path, notice: t('.welcome', name: user.name)
       else
-        redirect_to root_path, notice: "User: #{user.name}, not activated!"
+        redirect_to root_path, notice: t('.not_active', name: user.name)
       end
     else
-      redirect_to login_url, notice: "Invalid email/password combination"
+      redirect_to login_url, notice: t('.invalid_credentials')
     end
   end
 
   def destroy
     reset_session
     clear_remember_me_cookie
-    redirect_to root_path, notice: "Logged out"
+    redirect_to root_path, notice: t('.logout')
   end
 
   private
     def set_remember_me(id)
       if params[:remember_me]
-        #FIXME_AB: Lets take this expiry number of days from env/figaro
-        cookies.permanent.signed[:user_id] = { value: id, expires: 1.day.from_now }
+        cookies.permanent.signed[:user_id] = { 
+          value: id,
+          expires: ENV['cookie_expiry_days'].to_i.day.from_now
+        }
       end
     end
 

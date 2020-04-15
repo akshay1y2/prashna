@@ -11,6 +11,9 @@
 
       <% if session[:user_id] %>
       <li class="nav-item">
+        <%= link_to  "Profile", edit_user_path(session[:user_id]), class: 'nav-link' %>
+      </li>
+      <li class="nav-item">
         <%= link_to  "logout", logout_path, method: :delete, class: 'nav-link' %>
       </li>
       <% else %>

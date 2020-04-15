@@ -1,0 +1,8 @@
+en:
+  sessions:
+    create:
+      welcome: "Welcome %{name}"
+      not_active: "User: %{name}, not activated!"
+      invalid_credentials: "Invalid email/password combination"
+    destroy:
+      logout: "Logged out"

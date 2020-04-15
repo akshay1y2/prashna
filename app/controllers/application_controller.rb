@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :set_user_id_in_session
+  before_action :set_user_from_remember_me_cookie
   before_action :authorize
 
   protected
@@ -8,11 +8,10 @@ class ApplicationController < ActionController::Base
         @user = User.find_by_id(session[:user_id])
         return if @user.present?
       end
-      redirect_to login_url, notice: "Please log in."
+      redirect_to login_url, notice: t('application.please_log_in')
     end
 
-    #FIXME_AB: rename method name to set_user_from_remember_me_cookie
-    def set_user_id_in_session
+    def set_user_from_remember_me_cookie
       if cookies.permanent.signed[:user_id]
         session[:user_id] = cookies.permanent.signed[:user_id]
       end

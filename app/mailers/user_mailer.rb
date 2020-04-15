@@ -8,14 +8,14 @@ class UserMailer < ApplicationMailer
   def verification
     @user = User.find(params[:id])
     if @user && !@user.active?
-      mail to: @user.email, subject: 'Account Confirmation-Token'
+      mail to: @user.email, subject: t('.subject')
     end
   end
 
   def reset_password
     @user = User.find(params[:id])
     if @user
-      mail to: @user.email, subject: 'Password Reset Link'
+      mail to: @user.email, subject: t('.subject')
     end
   end
 end
