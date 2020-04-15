@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
+  #FIXME_AB: add uniqueness validation for the reset password token
+  #FIXME_AB: also add index on token
   has_secure_password
 
   before_create :set_verification_token, unless: :admin
@@ -27,6 +29,7 @@ class User < ApplicationRecord
 
   private
     def set_verification_token
+      #FIXME_AB: confirm_token should also have uniqueess validation
       self.confirm_token = SecureRandom.urlsafe_base64
     end
 

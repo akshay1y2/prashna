@@ -11,6 +11,7 @@ class PasswordResetsController < ApplicationController
 
   def update
     if @user.update(reset_password_params)
+      #FIXME_AB: we need to set token and time both to null here once updated
       redirect_to root_path, notice: "Password has been reset!"
     else
       render :edit

@@ -18,18 +18,19 @@ class SessionsController < ApplicationController
 
   def destroy
     reset_session
-    clear_remember_me
+    clear_remember_me_cookie
     redirect_to root_path, notice: "Logged out"
   end
 
   private
     def set_remember_me(id)
       if params[:remember_me]
+        #FIXME_AB: Lets take this expiry number of days from env/figaro
         cookies.permanent.signed[:user_id] = { value: id, expires: 1.day.from_now }
       end
     end
 
-    def clear_remember_me
+    def clear_remember_me_cookie
       cookies.delete(:user_id)
     end
 end

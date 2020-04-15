@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
       redirect_to login_url, notice: "Please log in."
     end
 
+    #FIXME_AB: rename method name to set_user_from_remember_me_cookie
     def set_user_id_in_session
       if cookies.permanent.signed[:user_id]
         session[:user_id] = cookies.permanent.signed[:user_id]
