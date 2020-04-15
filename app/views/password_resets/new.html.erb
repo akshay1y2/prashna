@@ -1,8 +1,8 @@
 <%= form_tag password_resets_create_path, method: :post do %>
-  <p>Enter your registered email.</p>
-  <div class="field">
-    <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email] %>
+  <div class="form-group">
+    <%= label_tag :email, 'Enter your registered email-id.' %>
+    <%= text_field_tag :email, params[:email], 'aria-describedby': "emailHelpBlock", placeholder:"Email" %>
+    <small id="emailHelpBlock" class="form-text text-muted">Password Reset Link will be shared to this email-id.</small>
   </div>
   <div class="actions">
     <%= submit_tag "Reset Password" %>
