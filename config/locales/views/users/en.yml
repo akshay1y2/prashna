@@ -6,3 +6,5 @@ en:
       edit_heading: Editing User
     index:
       index_heading: All Users
+    show:
+      edit: Edit profile

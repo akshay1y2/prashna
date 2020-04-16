@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_122251) do
+ActiveRecord::Schema.define(version: 2020_04_16_073135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,19 @@ ActiveRecord::Schema.define(version: 2020_04_15_122251) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "credit_transactions", force: :cascade do |t|
+    t.integer "credits", default: 0, null: false
+    t.string "reason", default: "other", null: false
+    t.string "content_type"
+    t.bigint "content_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["content_type", "content_id"], name: "index_credit_transactions_on_content_type_and_content_id"
+    t.index ["reason"], name: "index_credit_transactions_on_reason"
+    t.index ["user_id"], name: "index_credit_transactions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -54,4 +67,5 @@ ActiveRecord::Schema.define(version: 2020_04_15_122251) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "credit_transactions", "users"
 end

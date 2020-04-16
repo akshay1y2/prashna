@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
+  has_many :credit_transactions, dependent: :destroy
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -14,7 +15,7 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      self.credits = 5
+      credit_transactions.build(credits: 5, reason: 'signup')
       save
     else
       false
