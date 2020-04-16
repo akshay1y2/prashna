@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
-  has_many :credit_transactions, dependent: :destroy
+  has_many :credit_transactions, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
