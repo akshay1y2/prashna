@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :users do
     member do
+      get 'topics', action: :search, controller: :topics
       get 'verify/:token', action: :verify, as: 'verification_token'
       get 'reset/:token', action: :edit, controller: :password_resets, as: 'reset_token'
       post 'reset/:token', action: :update, controller: :password_resets, as: 'reset_password'

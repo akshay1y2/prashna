@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_055625) do
+ActiveRecord::Schema.define(version: 2020_04_17_072427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,22 @@ ActiveRecord::Schema.define(version: 2020_04_17_055625) do
     t.index ["user_id"], name: "index_credit_transactions_on_user_id"
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.string "name", default: "other", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_topics_on_name"
+  end
+
+  create_table "topics_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["topic_id"], name: "index_topics_users_on_topic_id"
+    t.index ["user_id"], name: "index_topics_users_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -67,4 +83,6 @@ ActiveRecord::Schema.define(version: 2020_04_17_055625) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "credit_transactions", "users"
+  add_foreign_key "topics_users", "topics"
+  add_foreign_key "topics_users", "users"
 end

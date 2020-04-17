@@ -33,6 +33,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    @user.topics = Topic.by_name(params[:user][:topics].split(/,\s*/))
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: t('.updated') }

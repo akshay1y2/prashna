@@ -8,3 +8,5 @@ en:
       index_heading: All Users
     show:
       edit: Edit profile
+    form:
+      topics_help_block: Any value other than suggestions will be discarded.

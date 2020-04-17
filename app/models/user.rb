@@ -2,11 +2,13 @@ class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
   has_many :credit_transactions, dependent: :restrict_with_error
+  has_and_belongs_to_many :topics
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
-  validates :avatar, absence: { message: I18n.t('user.errors.inactive_image_update') }, unless: :active?
+  validates :avatar, absence: { message: I18n.t('user.errors.inactive_update') }, unless: :active?
+  validates :topics, absence: { message: I18n.t('user.errors.inactive_update') }, unless: :active?
 
   before_create :set_verification_token, unless: :admin
   after_commit :send_verification_token, unless: :admin, on: [:create]
