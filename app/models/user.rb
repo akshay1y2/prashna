@@ -15,7 +15,7 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      credit_transactions.build(credits: 5, reason: 'signup')
+      credit_transactions.build(credits: ENV['signup_credits'], reason: 'signup')
       save
     else
       false
