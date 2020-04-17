@@ -1,0 +1,7 @@
+en:
+  sessions:
+    new:
+      login_btn: Login
+      remember_me: Remember Me
+      forgot_pass: Forgot password?
+      login_heading: Log In

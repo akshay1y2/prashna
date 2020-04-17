@@ -1,0 +1,6 @@
+en:
+  password_resets:
+    new:
+      email_help_block: Password Reset Link will be shared to this email-id.
+      email_label: Enter your registered email-id.
+      reset_btn: Reset Password

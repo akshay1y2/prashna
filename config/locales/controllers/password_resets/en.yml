@@ -1,0 +1,8 @@
+en:
+  password_resets:
+    create:
+      link_will_be_sent: 'Reset link will be sent to this email!'
+    update:
+      password_reset: "Password has been reset!"
+    edit:
+      unvalidated_token: 'Token is either incorrect or expired!'

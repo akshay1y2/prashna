@@ -1,0 +1,21 @@
+<%= form_tag do %>
+  <h2><%=t('.login_heading')%></h2>
+  <div class="form-group">
+    <%= label_tag :email %>
+    <%= text_field_tag :email, params[:email] %>
+  </div>
+  <div class="form-group">
+    <%= label_tag :password %>
+    <%= password_field_tag :password, params[:password] %>
+  </div>
+  <div class="form-group">
+    <%= link_to  t('.forgot_pass'), password_resets_new_path %>
+  </div>
+  <div class="form-group form-check">
+    <%= check_box_tag :remember_me, params[:remember_me], '', class: 'form-check-input' %>
+    <%= label_tag :remember_me, t('.remember_me'), class: 'form-check-label' %>
+  </div>
+  <div class="actions">
+    <%= submit_tag t('.login_btn'), class: "btn btn-primary btn-sm" %>
+  </div>
+<% end %>

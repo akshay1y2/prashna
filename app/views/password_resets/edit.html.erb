@@ -1,0 +1,15 @@
+<%= form_with model: @user, url: reset_password_user_url(@user, params[:token]), method: :post, local: true do |f| %>
+  <%= errors_explanation_div(@user) %>
+  <div class="form-group">
+    <p>Reset your password.</p>
+  </div>
+  <div class="form-group">
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+  </div>
+  <div class="form-group">
+    <%= f.label :confirmation %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+  <div class="actions"><%= f.submit "Update Password" %></div>
+<% end %>

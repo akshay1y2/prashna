@@ -1,0 +1,6 @@
+en:
+  user_mailer:
+    reset_password:
+      subject: 'Password Reset Link'
+    verification:
+      subject: 'Account Confirmation-Token'
