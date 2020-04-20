@@ -13,7 +13,7 @@ class TopicSelector{
       function extractLast( term ) {
         return split( term ).pop();
       }
-   
+
       this.$input
         // don't navigate away from the field on tab when selecting an item
         .on( "keydown", function( event ) {
@@ -24,6 +24,7 @@ class TopicSelector{
         })
         .autocomplete({
           source: function( request, response ) {
+            // FIXME_AB: don't hardcode this url, get it from data-url
             $.getJSON( "topics", {
               q: extractLast( request.term )
             }, response );
@@ -31,6 +32,7 @@ class TopicSelector{
           search: function() {
             // custom minLength
             var term = extractLast( this.value );
+            // FIXME_AB: take min_len as argument in initialization
             if ( term.length < 2 ) {
               return false;
             }
@@ -56,5 +58,6 @@ class TopicSelector{
 }
 
 document.addEventListener('turbolinks:load', function() {
+  // FIXME_AB: pass second argument a hash for options {min_len: 2}
   new TopicSelector($('#user_topics')).init();
 });

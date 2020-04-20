@@ -33,6 +33,9 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    #FIXME_AB: if it is an empty array then all topics will be removed. Ensure edit form shows existing user's topic preselected
+    #FIXME_AB: filter out nil and blanks
+    #FIXME_AB: @user.set_topics(params....)
     @user.topics = Topic.by_name(params[:user][:topics].split(/,\s*/))
     respond_to do |format|
       if @user.update(user_params)

@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
+
+  #FIXME_AB: use with_options
   validates :avatar, absence: { message: I18n.t('user.errors.inactive_update') }, unless: :active?
   validates :topics, absence: { message: I18n.t('user.errors.inactive_update') }, unless: :active?
 
