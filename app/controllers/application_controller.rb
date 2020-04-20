@@ -1,17 +1,21 @@
 class ApplicationController < ActionController::Base
   before_action :set_user_from_remember_me_cookie
   before_action :authorize
+  helper_method :current_user
 
-  protected
-    def authorize
+  def current_user
+    @_current_user
+  end
+
+  protected def authorize
       if session[:user_id]
-        @user = User.find_by_id(session[:user_id])
-        return if @user.present?
+        @_current_user = User.find_by_id(session[:user_id])
+        return if @_current_user.present?
       end
       redirect_to login_url, notice: t('application.please_log_in')
     end
 
-    def set_user_from_remember_me_cookie
+  protected def set_user_from_remember_me_cookie
       if cookies.permanent.signed[:user_id]
         session[:user_id] = cookies.permanent.signed[:user_id]
       end

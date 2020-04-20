@@ -16,6 +16,7 @@ development:
   reset_token_valid_hours: '2'
   host: 'localhost:3000'
   signup_credits: '5'
+  get_topics_url: 'topics'
 
 production:
   admin_email: 'admin@prashna.com'
@@ -23,6 +24,7 @@ production:
   reset_token_valid_hours: '2'
   host: 'localhost:3000'
   signup_credits: '5'
+  get_topics_url: 'topics'
 
 test:
   admin_email: 'admin@prashna.com'
@@ -30,3 +32,4 @@ test:
   reset_token_valid_hours: '2'
   host: 'localhost:3000'
   signup_credits: '5'
+  get_topics_url: 'topics'

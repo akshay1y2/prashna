@@ -8,9 +8,10 @@ class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
 
-  #FIXME_AB: use with_options
-  validates :avatar, absence: { message: I18n.t('user.errors.inactive_update') }, unless: :active?
-  validates :topics, absence: { message: I18n.t('user.errors.inactive_update') }, unless: :active?
+  with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
+  validates :avatar
+  validates :topics
+  end
 
   before_create :set_verification_token, unless: :admin
   after_commit :send_verification_token, unless: :admin, on: [:create]
@@ -34,6 +35,10 @@ class User < ApplicationRecord
   def verify_password_reset_token(token)
     (reset_token == token) &&
       (reset_sent_at > ENV['reset_token_valid_hours'].to_i.hours.ago)
+  end
+
+  def set_topics(topic_names)
+    self.topics = Topic.by_names(topic_names.split(",").map(&:strip).reject(&:empty?))
   end
 
   private

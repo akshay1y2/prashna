@@ -3,8 +3,6 @@ class Topic < ApplicationRecord
 
   validates :name, uniqueness: { case_sensitive: false }, presence: true
 
-  #FIXME_AB: default value name = nil
-  scope :search, ->(name) { where("name like ?", "%#{name}%") }
-  #FIXME_AB: default values name = [] and rename by_names
-  scope :by_name, ->(list) { where(name: list) }
+  scope :search, ->(name=nil) { where("name like ?", "%#{name}%") }
+  scope :by_names, ->(list=[]) { where(name: list) }
 end

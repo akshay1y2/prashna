@@ -2,42 +2,45 @@
   <%= errors_explanation_div(user) %>
 
   <% if user.active? %>
-  <% content_for :select_topics do %>
+  <% content_for :js do %>
     <%= javascript_pack_tag 'select_topics', 'data-turbolinks-track': 'reload' %>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <% end %>
+  <% content_for :css do %>
+    <%= stylesheet_link_tag "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
   <% end %>
   <div class="form-group">
     <%= form.label :avatar %>
-    <%= form.file_field :avatar %>
+    <%= form.file_field :avatar, class: 'form-control-sm' %>
   </div>
   <div class="form-group">
     <%= form.label :topics %>
-    <%= form.text_field :topics %>
+    <%= form.text_field :topics, value: @topics, data: { url: ENV['get_topics_url'] }, class: 'form-control-sm' %>
     <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
   </div>
   <% end %>
 
   <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: 'form-control-sm' %>
   </div>
 
   <div class="form-group">
     <%= form.label :email %>
-    <%= form.text_field :email %>
+    <%= form.text_field :email, class: 'form-control-sm' %>
   </div>
 
   <div class="form-group">
     <%= form.label :password %>
-    <%= form.password_field :password %>
+    <%= form.password_field :password, class: 'form-control-sm' %>
   </div>
 
   <div class="form-group">
     <%= form.label :password_confirmation, 'Confirm' %>
-    <%= form.password_field :password_confirmation, id: :user_password_confirmation %>
+    <%= form.password_field :password_confirmation, id: :user_password_confirmation, class: 'form-control-sm' %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary btn-sm"  %>
   </div>
 <% end %>

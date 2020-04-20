@@ -3,9 +3,7 @@ class TopicSelector{
     this.$input = $input;
   }
 
-  init(){
-    this.$input.val('');
-
+  init(data){
     $( () => {
       function split( val ) {
         return val.split( /,\s*/ );
@@ -24,16 +22,13 @@ class TopicSelector{
         })
         .autocomplete({
           source: function( request, response ) {
-            // FIXME_AB: don't hardcode this url, get it from data-url
-            $.getJSON( "topics", {
+            $.getJSON( data.url, {
               q: extractLast( request.term )
             }, response );
           },
           search: function() {
-            // custom minLength
             var term = extractLast( this.value );
-            // FIXME_AB: take min_len as argument in initialization
-            if ( term.length < 2 ) {
+            if ( term.length < data.min_length ) {
               return false;
             }
           },
@@ -49,7 +44,7 @@ class TopicSelector{
             terms.push( ui.item.value );
             // add placeholder to get the comma-and-space at the end
             terms.push( "" );
-            this.value = terms.join( ", " );
+            this.value = terms.join( "," );
             return false;
           }
         });
@@ -58,6 +53,6 @@ class TopicSelector{
 }
 
 document.addEventListener('turbolinks:load', function() {
-  // FIXME_AB: pass second argument a hash for options {min_len: 2}
-  new TopicSelector($('#user_topics')).init();
+  const $input = $('#user_topics')
+  new TopicSelector($input).init({min_length: 2, url: $input.data('url')});
 });

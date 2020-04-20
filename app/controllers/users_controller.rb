@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :verify]
+  before_action :set_user, only: [:show, :destroy, :verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
   before_action :check_if_already_activated, only: [:verify]
 
@@ -12,6 +12,11 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+  end
+
+  # GET /users/1/edit
+  def edit
+    @topics = current_user.topics.map { |t| t.name }.join(', ')
   end
 
   # POST /users
@@ -33,17 +38,14 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    #FIXME_AB: if it is an empty array then all topics will be removed. Ensure edit form shows existing user's topic preselected
-    #FIXME_AB: filter out nil and blanks
-    #FIXME_AB: @user.set_topics(params....)
-    @user.topics = Topic.by_name(params[:user][:topics].split(/,\s*/))
+    current_user.set_topics params[:user][:topics]
     respond_to do |format|
-      if @user.update(user_params)
-        format.html { redirect_to @user, notice: t('.updated') }
-        format.json { render :show, status: :ok, location: @user }
+      if current_user.update(user_params)
+        format.html { redirect_to current_user, notice: t('.updated') }
+        format.json { render :show, status: :ok, location: current_user }
       else
         format.html { render :edit }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: current_user.errors, status: :unprocessable_entity }
       end
     end
   end
