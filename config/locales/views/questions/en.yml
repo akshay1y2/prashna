@@ -1,0 +1,6 @@
+en:
+  questions:
+    form:
+      topics_help_block: Select the topics(tags) for the question.
+      publish_now: Publish Now
+      submit: Submit

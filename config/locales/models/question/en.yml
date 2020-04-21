@@ -1,0 +1,6 @@
+en:
+  question:
+    errors:
+      topics_absent: 'should be selected, minimum: 1'
+      not_enough_credits: User does not have enough credits to post a question.
+      not_updatable: This question contains a response. Hence, not updatable.
