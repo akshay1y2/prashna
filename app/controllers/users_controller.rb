@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @topics = current_user.topics.map { |t| t.name }.join(', ')
+    @topics = current_user.topic_names.join(', ')
   end
 
   # POST /users

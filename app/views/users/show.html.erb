@@ -15,6 +15,11 @@
     <strong>Credits:</strong>
     <%= @user.credits %>
   </p>
+
+  <p>
+    <strong>Topics:</strong>
+    <%= @user.topic_names.join(', ') %>
+  </p>
   </div>
 </div>
 

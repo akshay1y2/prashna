@@ -148,6 +148,7 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redcarpet (3.5.0)
     regexp_parser (1.7.0)
     ruby_dep (1.5.0)
     rubyzip (2.3.0)
@@ -218,6 +219,7 @@ DEPENDENCIES
   pg (~> 1.2.3)
   puma (~> 4.1)
   rails (~> 6.0.2, >= 6.0.2.2)
+  redcarpet (~> 3.5.0)
   sass-rails (>= 6)
   selenium-webdriver
   spring
@@ -229,7 +231,7 @@ DEPENDENCIES
   webpacker (~> 4.0)
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.7.0p0
 
 BUNDLED WITH
    2.1.4

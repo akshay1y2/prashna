@@ -53,6 +53,10 @@ class TopicSelector{
 }
 
 document.addEventListener('turbolinks:load', function() {
-  const $input = $('#user_topics')
+  let selector = $('#user_topics');
+  if(!selector.length){
+    selector = $('#question_topics');
+  }
+  const $input = selector;
   new TopicSelector($input).init({min_length: 2, url: $input.data('url')});
 });

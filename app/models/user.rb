@@ -41,6 +41,10 @@ class User < ApplicationRecord
     self.topics = Topic.by_names(topic_names.split(",").map(&:strip).reject(&:empty?))
   end
 
+  def topic_names
+    topics.pluck('name')
+  end
+
   private
     def set_verification_token
       self.confirm_token = SecureRandom.urlsafe_base64

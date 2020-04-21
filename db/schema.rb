@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_072427) do
+ActiveRecord::Schema.define(version: 2020_04_21_055847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,13 +39,38 @@ ActiveRecord::Schema.define(version: 2020_04_17_072427) do
   create_table "credit_transactions", force: :cascade do |t|
     t.integer "credits", default: 0, null: false
     t.text "reason", default: "other", null: false
-    t.string "content_type"
-    t.bigint "content_id"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["content_type", "content_id"], name: "index_credit_transactions_on_content_type_and_content_id"
+    t.string "creditable_type"
+    t.bigint "creditable_id"
+    t.index ["creditable_type", "creditable_id"], name: "index_credit_transactions_on_creditable_type_and_creditable_id"
     t.index ["user_id"], name: "index_credit_transactions_on_user_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "title", default: "", null: false
+    t.text "content", default: "", null: false
+    t.bigint "user_id", null: false
+    t.datetime "published_at"
+    t.bigint "comments_count", default: 0, null: false
+    t.bigint "answers_count", default: 0, null: false
+    t.bigint "vote_count", default: 0, null: false
+    t.bigint "upvote_count", default: 0, null: false
+    t.bigint "downvote_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["title"], name: "index_questions_on_title", unique: true
+    t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
+  create_table "questions_topics", id: false, force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_questions_topics_on_question_id"
+    t.index ["topic_id"], name: "index_questions_topics_on_topic_id"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -83,4 +108,5 @@ ActiveRecord::Schema.define(version: 2020_04_17_072427) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "credit_transactions", "users"
+  add_foreign_key "questions", "users"
 end

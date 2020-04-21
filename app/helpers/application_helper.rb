@@ -7,4 +7,9 @@ module ApplicationHelper
       content_tag(:h2, header) + content_tag(:ul, list_items.join.html_safe)
     end
   end
+
+  def markdown(text)
+    options = [:hard_wrap, :filter_html, :autolink, :no_intraemphasis, :fenced_code, :gh_blockcode]
+    Markdown.new(text, *options).to_html.html_safe
+  end  
 end
