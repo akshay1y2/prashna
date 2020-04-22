@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :questions
 
   get 'topics', action: :search, controller: :topics
+  get 'notifications', action: :fetch, controller: :notifications
   get 'password_resets/new'
   post 'password_resets/create'
 

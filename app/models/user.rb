@@ -3,14 +3,16 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_many :credit_transactions, dependent: :restrict_with_error
   has_and_belongs_to_many :topics
+  has_many :questions, dependent: :restrict_with_error
+  has_many :notifications, dependent: :destroy
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
 
   with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
-  validates :avatar
-  validates :topics
+    validates :avatar
+    validates :topics
   end
 
   before_create :set_verification_token, unless: :admin

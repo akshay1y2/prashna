@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.all
+    @questions = current_user.questions
   end
 
   # GET /questions/1
@@ -32,6 +32,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
+        notify_users if @should_notify_users
         format.html { redirect_to @question, notice: t(".#{@question.published? ? 'published' : 'saved'}") }
         format.json { render :show, status: :created, location: @question }
       else
@@ -47,6 +48,7 @@ class QuestionsController < ApplicationController
     set_question_parameters
     respond_to do |format|
       if @question.update(question_params)
+        notify_users if @should_notify_users
         format.html { redirect_to @question, notice: t('.updated') }
         format.json { render :show, status: :ok, location: @question }
       else
@@ -82,6 +84,7 @@ class QuestionsController < ApplicationController
     @question.set_topics @topics
     unless @question.published? || params[:question][:publish] == '0'
       @question.published_at = Time.current
+      @should_notify_users = true
     end
   end
 
@@ -89,5 +92,12 @@ class QuestionsController < ApplicationController
     unless current_user.id == @question.user.id
       redirect_to questions_path, notice: t('.access_denied')
     end
+  end
+
+  private def notify_users
+    @question.topics.joins(:topics_users).distinct.pluck('topics_users.user_id').each do |id|
+      Notification.create(user_id: id, message: '.new_question')
+    end
+    ActionCable.server.broadcast 'questions', json: { msg: @question.topic_names, time: Time.current.strftime("%-d/%-m/%y: %H:%M %Z") }
   end
 end

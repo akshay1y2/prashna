@@ -66,4 +66,7 @@ Rails.application.configure do
 
   # preview mails
   config.action_mailer.delivery_method = :letter_opener
+
+  # ActionCable bradcast request
+  config.action_cable.disable_request_forgery_protection = true
 end

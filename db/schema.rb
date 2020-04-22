@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_055847) do
+ActiveRecord::Schema.define(version: 2020_04_22_121439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 2020_04_21_055847) do
     t.bigint "creditable_id"
     t.index ["creditable_type", "creditable_id"], name: "index_credit_transactions_on_creditable_type_and_creditable_id"
     t.index ["user_id"], name: "index_credit_transactions_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "message", default: "", null: false
+    t.boolean "viewed", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -108,5 +117,6 @@ ActiveRecord::Schema.define(version: 2020_04_21_055847) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "credit_transactions", "users"
+  add_foreign_key "notifications", "users"
   add_foreign_key "questions", "users"
 end
