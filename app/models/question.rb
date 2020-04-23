@@ -33,6 +33,7 @@ class Question < ApplicationRecord
     topics.pluck('name')
   end
 
+  #FIXME_AB: we should also have a before action in questions controller to check when user tries to create question(new & create actions)
   private def check_if_user_has_credits
     if user.credits < 1
       errors.add(:base, I18n.t('question.errors.not_enough_credits'))
@@ -48,13 +49,16 @@ class Question < ApplicationRecord
   end
 
   private def deduct_credit_of_user
+    #FIXME_AB: polymorphic columns are not being populated
     user.credit_transactions.create(
       credits: -1 * ENV['ask_question_credit'].to_i,
       reason: 'question asked'
     )
+    #FIXME_AB: you should also check if transaction was created successfully or not, else raise error 'something went wrong, error code [:credit-deduction-failed]'
   end
 
   private def add_credit_back_to_user
+    #FIXME_AB: same comments as deduct_credit_of_user
     user.credit_transactions.create(
       credits: ENV['ask_question_credit'].to_i,
       reason: 'deleted question asked'

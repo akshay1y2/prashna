@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+
+  #FIXME_AB: Create a rake task which will update credit balance of all users. This task we can run when we need to refresh credit balance in users table if something went wrong.
+
   has_secure_password
   has_one_attached :avatar
   has_many :credit_transactions, dependent: :restrict_with_error
