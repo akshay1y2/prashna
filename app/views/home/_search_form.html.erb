@@ -1,0 +1,23 @@
+<%= form_with url: '/filter_questions', local: true do |form| %>
+  <div class="form-row align-items-center">
+    <div class="col-auto">
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Title</div>
+        </div>
+        <%= form.text_field :title, class: 'form-control', placeholder: "Title" %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text">Topics</div>
+        </div>
+        <%= form.text_field :topics, class: 'form-control', placeholder: "Topics" %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-2">Filter</button>
+    </div>
+  </div>
+<% end %>

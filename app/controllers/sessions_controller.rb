@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
         session[:user_id] = user.id
         redirect_to root_path, notice: t('.welcome', name: user.name)
       else
-        redirect_to root_path, notice: t('.not_active', name: user.name)
+        redirect_to login_url, notice: t('.not_active', name: user.name)
       end
     else
       redirect_to login_url, notice: t('.invalid_credentials')

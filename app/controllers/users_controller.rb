@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to root_path, notice: t('.signed_up') }
+        format.html { redirect_to login_path, notice: t('.signed_up') }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -62,9 +62,9 @@ class UsersController < ApplicationController
 
   def verify
     if @user.activate(params[:token])
-      redirect_to root_path, notice: t('.activated', name: @user.name)
+      redirect_to login_path, notice: t('.activated', name: @user.name)
     else
-      redirect_to root_path, notice: t('cannot_activate')
+      redirect_to login_path, notice: t('cannot_activate')
     end
   end
 
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
     def set_user
       @user = User.find_by_id(params[:id])
       if @user.blank?
-        redirect_to root_path, notice: t('.not_found')
+        redirect_to login_path, notice: t('.not_found')
       end
     end
 
@@ -84,7 +84,7 @@ class UsersController < ApplicationController
 
     def check_if_already_activated
       if @user.active?
-        redirect_to root_path, notice: t('.already_active')
+        redirect_to login_path, notice: t('.already_active')
       end
     end
 end
