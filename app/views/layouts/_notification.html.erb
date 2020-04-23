@@ -1,4 +1,4 @@
-<div class="toast" style="position: absolute; right: 0;" data-autohide="false">
+<div class="toast" style="position: absolute; right: 0;" data-delay="5000">
   <div class="toast-header">
     <strong class="mr-auto"></strong>
     <small></small>
@@ -7,7 +7,7 @@
     </button>
   </div>
   <div class="toast-body"></div>
-  <% if current_user.present? %>
-    <%= content_tag :div, '', data: { user: current_user.id, topics: current_user.topic_names, path: '/notifications' }, id: 'user-data' %>
-  <% end %>
 </div>
+<% if current_user.present? %>
+  <%= content_tag :div, '', data: { user: current_user.id, topics: current_user.topic_names, path: '/notifications' }, id: 'user-data' %>
+<% end %>

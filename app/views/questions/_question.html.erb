@@ -1,0 +1,20 @@
+<div class="card" style="width: 95%">
+  <h5 class="card-header"><%= question.title %></h5>
+  <div class="card-body">
+    <p class="card-title"><%= markdown(question.content) %></p>
+
+  <div class="d-flex">
+  
+    <div class="align-items-start flex-column">
+      <%= link_to  "Show", question_path(question), class: "btn btn-primary" %>
+    </div>
+    <div class="align-items-end flex-column">
+      <p class="card-text"> Published: <%= question.published_at %> </p>
+      <p class="card-text"> Topics: <%= question.topic_names.join(', ') %> </p>
+      <blockquote class="blockquote mb-0">
+        <footer class="blockquote-footer"><cite title="Source Title"><%= question.user.name %></cite></footer>
+      </blockquote>
+    </div>
+  </div>
+  </div>
+</div>

@@ -15,6 +15,8 @@ class Question < ApplicationRecord
   after_create_commit :deduct_credit_of_user
   after_destroy_commit :add_credit_back_to_user
 
+  scope :all_published, -> { where.not(published_at: nil) }
+
   def to_param
     "#{id}-#{title.parameterize}"
   end

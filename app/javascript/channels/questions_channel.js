@@ -11,7 +11,7 @@ consumer.subscriptions.create("QuestionsChannel", {
 
   received(data) {
     const $toast = $('.toast');
-    const $data = $toast.find('#user-data');
+    const $data = $('#user-data');
     if(!$data.length){
       return false;
     }
@@ -25,10 +25,9 @@ consumer.subscriptions.create("QuestionsChannel", {
       data: $.param({ q: $data.data('user') }), 
       success: (response) => {
         $toast.find('.toast-header strong').text(response.head);
-        $toast.find('.toast-header small').text(`@ ${data.json.time}`)
+        $toast.find('.toast-header small').text(`@${data.json.time}`)
         $toast.find('.toast-body').html(`${response.body}<br>topics: ${data.json.msg}`);
         $toast.toast('show');
-        console.log(response);
       },
       error: (_, status, error) => console.log(`${status}: ${error}`)
     });
