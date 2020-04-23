@@ -16,7 +16,6 @@ development:
   reset_token_valid_hours: '2'
   host: 'localhost:3000'
   signup_credits: '5'
-  get_topics_url: '/topics'
   ask_question_credit: '1'
 
 production:
@@ -25,7 +24,6 @@ production:
   reset_token_valid_hours: '2'
   host: 'localhost:3000'
   signup_credits: '5'
-  get_topics_url: '/topics'
   ask_question_credit: '1'
 
 test:
@@ -34,5 +32,4 @@ test:
   reset_token_valid_hours: '2'
   host: 'localhost:3000'
   signup_credits: '5'
-  get_topics_url: '/topics'
   ask_question_credit: '1'

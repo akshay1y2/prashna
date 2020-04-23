@@ -15,7 +15,7 @@
   </div>
   <div class="form-group">
     <%= form.label :topics %>
-    <%= form.text_field :topics, value: @topics, data: { url: ENV['get_topics_url'] }, class: 'form-control-sm' %>
+    <%= form.text_field :topics, value: @topics, data: { url: '/topics' }, class: 'form-control-sm' %>
     <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
   </div>
   <% end %>
