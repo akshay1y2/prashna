@@ -4,3 +4,9 @@ en:
       topics_help_block: Select the topics(tags) for the question.
       publish_now: Publish Now
       submit: Submit
+    search_form:
+      filter: Filter
+      title: Title
+      topics: Topics
+    show:
+      confirm_delete: This Question will be deleted. Are you sure?.

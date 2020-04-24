@@ -63,3 +63,6 @@ gem 'figaro', '~> 1.1'
 
 # for markdown format
 gem 'redcarpet', '~>3.5.0'
+
+# paginate the questions index
+gem 'kaminari'

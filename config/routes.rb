@@ -5,12 +5,14 @@ Rails.application.routes.draw do
       get 'reset/:token', action: :edit, controller: :password_resets, as: 'reset_token'
       post 'reset/:token', action: :update, controller: :password_resets, as: 'reset_password'
     end
+    get 'notifications', on: :collection
   end
 
-  resources :questions
+  resources :questions do
+    get 'drafts', on: :collection
+  end
 
   get 'topics', action: :search, controller: :topics
-  post 'filter_questions', action: :filter, controller: :home
   get 'notifications', action: :fetch, controller: :notifications
   get 'password_resets/new'
   post 'password_resets/create'
@@ -21,6 +23,6 @@ Rails.application.routes.draw do
     delete 'logout', action: :destroy
   end
 
-  root action: :index, controller: :home
+  root action: :index, controller: :questions
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

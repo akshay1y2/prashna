@@ -1,5 +1,4 @@
 en:
   notifications:
-    fetch:
-      header_new: 'New Question Posted'
-      body_new: "%{size} new questions are posted. <br>%{link} to view."
+    index:
+      new_question: New question has been posted

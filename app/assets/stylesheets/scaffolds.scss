@@ -6,9 +6,6 @@ nav{
   margin-bottom: 10px;
 }
 
-main{
-  margin-left: 33px; }
-
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
@@ -24,10 +21,17 @@ pre {
   font-size: 11px; }
 
 a {
-  color: rebeccapurple; }
+  color: brown; }
 
 a:hover {
-  color: blue; }
+  color: rebeccapurple; }
+
+ul.list-group{
+  width: 100%;
+  li{
+    margin: 2px;
+  }
+}
 
 th {
   padding-bottom: 5px; }
@@ -41,7 +45,7 @@ div.form-group {
   margin-bottom: 10px; }
 
 div.card {
-  margin: 1em;
+  margin-bottom: 1em;
   width: 100%;
   background-color: rgb(238, 238, 238);
 }
@@ -53,9 +57,8 @@ div.card {
   color: green;
   font-weight: bold;
   margin: 1em;
-  padding: 1em 1.414em;
+  padding: 10px 10px;
   text-align: center;
-  width: 50%;
 }
 
 .field_with_errors {

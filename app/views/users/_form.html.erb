@@ -1,25 +1,23 @@
-<%= form_with(model: user, local: true) do |form| %>
+<%= form_with(model: user, local: true, method: method) do |form| %>
   <%= errors_explanation_div(user) %>
 
   <% if user.active? %>
-  <% #FIXME_AB: Indent code which is added for this if condition -%>
-  <% content_for :js do %>
-    <%= javascript_pack_tag 'select_topics', 'data-turbolinks-track': 'reload' %>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <% end %>
-  <% content_for :css do %>
-    <%= stylesheet_link_tag "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
-  <% end %>
-  <div class="form-group">
-    <%= form.label :avatar %>
-    <%= form.file_field :avatar, class: 'form-control-sm' %>
-  </div>
-  <div class="form-group">
-    <%= form.label :topics %>
-    <% #FIXME_AB: don't hardcode url /topics use url helper -%>
-    <%= form.text_field :topics, value: @topics, data: { url: '/topics' }, class: 'form-control-sm' %>
-    <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
-  </div>
+    <% content_for :js do %>
+      <%= javascript_pack_tag 'select_topics', 'data-turbolinks-track': 'reload' %>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <% end %>
+    <% content_for :css do %>
+      <%= stylesheet_link_tag "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
+    <% end %>
+    <div class="form-group">
+      <%= form.label :avatar %>
+      <%= form.file_field :avatar, class: 'form-control-sm' %>
+    </div>
+    <div class="form-group">
+      <%= form.label :topics %>
+      <%= form.text_field :topics, value: @topics, data: { url: topics_path }, class: 'form-control-sm' %>
+      <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
+    </div>
   <% end %>
 
   <div class="form-group">
@@ -38,13 +36,11 @@
   </div>
 
   <div class="form-group">
-    <% #FIXME_AB: in the form, lable should show 'Password Confirmation' -%>
-    <%= form.label :password_confirmation, 'Confirm' %>
+    <%= form.label :password_confirmation, 'Password Confirmation' %>
     <%= form.password_field :password_confirmation, id: :user_password_confirmation, class: 'form-control-sm' %>
   </div>
 
   <div class="actions">
-    <% #FIXME_AB: button should display 'Sign Up' instead of 'Create User' -%>
-    <%= form.submit class: "btn btn-primary btn-sm"  %>
+    <%= form.submit "#{user.active? ? 'Update' : 'Sign Up'}", class: "btn btn-primary btn-sm"  %>
   </div>
 <% end %>

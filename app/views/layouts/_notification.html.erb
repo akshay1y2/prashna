@@ -9,5 +9,5 @@
   <div class="toast-body"></div>
 </div>
 <% if current_user.present? %>
-  <%= content_tag :div, '', data: { user: current_user.id, topics: current_user.topic_names, path: '/notifications' }, id: 'user-data' %>
+  <%= content_tag :div, '', data: { user: current_user.id, topics: current_user.topic_names, path: notifications_path }, id: 'user-data' %>
 <% end %>

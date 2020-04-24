@@ -1,0 +1,16 @@
+<div class="row">
+  <ul class="list-group">
+    <% @notifications.each do |n| %>
+
+    <% content = "#{n.id} #{t(n.message)} | Question: " %>
+    <% link = link_to(n.notifiable.title, question_path(n.notifiable)) if n.notifiable %>
+
+      <% if n.viewed %>
+        <li class="list-group-item list-group-item-dark"><%= content %><%= link %></li>
+      <% else %>
+        <li class="list-group-item list-group-item-primary"><%= content %><%= link %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+<%= paginate @notifications %>

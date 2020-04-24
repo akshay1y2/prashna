@@ -1,6 +1,8 @@
 class Notification < ApplicationRecord
-  belongs_to :user
+  paginates_per 10
 
-  #FIXME_AB: this should also belongs_to question. use polymorphic so that this model can be resused
+  belongs_to :user
+  belongs_to :notifiable, polymorphic: true
+
   validates :message, presence: true
 end

@@ -23,10 +23,12 @@
     <section class="content">
       
       <main class='<%= controller.controller_name %>'>
-      <% if notice %>
-        <aside id="notice"><%= notice %></aside>
-      <% end %>
-      <%= yield %>
+        <% if notice %>
+          <aside id="notice"><%= notice %></aside>
+        <% end %>
+        
+        <div class="container"><%= yield %></div>
+        
       </main>
     </section>
 

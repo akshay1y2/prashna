@@ -68,6 +68,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def notifications
+    @notifications = current_user.notifications.order(:viewed, updated_at: 'desc').page(params[:page])
+    render 'notifications/index'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

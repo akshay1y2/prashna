@@ -1,4 +1,4 @@
-<%= form_with(model: question, local: true) do |form| %>
+<%= form_with(model: question, local: true, method: method) do |form| %>
   <%= errors_explanation_div(question) %>
 
   <% content_for :js do %>
@@ -16,7 +16,7 @@
 
   <div class="form-group">
     <%= form.label :topics %>
-    <%= form.text_field :topics, value: @topics, data: { url: '/topics' }, class: 'form-control-sm' %>
+    <%= form.text_field :topics, value: @topics, data: { url: topics_path }, class: 'form-control-sm' %>
     <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
   </div>
 
