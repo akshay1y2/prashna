@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
   def destroy
     reset_session
     clear_remember_me_cookie
-    redirect_to root_path, notice: t('.logout')
+    redirect_to login_url, notice: t('.logout')
   end
 
   private
