@@ -8,6 +8,7 @@ class Question < ApplicationRecord
   has_many :credit_transactions, as: :creditable
   has_many :notifications, as: :notifiable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :restrict_with_error
+  #FIXME_AB: add validation on content. Should have 10 words min.
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
 

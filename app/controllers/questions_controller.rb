@@ -25,6 +25,7 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.build(question_params)
     set_question_parameters
+    #FIXME_AB: check, topics are not being auto suggested and not being saved in db.
 
     respond_to do |format|
       if @question.save
@@ -66,11 +67,13 @@ class QuestionsController < ApplicationController
     @questions = Question.all_unpublished.page(params[:page])
   end
 
+  #FIXME_AB: move comments to seperate comments controller.
   def create_comment
     @comment = @question.comments.new(content: params[:comment][:content], user: current_user)
     if @comment.save
       redirect_to @question, notice: 'posted'
     else
+      #FIXME_AB: use https://github.com/rails/rails/blob/d5a3b2e427046b48aefe6f634b1c6ceb33e5c1bc/activemodel/lib/active_model/errors.rb#L448
       if @comment.errors[:content] == ["can't be blank"]
         message = t('comment.blank')
       else
@@ -104,6 +107,7 @@ class QuestionsController < ApplicationController
   end
 
   private def verify_user
+    #FIXME_AB: @question.posted_by?(current_user)
     unless current_user.id == @question.user.id
       redirect_to root_path, notice: t('.access_denied')
     end

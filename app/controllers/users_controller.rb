@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
+    #FIXME_AB: remove this listing. create a users controller under admin namespace and access at /admin/users and only admin can see user's listing, edit, show, update, destroy. Basically only admin can do user management
     @users = User.all
   end
 
@@ -71,6 +72,7 @@ class UsersController < ApplicationController
 
   #FIXME_AB: it should be in notifications controller index actoin and route should be nested rouge
   def notifications
+    #FIXME_AB: when there are no notifications the show that there is not notification. currently blank page displayed
     @notifications = current_user.notifications.order(:viewed, updated_at: 'desc').page(params[:page])
     render 'notifications/index'
   end

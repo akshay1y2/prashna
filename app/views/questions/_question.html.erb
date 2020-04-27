@@ -4,10 +4,13 @@
     <p class="card-title"><%= markdown(question.content) %></p>
     <hr/>
     <p class="card-text">
+      <% #FIXME_AB: if it is a draft don't show published and user name -%>
       Published: <%= question.published_at %> <br/>
       Topics: <%= question.topic_names.join(', ') %> <br/>
       From: <%= question.user.name %>
+      <% #FIXME_AB: if attachment is an image show thumbnail else show link to download attachment -%>
     </p>
+    <% #FIXME_AB: no comments allowed on draft. Don't show form and don't allow from comment model also -%>
     <%= link_to 'comments', comments_question_path(question), class: 'btn btn-primary' %>
   </div>
 </div>

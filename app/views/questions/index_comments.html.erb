@@ -9,6 +9,7 @@
   </thead>
 
   <tbody>
+    <% #FIXME_AB: better presentation of comment list. I think instead of having seperate page for comments, show with questions. COmment button on home page in quesions block should just show hide comments on the questions. -%>
     <% @comments.each do |comment| %>
       <tr>
         <td><%= comment.user.name %></td>
