@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_27_054658) do
+ActiveRecord::Schema.define(version: 2020_04_27_095609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,20 @@ ActiveRecord::Schema.define(version: 2020_04_27_054658) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content", default: "", null: false
+    t.bigint "user_id", null: false
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.bigint "vote_count", default: 0, null: false
+    t.bigint "upvote_count", default: 0, null: false
+    t.bigint "downvote_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "credit_transactions", force: :cascade do |t|
@@ -120,6 +134,7 @@ ActiveRecord::Schema.define(version: 2020_04_27_054658) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "users"
   add_foreign_key "credit_transactions", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "questions", "users"
