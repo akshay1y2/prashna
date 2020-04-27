@@ -97,6 +97,7 @@ class QuestionsController < ApplicationController
   end
 
   private def check_if_question_is_updatable
+    #FIXME_AB: we can move this in a before update and destroy callback
     if @question.vote_count > 0 || @question.answers_count > 0 || @question.comments_count > 0
       redirect_to root_path, notice: t('.not_updateable')
     end
@@ -108,6 +109,7 @@ class QuestionsController < ApplicationController
       questions = questions.by_title(params[:title])
     end
     if params[:topics].present?
+      #FIXME_AB: extract to a method in topic model Topic.get_ids_by_name. Since we need only ids so use pluck id
       questions = questions.joins(:topics).where(topics: {id: Topic.by_names(params[:topics].split(",").map(&:strip).reject(&:empty?))})
     end
     questions

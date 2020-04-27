@@ -65,4 +65,5 @@ gem 'figaro', '~> 1.1'
 gem 'redcarpet', '~>3.5.0'
 
 # paginate the questions index
+#FIXME_AB: add version
 gem 'kaminari'

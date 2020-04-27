@@ -69,6 +69,7 @@ class UsersController < ApplicationController
     end
   end
 
+  #FIXME_AB: it should be in notifications controller index actoin and route should be nested rouge
   def notifications
     @notifications = current_user.notifications.order(:viewed, updated_at: 'desc').page(params[:page])
     render 'notifications/index'
@@ -95,6 +96,7 @@ class UsersController < ApplicationController
     end
 
     def mark_notifications_as_viewed
+      #FIXME_AB: you are doing this in after_action, so as soon as page 1 is viewed all these notificaion will be marked as viewd and then page 2 notifications will come on page 1. got the issue?
       @notifications.where(viewed: false).each { |n| n.update(viewed: true) }
     end
 end
