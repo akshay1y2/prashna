@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_action :verify_user, :check_if_question_is_updatable, only: [:edit, :update, :destroy]
 
   def index
-    @questions = Question.where(id: get_filtered_question_ids).order(published_at: 'desc').page(params[:page])
+    @questions = get_questions_for_index.page(params[:page])
   end
 
   def show
@@ -102,13 +102,13 @@ class QuestionsController < ApplicationController
     end
   end
 
-  private def get_filtered_question_ids
-    questions = Question.all_published.ids
+  private def get_questions_for_index
+    questions = Question.all_published.order(published_at: 'desc')
     if params[:title].present?
-      questions &= Question.by_title(params[:title]).ids
+      questions = questions.by_title(params[:title])
     end
     if params[:topics].present?
-      questions &= Question.joins(:topics).where(topics: {id: Topic.by_names(params[:topics].split(",").map(&:strip).reject(&:empty?))}).ids
+      questions = questions.joins(:topics).where(topics: {id: Topic.by_names(params[:topics].split(",").map(&:strip).reject(&:empty?))})
     end
     questions
   end
