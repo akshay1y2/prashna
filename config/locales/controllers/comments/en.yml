@@ -1,0 +1,4 @@
+en:
+  comment:
+    blank: Comment can't be blank.
+    not_saved: Something went wrong, comment can't be saved.

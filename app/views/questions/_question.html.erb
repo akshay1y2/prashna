@@ -8,5 +8,6 @@
       Topics: <%= question.topic_names.join(', ') %> <br/>
       From: <%= question.user.name %>
     </p>
+    <%= link_to 'comments', comments_question_path(question), class: 'btn btn-primary' %>
   </div>
 </div>
