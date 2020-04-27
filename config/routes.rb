@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   get 'topics', action: :search, controller: :topics
-  get 'notifications', action: :fetch, controller: :notifications
+  get 'notifications_count', action: :count, controller: :notifications
   get 'password_resets/new'
   post 'password_resets/create'
 

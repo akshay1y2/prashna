@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :destroy, :verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
   before_action :check_if_already_activated, only: [:verify]
+  after_action :mark_notifications_as_viewed, only: [:notifications]
 
   # GET /users
   # GET /users.json
@@ -91,5 +92,9 @@ class UsersController < ApplicationController
       if @user.active?
         redirect_to login_path, notice: t('.already_active')
       end
+    end
+
+    def mark_notifications_as_viewed
+      @notifications.where(viewed: false).each { |n| n.update(viewed: true) }
     end
 end

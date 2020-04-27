@@ -18,7 +18,7 @@
         <li class="nav-item">
           <%= button_to  notifications_users_path, class: 'btn', method: :get do %>
             <%= image_tag('bell.svg', alt: 'notification-bell') %>
-            <span class="badge badge-light" id="notificaion-bell-count">!</span>
+            <%= content_tag :span, current_user.new_notifications_count, class: "badge badge-light", id: "notification-bell-count" %>
           <% end %>
         </li>
         <li class="nav-item">

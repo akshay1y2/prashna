@@ -27,6 +27,7 @@ class Question < ApplicationRecord
 
   scope :all_published, -> { where.not(published_at: nil) }
   scope :all_unpublished, -> { where(published_at: nil) }
+  scope :by_title, ->(title = nil) { where("lower(title) like ?", "%#{title.downcase}%") }
 
   def to_param
     "#{id}-#{title.parameterize}"

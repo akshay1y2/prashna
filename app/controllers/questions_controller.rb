@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
   before_action :verify_user, :check_if_question_is_updatable, only: [:edit, :update, :destroy]
 
   def index
-    @questions = Question.all_published.order(published_at: 'desc').page(params[:page])
+    @questions = Question.where(id: get_filtered_question_ids).order(published_at: 'desc').page(params[:page])
   end
 
   def show
@@ -100,5 +100,16 @@ class QuestionsController < ApplicationController
     if @question.vote_count > 0 || @question.answers_count > 0 || @question.comments_count > 0
       redirect_to root_path, notice: t('.not_updateable')
     end
+  end
+
+  private def get_filtered_question_ids
+    questions = Question.all_published.ids
+    if params[:title].present?
+      questions &= Question.by_title(params[:title]).ids
+    end
+    if params[:topics].present?
+      questions &= Question.joins(:topics).where(topics: {id: Topic.by_names(params[:topics].split(",").map(&:strip).reject(&:empty?))}).ids
+    end
+    questions
   end
 end

@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-  def fetch
-    render json: { count: Notification.where(user: params[:q], viewed: false).count }
+  def count
+    render json: { count: Notification.new_notifications_count_of_user(params[:q]) }
   end
 end
