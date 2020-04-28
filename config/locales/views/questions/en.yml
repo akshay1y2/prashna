@@ -2,6 +2,7 @@ en:
   questions:
     form:
       topics_help_block: Select the topics(tags) for the question.
+      markdown_help_block: The markdown format is enabled here. Click <a href='https://www.markdownguide.org/basic-syntax/' target=_blank>here</a> for more information.
       publish_now: Publish Now
       submit: Submit
     search_form:
@@ -10,3 +11,5 @@ en:
       topics: Topics
     show:
       confirm_delete: This Question will be deleted. Are you sure?.
+    question:
+      file_attached: 'This question has an attachment download it from %{link}.'

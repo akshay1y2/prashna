@@ -1,14 +1,25 @@
 <div class="card">
   <h5 class="card-header"><%= link_to question.title, question_path(question) %></h5>
   <div class="card-body">
-    <p class="card-title"><%= markdown(question.content) %></p>
+
+    <% if question.attachment.attached? %>
+      <% if question.attachment.content_type == 'image/jpeg' %>
+        <%= image_tag question.attachment %>
+      <% else %>
+        <p class="card-title">
+          <%= raw t '.file_attached', link: link_to('here', rails_blob_url(question.attachment, disposition: "attachment")) %>
+        </p>
+      <% end %>
+    <% end %>
+
+    <p class="card-text"><%= markdown(question.content) %></p>
     <hr/>
     <p class="card-text">
-      <% #FIXME_AB: if it is a draft don't show published and user name -%>
-      Published: <%= question.published_at %> <br/>
-      Topics: <%= question.topic_names.join(', ') %> <br/>
-      From: <%= question.user.name %>
-      <% #FIXME_AB: if attachment is an image show thumbnail else show link to download attachment -%>
+      <% if question.published? %>
+        Published: <%= question.published_at %> <br/>
+        From: <%= question.user.name %> <br/>
+      <% end %>
+      Topics: <%= question.topic_names.join(', ') %>
     </p>
     <% #FIXME_AB: no comments allowed on draft. Don't show form and don't allow from comment model also -%>
     <%= link_to 'comments', comments_question_path(question), class: 'btn btn-primary' %>

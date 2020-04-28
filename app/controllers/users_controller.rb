@@ -1,19 +1,16 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :destroy, :verify]
+  before_action :set_user, only: [:verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
   before_action :check_if_already_activated, only: [:verify]
   after_action :mark_notifications_as_viewed, only: [:notifications]
 
-  # GET /users
-  # GET /users.json
-  def index
-    #FIXME_AB: remove this listing. create a users controller under admin namespace and access at /admin/users and only admin can see user's listing, edit, show, update, destroy. Basically only admin can do user management
-    @users = User.all
-  end
-
   # GET /users/new
   def new
     @user = User.new
+  end
+
+  def profile
+    @user = current_user
   end
 
   # GET /users/1/edit
@@ -43,7 +40,7 @@ class UsersController < ApplicationController
     current_user.set_topics params[:user][:topics]
     respond_to do |format|
       if current_user.update(user_params)
-        format.html { redirect_to current_user, notice: t('.updated') }
+        format.html { redirect_to profile_users_path, notice: t('.updated') }
         format.json { render :show, status: :ok, location: current_user }
       else
         format.html { render :edit }
@@ -52,29 +49,12 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
-  # DELETE /users/1.json
-  def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: t('.destroyed') }
-      format.json { head :no_content }
-    end
-  end
-
   def verify
     if @user.activate(params[:token])
       redirect_to login_path, notice: t('.activated', name: @user.name)
     else
-      redirect_to login_path, notice: t('cannot_activate')
+      redirect_to login_path, notice: t('.cannot_activate')
     end
-  end
-
-  #FIXME_AB: it should be in notifications controller index actoin and route should be nested rouge
-  def notifications
-    #FIXME_AB: when there are no notifications the show that there is not notification. currently blank page displayed
-    @notifications = current_user.notifications.order(:viewed, updated_at: 'desc').page(params[:page])
-    render 'notifications/index'
   end
 
   private

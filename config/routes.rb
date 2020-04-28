@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
-  resources :users do
+  resources :users, only: [:new, :edit, :create, :update] do
     member do
       get 'verify/:token', action: :verify, as: 'verification_token'
       get 'reset/:token', action: :edit, controller: :password_resets, as: 'reset_token'
       post 'reset/:token', action: :update, controller: :password_resets, as: 'reset_password'
     end
-    get 'notifications', on: :collection
+    collection do
+      get 'notifications', action: :index, controller: :notifications
+      get 'profile'
+    end
   end
 
   resources :questions do
@@ -20,6 +23,10 @@ Rails.application.routes.draw do
   get 'notifications_count', action: :count, controller: :notifications
   get 'password_resets/new'
   post 'password_resets/create'
+
+  namespace :admin do
+    resources :users, only: [:index, :show, :destroy]
+  end
 
   controller :sessions do
     get 'login', action: :new

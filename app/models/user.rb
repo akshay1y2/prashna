@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
   has_many :credit_transactions, dependent: :restrict_with_error
+  has_one :credit_transaction, as: :creditable
   has_and_belongs_to_many :topics
   has_many :questions, dependent: :restrict_with_error
   has_many :notifications, dependent: :destroy
@@ -23,7 +24,11 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      credit_transactions.build(credits: ENV['signup_credits'], reason: 'signup')
+      credit_transactions.build(
+        credits: ENV['signup_credits'],
+        reason: 'signup',
+        creditable: self
+      )
       save
     else
       false
@@ -41,7 +46,7 @@ class User < ApplicationRecord
   end
 
   def set_topics(topic_names)
-    self.topics = Topic.by_names(topic_names.split(",").map(&:strip).reject(&:empty?))
+    self.topics = Topic.get_topics_by_names(topic_names)
   end
 
   def topic_names

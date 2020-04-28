@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :create_comment, :index_comments]
   before_action :check_if_user_has_credits, only: [:new, :create]
-  before_action :verify_user, :check_if_question_is_updatable, only: [:edit, :update, :destroy]
+  before_action :verify_user, only: [:edit, :update, :destroy]
 
   def index
     @questions = get_questions_for_index.page(params[:page])
@@ -25,8 +25,6 @@ class QuestionsController < ApplicationController
   def create
     @question = current_user.questions.build(question_params)
     set_question_parameters
-    #FIXME_AB: check, topics are not being auto suggested and not being saved in db.
-
     respond_to do |format|
       if @question.save
         format.html { redirect_to @question, notice: t(".#{@question.published? ? 'published' : 'saved'}") }
@@ -73,8 +71,7 @@ class QuestionsController < ApplicationController
     if @comment.save
       redirect_to @question, notice: 'posted'
     else
-      #FIXME_AB: use https://github.com/rails/rails/blob/d5a3b2e427046b48aefe6f634b1c6ceb33e5c1bc/activemodel/lib/active_model/errors.rb#L448
-      if @comment.errors[:content] == ["can't be blank"]
+      if @comment.errors.of_kind? :content, "can't be blank"
         message = t('comment.blank')
       else
         message = t('comment.not_saved')
@@ -107,8 +104,7 @@ class QuestionsController < ApplicationController
   end
 
   private def verify_user
-    #FIXME_AB: @question.posted_by?(current_user)
-    unless current_user.id == @question.user.id
+    unless @question.posted_by?(current_user)
       redirect_to root_path, notice: t('.access_denied')
     end
   end
@@ -119,22 +115,14 @@ class QuestionsController < ApplicationController
     end
   end
 
-  private def check_if_question_is_updatable
-    #FIXME_AB: we can move this in a before update and destroy callback
-    if @question.vote_count > 0 || @question.answers_count > 0 || @question.comments_count > 0
-      redirect_to root_path, notice: t('.not_updateable')
-    end
-  end
-
   private def get_questions_for_index
     questions = Question.all_published.order(published_at: 'desc')
     if params[:title].present?
       questions = questions.by_title(params[:title])
     end
     if params[:topics].present?
-      #FIXME_AB: extract to a method in topic model Topic.get_ids_by_name. Since we need only ids so use pluck id
-      questions = questions.joins(:topics).where(topics: {id: Topic.by_names(params[:topics].split(",").map(&:strip).reject(&:empty?))})
+      questions = questions.joins(:topics).where(topics: { id: Topic.get_ids_by_names(params[:topics]) })
     end
-    questions
+    questions.distinct
   end
 end

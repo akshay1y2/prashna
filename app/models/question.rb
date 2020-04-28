@@ -8,18 +8,24 @@ class Question < ApplicationRecord
   has_many :credit_transactions, as: :creditable
   has_many :notifications, as: :notifiable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :restrict_with_error
-  #FIXME_AB: add validation on content. Should have 10 words min.
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
 
   with_options if: :published? do
     validates :content, presence: true
-    validates :topics, length: { minimum: 1, message: I18n.t('question.errors.topics_absent') }
+    validates :content_words, length: {
+      minimum: ENV['minimum_content_length'].to_i,
+      message: I18n.t('question.errors.content_length') 
+    }
+    validates :topics, length: {
+      minimum: 1,
+      message: I18n.t('question.errors.topics_absent')
+    }
   end
 
   with_options if: :new_publish do
-    before_save :set_published_at
-    after_save :notify_users
+    before_validation :set_published_at
+    after_commit :notify_users, on: [:create, :update]
   end
 
   before_create :check_if_user_has_credits
@@ -44,11 +50,19 @@ class Question < ApplicationRecord
   end
 
   def set_topics(topic_names)
-    self.topics = Topic.by_names(topic_names.split(",").map(&:strip).reject(&:empty?))
+    self.topics = Topic.get_topics_by_names(topic_names)
   end
 
   def topic_names
     topics.pluck('name')
+  end
+
+  def posted_by?(user_obj)
+    user == user_obj
+  end
+
+  private def content_words
+    content.split(' ')
   end
 
   private def check_if_user_has_credits

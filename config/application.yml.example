@@ -17,6 +17,7 @@ development:
   host: 'localhost:3000'
   signup_credits: '5'
   ask_question_credit: '1'
+  minimum_content_length: '10'
 
 production:
   admin_email: 'admin@prashna.com'
@@ -25,6 +26,7 @@ production:
   host: 'localhost:3000'
   signup_credits: '5'
   ask_question_credit: '1'
+  minimum_content_length: '10'
 
 test:
   admin_email: 'admin@prashna.com'
@@ -33,3 +35,4 @@ test:
   host: 'localhost:3000'
   signup_credits: '5'
   ask_question_credit: '1'
+  minimum_content_length: '10'

@@ -1,0 +1,5 @@
+en:
+  admin:
+    users:
+      index:
+        index_heading: All Users
