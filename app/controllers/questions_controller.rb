@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :set_question, only: [:show, :edit, :update, :destroy, :create_comment, :index_comments]
+  before_action :set_question, only: [:show, :edit, :update, :destroy, :create_comment]
   before_action :check_if_user_has_credits, only: [:new, :create]
   before_action :verify_user, only: [:edit, :update, :destroy]
 
@@ -8,7 +8,6 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @comment = Comment.new
   end
 
   def new
@@ -63,25 +62,6 @@ class QuestionsController < ApplicationController
 
   def drafts
     @questions = Question.all_unpublished.page(params[:page])
-  end
-
-  #FIXME_AB: move comments to seperate comments controller.
-  def create_comment
-    @comment = @question.comments.new(content: params[:comment][:content], user: current_user)
-    if @comment.save
-      redirect_to @question, notice: 'posted'
-    else
-      if @comment.errors.of_kind? :content, "can't be blank"
-        message = t('comment.blank')
-      else
-        message = t('comment.not_saved')
-      end
-      redirect_to @question, notice: message
-    end
-  end
-
-  def index_comments
-    @comments = @question.comments
   end
 
   # Use callbacks to share common setup or constraints between actions.

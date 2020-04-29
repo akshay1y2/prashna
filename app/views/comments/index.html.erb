@@ -1,0 +1,30 @@
+<%= content_tag :div, id: "comments-for-#{question.id}" do %>
+  <div class="card" style="width: 80%;">
+
+    <div class="card-header">
+      <%= form_with(model: Comment.new, url: comment_question_path(question), class: 'form-row') do |form| %>
+
+        <div class="col">
+          <%= form.text_field :content, class: 'form-control', placeholder: "Comment"%>
+        </div>
+        <div class="col">
+          <%= form.submit 'Post', class: "btn btn-primary btn-sm"  %>
+        </div>
+      <% end %>
+
+    </div>
+    <div class='card-body'>
+      <ul class="list-group list-group-flush">
+        <% question.comments.each do |comment| %>
+
+          <li class="list-group-item">
+            <%= content_tag :h5, "- #{comment.user.name}", class: 'card-title' %>
+            <%= content_tag :p, comment.content, class: 'card-text' %>
+          </li>
+
+        <% end %>
+      </ul>
+    </div>
+
+  </div>
+<% end %>

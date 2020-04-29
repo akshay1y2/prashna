@@ -1,17 +1,10 @@
+<% content_for :js do %>
+  <%= javascript_pack_tag 'toggle_comments', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
 <div class="container">
   <div class="row">
     <%= render @question, question: @question %>
-  </div>
-  <div class="row">
-  <%= form_with(model: @comment, url: comment_question_path, local: true) do |form| %>
-    <div class="form-group">
-      <%= form.label :content, 'Comment', class: 'col-form-label' %>
-      <%= form.text_area :content, class: 'form-control', rows: '2' %>
-    </div>
-    <div class="actions">
-      <%= form.submit 'Post', class: "btn btn-primary btn-sm"  %>
-    </div>
-  <% end %>
   </div>
 </div>
 

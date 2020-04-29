@@ -14,8 +14,7 @@ Rails.application.routes.draw do
   resources :questions do
     get 'drafts', on: :collection
     member do
-      get 'comments', action: :index_comments
-      post 'comment', action: :create_comment
+      post 'comment', action: :create, controller: :comments
     end
   end
 
