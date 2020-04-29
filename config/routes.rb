@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
   get 'topics', action: :search, controller: :topics
   get 'notifications_count', action: :count, controller: :notifications
+  get 'mark_notification', action: :mark_viewed, controller: :notifications
   get 'password_resets/new'
   post 'password_resets/create'
 

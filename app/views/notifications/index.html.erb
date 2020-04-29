@@ -1,20 +1,30 @@
+<% content_for :js do %>
+  <%= javascript_pack_tag 'mark_notifications', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
 <div class="row">
   <% if @notifications.blank? %>
     <h2><%= t('.no_notifications') %></h2>
   <% else %>
-    <ul class="list-group">
+    <%= content_tag :ul, class: "list-group", data: { path: mark_notification_path } do %>
+
       <% @notifications.each do |n| %>
+        <%= content_tag :li, class: "list-group-item d-flex justify-content-between #{n.viewed ? 'list-group-item-dark' : 'list-group-item-primary' }" do %>
 
-      <% content = "#{n.id} #{t(n.message)} | Question: " %>
-      <% link = link_to(n.notifiable.title, question_path(n.notifiable)) if n.notifiable %>
+          <div class=" justify-content-start">
+            <%= "#{n.id} - #{t(n.message)} - " %>
+            <%= link_to(n.notifiable.title, question_path(n.notifiable)) if n.notifiable %>
+          </div>
+          <% unless n.viewed %>
+            <div class=" justify-content-end ok-btn">
+              <%= link_to 'OK', 'javascript:void(0)', class: "badge badge-info", data: { id: n.id } %>
+            </div>
+          <% end %>
 
-        <% if n.viewed %>
-          <li class="list-group-item list-group-item-dark"><%= content %><%= link %></li>
-        <% else %>
-          <li class="list-group-item list-group-item-primary"><%= content %><%= link %></li>
         <% end %>
       <% end %>
-    </ul>
-  </div>
+
+    <% end %>
   <%= paginate @notifications %>
-<% end %>
+  <% end %>
+</div>

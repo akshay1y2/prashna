@@ -26,7 +26,6 @@ consumer.subscriptions.create("QuestionsChannel", {
     $.ajax({
       type: "GET",
       url: $data.data('path'),
-      data: $.param({ q: $data.data('user') }),
       success: (response) => $('#notification-bell-count').text(response.count),
       error: (_, status, error) => console.log(`${status}: ${error}`)
     });

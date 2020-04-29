@@ -2,7 +2,6 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
   before_action :check_if_already_activated, only: [:verify]
-  after_action :mark_notifications_as_viewed, only: [:notifications]
 
   # GET /users/new
   def new
@@ -75,10 +74,5 @@ class UsersController < ApplicationController
       if @user.active?
         redirect_to login_path, notice: t('.already_active')
       end
-    end
-
-    def mark_notifications_as_viewed
-      #FIXME_AB: you are doing this in after_action, so as soon as page 1 is viewed all these notificaion will be marked as viewd and then page 2 notifications will come on page 1. got the issue?
-      @notifications.where(viewed: false).each { |n| n.update(viewed: true) }
     end
 end
