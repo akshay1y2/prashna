@@ -16,9 +16,13 @@
     <hr/>
 
     <%= content_tag :div, class: "d-flex justify-content-between" do %>
-      <div class="justify-content-start">
-        <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-#{question.id}"} %>
-      </div>
+
+      <% if question.published? %>
+        <div class="justify-content-start">
+          <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-#{question.id}"} %>
+        </div>
+      <% end %>
+
       <div class="justify-content-end">
         <p class="card-text">
           <% if question.published? %>
@@ -28,7 +32,8 @@
           Topics: <%= question.topic_names.join(', ') %>
         </p>
       </div>
+
     <% end %>
-    <%= render template: 'comments/index', locals: { question: question } %>
+    <%= render template: 'comments/index', locals: { question: question } if question.published? %>
   </div>
 </div>
