@@ -19,6 +19,8 @@
 
       <% if question.published? %>
         <div class="justify-content-start">
+          <%= link_to image_tag('upvote.png'), 'javascript:void(0)'%>
+          <%= link_to image_tag('dnvote.png'), 'javascript:void(0)'%>
           <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-#{question.id}"} %>
         </div>
       <% end %>

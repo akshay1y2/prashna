@@ -15,6 +15,8 @@
       <li class="list-group-item">
         <%= content_tag :h5, "- #{comment.user.name}" %>
         <%= content_tag :p, comment.content %>
+        <%= link_to image_tag('upvote.png'), 'javascript:void(0)'%>
+        <%= link_to image_tag('dnvote.png'), 'javascript:void(0)'%>
       </li>
 
     <% end %>
