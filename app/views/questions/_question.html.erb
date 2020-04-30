@@ -34,6 +34,6 @@
       </div>
 
     <% end %>
-    <%= render template: 'comments/index', locals: { question: question } if question.published? %>
+    <%= render template: 'comments/index', locals: { commentable: question } if question.published? %>
   </div>
 </div>

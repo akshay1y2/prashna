@@ -13,9 +13,7 @@ Rails.application.routes.draw do
 
   resources :questions do
     get 'drafts', on: :collection
-    member do
-      post 'comment', action: :create, controller: :comments
-    end
+    resources :comments, only: [:create]
   end
 
   get 'topics', action: :search, controller: :topics
@@ -34,6 +32,7 @@ Rails.application.routes.draw do
     delete 'logout', action: :destroy
   end
 
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.production?
   root action: :index, controller: :questions
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

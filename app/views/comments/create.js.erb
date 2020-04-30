@@ -1,2 +1,2 @@
-comment = document.getElementById("comments-for-" + <%= @question.id %>)
-comment.innerHTML = "<%= j render(template: 'comments/index', locals: {question: @question}) %>"
+comment = document.getElementById("comments-for-" + <%= @commentable.id %>)
+comment.innerHTML = "<%= j render(template: 'comments/index', locals: {commentable: @commentable}) %>"

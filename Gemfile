@@ -57,6 +57,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # open emails when sent
 gem "letter_opener", '~>1.7.0', group: :development
+gem 'letter_opener_web', '~> 1.0', group: :production
 
 # to configure application
 gem 'figaro', '~> 1.1'

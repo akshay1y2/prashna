@@ -1,5 +1,5 @@
-<%= content_tag :div, id: "comments-for-#{question.id}" do %>
-  <%= form_with(model: Comment.new, url: comment_question_path(question), class: 'form-row') do |form| %>
+<%= content_tag :div, id: "comments-for-#{commentable.id}" do %>
+  <%= form_with(model: [commentable, Comment.new], class: 'form-row') do |form| %>
 
     <div class="p-2 flex-grow-1">
       <%= form.text_field :content, class: 'form-control', placeholder: "Comment"%>
@@ -10,7 +10,7 @@
   <% end %>
 
   <ul class="list-group">
-    <% question.comments.each do |comment| %>
+    <% commentable.comments.each do |comment| %>
 
       <li class="list-group-item">
         <%= content_tag :h5, "- #{comment.user.name}" %>
