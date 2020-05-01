@@ -1,0 +1,13 @@
+en:
+  questions:
+    access_denied: 'Access Denied!'
+    question_not_found: Question not found!
+    not_updateable: This question can not be changed now.
+    not_enough_credits: Not enough credits to ask a question.
+    create:
+      published: The question is published successfully
+      saved: The question is saved as a draft
+    update:
+      updated: 'Question was successfully updated.'
+    destroy:
+      destroyed: 'Question was successfully destroyed.'

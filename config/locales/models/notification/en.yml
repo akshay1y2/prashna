@@ -1,0 +1,4 @@
+en:
+  notification:
+    new_question_head: New Question Posted!
+    new_question_body: "<br/>Click <a href='/'>here</a> to checkout!."

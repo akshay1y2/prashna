@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_055625) do
+ActiveRecord::Schema.define(version: 2020_05_01_071005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,16 +36,79 @@ ActiveRecord::Schema.define(version: 2020_04_17_055625) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "content", default: "", null: false
+    t.bigint "user_id", null: false
+    t.string "commentable_type"
+    t.bigint "commentable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "net_upvotes", default: 0, null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "credit_transactions", force: :cascade do |t|
     t.integer "credits", default: 0, null: false
     t.text "reason", default: "other", null: false
-    t.string "content_type"
-    t.bigint "content_id"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["content_type", "content_id"], name: "index_credit_transactions_on_content_type_and_content_id"
+    t.string "creditable_type"
+    t.bigint "creditable_id"
+    t.index ["creditable_type", "creditable_id"], name: "index_credit_transactions_on_creditable_type_and_creditable_id"
     t.index ["user_id"], name: "index_credit_transactions_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "message", default: "", null: false
+    t.boolean "viewed", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "notifiable_type"
+    t.bigint "notifiable_id"
+    t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "title", default: "", null: false
+    t.text "content", default: "", null: false
+    t.bigint "user_id", null: false
+    t.datetime "published_at"
+    t.bigint "comments_count", default: 0, null: false
+    t.bigint "answers_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "net_upvotes", default: 0, null: false
+    t.index ["title"], name: "index_questions_on_title", unique: true
+    t.index ["user_id"], name: "index_questions_on_user_id"
+  end
+
+  create_table "questions_topics", id: false, force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_questions_topics_on_question_id"
+    t.index ["topic_id"], name: "index_questions_topics_on_topic_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name", default: "other", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_topics_on_name", unique: true
+  end
+
+  create_table "topics_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["topic_id"], name: "index_topics_users_on_topic_id"
+    t.index ["user_id"], name: "index_topics_users_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -60,11 +123,27 @@ ActiveRecord::Schema.define(version: 2020_04_17_055625) do
     t.datetime "reset_sent_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "new_notifications_count", default: 0, null: false
     t.index ["confirm_token"], name: "index_users_on_confirm_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["reset_token"], name: "index_users_on_reset_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.integer "vote_type", default: 0, null: false
+    t.string "votable_type"
+    t.bigint "votable_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_votes_on_user_id"
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable_type_and_votable_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "users"
   add_foreign_key "credit_transactions", "users"
+  add_foreign_key "notifications", "users"
+  add_foreign_key "questions", "users"
+  add_foreign_key "votes", "users"
 end

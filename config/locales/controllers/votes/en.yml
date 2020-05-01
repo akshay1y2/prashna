@@ -1,0 +1,4 @@
+en:
+  votes:
+    not_found: Cannot find, whatever you are voting!
+    not_saved: Something went wrong

@@ -1,7 +1,22 @@
 # Prashna
 
-This is a Quora-clone but with credit system, based on Ruby on Rails Framework.
+This is a __Quora-clone__ but with credit system, based on Ruby on Rails Framework.
 
-* Rails version    : 6.0.2.2
-* Ruby version     : 2.6.5p114 (2019-10-01 revision 67812) [x86_64-linux]
-* Database adapter : sqlite3 1.4
+* **Rails version**    : 6.0.2.2
+* **Ruby version**     : ruby 2.7.0p0 (2019-12-25 revision 647ee6f091) [x86_64-linux]
+* **Database adapter** : postgresql
+
+### Configurations
+
+After installing all the dependencies, configure the application.yml and database.yml files.
+
+> Those '.yml' files have corresponding '.yml.example' files attached
+> with them, to get started with sample configurations.
+
+### New Admin
+
+Make the new admins with the rake task using:
+
+```sh
+$ rake admin:new
+```

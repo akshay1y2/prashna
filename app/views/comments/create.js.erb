@@ -1,0 +1,2 @@
+comment = document.getElementById("comments-for-" + <%= @commentable.id %>)
+comment.innerHTML = "<%= j render(template: 'comments/index', locals: {commentable: @commentable}) %>"

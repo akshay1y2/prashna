@@ -1,6 +1,6 @@
 en:
   user_mailer:
     reset_password:
-      subject: 'Password Reset Link'
+      subject: 'Prashna: Password Reset Link'
     verification:
-      subject: 'Account Confirmation-Token'
+      subject: "Prashna: Sign-up email verification"

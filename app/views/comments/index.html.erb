@@ -1,0 +1,23 @@
+<%= content_tag :div, id: "comments-for-#{commentable.id}" do %>
+  <%= form_with(model: [commentable, Comment.new], class: 'form-row') do |form| %>
+
+    <div class="p-2 flex-grow-1">
+      <%= form.text_field :content, class: 'form-control', placeholder: "Comment"%>
+    </div>
+    <div class="p-2">
+      <%= form.submit 'Post', class: "btn btn-primary btn-sm"  %>
+    </div>
+  <% end %>
+
+  <ul class="list-group">
+    <% commentable.comments.each do |comment| %>
+
+      <li class="list-group-item">
+        <%= content_tag :h5, "- #{comment.user.name}" %>
+        <%= content_tag :p, comment.content %>
+        <%= votes_div :comment, comment %>
+      </li>
+
+    <% end %>
+  </ul>
+<% end %>

@@ -1,6 +1,7 @@
 class CreditTransaction < ApplicationRecord
   include NotDeleteable
   belongs_to :user
+  belongs_to :creditable, polymorphic: true
 
   validates :credits, numericality: true
   validates :reason, presence: true

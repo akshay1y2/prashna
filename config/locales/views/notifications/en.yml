@@ -1,0 +1,5 @@
+en:
+  notifications:
+    index:
+      new_question: New question has been posted
+      no_notifications: No notifications to show

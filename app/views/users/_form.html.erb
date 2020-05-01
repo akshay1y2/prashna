@@ -1,34 +1,46 @@
-<%= form_with(model: user, local: true) do |form| %>
+<%= form_with(model: user, local: true, method: method) do |form| %>
   <%= errors_explanation_div(user) %>
 
   <% if user.active? %>
-  <div class="form-group">
-    <%= form.label :avatar %>
-    <%= form.file_field :avatar %>
-  </div>
+    <% content_for :js do %>
+      <%= javascript_pack_tag 'select_topics', 'data-turbolinks-track': 'reload' %>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <% end %>
+    <% content_for :css do %>
+      <%= stylesheet_link_tag "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
+    <% end %>
+    <div class="form-group">
+      <%= form.label :avatar %>
+      <%= form.file_field :avatar, class: 'form-control-sm' %>
+    </div>
+    <div class="form-group">
+      <%= form.label :topics %>
+      <%= form.text_field :topics, value: @topics, data: { url: topics_path }, class: 'form-control-sm' %>
+      <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
+    </div>
   <% end %>
 
   <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: 'form-control-sm' %>
   </div>
 
   <div class="form-group">
     <%= form.label :email %>
-    <%= form.text_field :email %>
+    <%= form.text_field :email, class: 'form-control-sm' %>
   </div>
 
   <div class="form-group">
     <%= form.label :password %>
-    <%= form.password_field :password %>
+    <%= form.password_field :password, class: 'form-control-sm' %>
   </div>
 
   <div class="form-group">
-    <%= form.label :password_confirmation, 'Confirm' %>
-    <%= form.password_field :password_confirmation, id: :user_password_confirmation %>
+    <%= form.label :password_confirmation, 'Password Confirmation' %>
+    <%= form.password_field :password_confirmation, id: :user_password_confirmation, class: 'form-control-sm' %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "#{user.active? ? 'Update' : 'Sign Up'}", class: "btn btn-primary btn-sm"  %>
   </div>
 <% end %>

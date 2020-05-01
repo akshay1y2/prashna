@@ -1,0 +1,40 @@
+<div class="card">
+  <h5 class="card-header"><%= link_to question.title, question_path(question) %></h5>
+  <div class="card-body">
+
+    <% if question.attachment.attached? %>
+      <% if question.attachment.content_type == 'image/jpeg' %>
+        <%= image_tag question.attachment %>
+      <% else %>
+        <p class="card-title">
+          <%= raw t '.file_attached', link: link_to('here', rails_blob_url(question.attachment, disposition: "attachment")) %>
+        </p>
+      <% end %>
+    <% end %>
+
+    <p class="card-text"><%= markdown(question.content) %></p>
+    <hr/>
+
+    <%= content_tag :div, class: "d-flex justify-content-between" do %>
+
+      <% if question.published? %>
+        <div class="d-flex align-items-start justify-content-start">
+          <%= votes_div :question, question %>
+          <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-#{question.id}"} %>
+        </div>
+      <% end %>
+
+      <div class="justify-content-end">
+        <p class="card-text">
+          <% if question.published? %>
+            Published: <%= question.published_at %> <br/>
+            From: <%= question.user.name %> <br/>
+          <% end %>
+          Topics: <%= question.topic_names.join(', ') %>
+        </p>
+      </div>
+
+    <% end %>
+    <%= render template: 'comments/index', locals: { commentable: question } if question.published? %>
+  </div>
+</div>

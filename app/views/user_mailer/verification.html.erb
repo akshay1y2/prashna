@@ -1,7 +1,6 @@
-<h1>User verification</h1>
-
-<p>
-  Hello <%= @user.name %>, sign-up is successful, click
-  <%=link_to "here", verification_token_user_url(@user, @user.confirm_token), target: "_blank"%>
-  to verify this account!
+<p>Hello <%= @user.name %>,</p>
+<p>Please verify your sign-up email by clicking the link below<br/>
+  <%= verification_token_user_url(@user, @user.confirm_token) %><br/>
+  Team,<br/>
+  Prashna
 </p>

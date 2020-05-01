@@ -1,0 +1,24 @@
+<div class="media">
+  <%= image_tag @user.avatar, alt: "avatar", class:"align-self-start mr-3 rounded border" if @user.avatar.attached? %>
+  <div class="media-body">
+    <p>
+      <strong>Name:</strong>
+      <%= @user.name %>
+    </p>
+
+    <p>
+      <strong>Email:</strong>
+      <%= @user.email %>
+    </p>
+
+    <p>
+      <strong>Credits:</strong>
+      <%= @user.credits %>
+    </p>
+
+    <p>
+      <strong>Topics:</strong>
+      <%= @user.topic_names.join(', ') %>
+    </p>
+  </div>
+</div>

@@ -1,4 +1,4 @@
 en:
   user:
     errors:
-      inactive_image_update: 'cannot be updated before activation!'
+      inactive_update: 'cannot be updated before activation!'

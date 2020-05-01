@@ -1,0 +1,42 @@
+<%= form_with(model: question, local: true, method: method) do |form| %>
+  <%= errors_explanation_div(question) %>
+
+  <% content_for :js do %>
+    <%= javascript_pack_tag 'select_topics', 'data-turbolinks-track': 'reload' %>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <% end %>
+  <% content_for :css do %>
+    <%= stylesheet_link_tag "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :attachment %>
+    <%= form.file_field :attachment, class: 'form-control-file' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :topics %>
+    <%= form.text_field :topics, value: @topics, data: { url: topics_path }, class: 'form-control-sm' %>
+    <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: 'form-control-sm' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :content %>
+    <%= form.text_area :content, class: 'form-control', rows: '5' %>
+    <small class="form-text text-muted"><%=raw t('.markdown_help_block')%></small>
+  </div>
+
+  <div class="form-group form-check">
+    <%= form.check_box :publish, class: 'form-check-input' %>
+    <%= form.label :publish, t('.publish_now'), class: 'form-check-label' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit t('.submit'), class: "btn btn-primary btn-sm"  %>
+  </div>
+<% end %>

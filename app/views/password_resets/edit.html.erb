@@ -5,11 +5,13 @@
   </div>
   <div class="form-group">
     <%= f.label :password %>
-    <%= f.password_field :password %>
+    <%= f.password_field :password, class: 'form-control-sm' %>
   </div>
   <div class="form-group">
     <%= f.label :confirmation %>
-    <%= f.password_field :password_confirmation %>
+    <%= f.password_field :password_confirmation, class: 'form-control-sm' %>
   </div>
-  <div class="actions"><%= f.submit "Update Password" %></div>
+  <div class="actions">
+    <%= f.submit "Update Password", class: "btn btn-primary btn-sm"  %>
+  </div>
 <% end %>

@@ -2,13 +2,18 @@ body {
   background-color: silver;
   color: #333;}
 
-main{
-  margin-left: 33px; }
+nav{
+  margin-bottom: 10px;
+}
 
 body, p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px; }
+
+textarea{
+  max-width: 20em;
+}
 
 pre {
   background-color: #eee;
@@ -16,10 +21,14 @@ pre {
   font-size: 11px; }
 
 a {
-  color: rebeccapurple; }
+  color: brown; }
 
 a:hover {
-  color: blue; }
+  color: rebeccapurple; }
+
+ul.list-group{
+  width: 100%;
+}
 
 th {
   padding-bottom: 5px; }
@@ -32,6 +41,16 @@ div.actions,
 div.form-group {
   margin-bottom: 10px; }
 
+div.card {
+  margin-bottom: 1em;
+  width: 100%;
+  background-color: rgb(238, 238, 238);
+}
+
+a.toggle-comments_btn{
+  margin-left: 1rem;
+}
+
 .notice, #notice {
   background: tan;
   border-radius: 0.5em;
@@ -39,9 +58,8 @@ div.form-group {
   color: green;
   font-weight: bold;
   margin: 1em;
-  padding: 1em 1.414em;
+  padding: 10px 10px;
   text-align: center;
-  width: 50%;
 }
 
 .field_with_errors {

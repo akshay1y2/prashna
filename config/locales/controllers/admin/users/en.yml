@@ -1,0 +1,7 @@
+en:
+  admin:
+    users:
+      access_denied: 'Permission Denied: cannot access this section.'
+      not_found: "Cannot find the user."
+      destroyed: 'User was successfully destroyed.'
+      not_destroyed: 'Destroy unsuccessful.'

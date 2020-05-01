@@ -6,12 +6,12 @@ class PasswordResetsController < ApplicationController
 
   def create
     @user.send_reset_link
-    redirect_to root_path, notice: t('.link_will_be_sent')
+    redirect_to login_path, notice: t('.link_will_be_sent')
   end
 
   def update
     if @user.update(reset_password_params.merge(reset_token: nil, reset_sent_at: nil))
-      redirect_to root_path, notice: t('.password_reset')
+      redirect_to login_path, notice: t('.password_reset')
     else
       render :edit
     end
@@ -32,13 +32,13 @@ class PasswordResetsController < ApplicationController
     def set_user
       @user = User.find_by_id(params[:id])
       if @user.blank?
-        redirect_to root_path, notice: t('users.not_found')
+        redirect_to login_path, notice: t('users.not_found')
       end
     end
 
     def validate_token
       unless @user.verify_password_reset_token(params[:token])
-        redirect_to root_path, notice: t('.unvalidated_token')
+        redirect_to login_path, notice: t('.unvalidated_token')
       end
     end
 end

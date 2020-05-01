@@ -8,6 +8,9 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= content_for :js %>
+    <%= content_for :css %>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Quora-clone(Prashna)" %>">
   </head>
 
@@ -15,14 +18,17 @@
 
     <header class="main">
       <%= render 'layouts/navigation' %>
+      <%= render 'layouts/notification' %>
     </header>
     <section class="content">
       
       <main class='<%= controller.controller_name %>'>
-      <% if notice %>
-        <aside id="notice"><%= notice %></aside>
-      <% end %>
-      <%= yield %>
+        <% if notice %>
+          <aside id="notice"><%= notice %></aside>
+        <% end %>
+        
+        <div class="container"><%= yield %></div>
+        
       </main>
     </section>
 
