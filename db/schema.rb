@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_27_095609) do
+ActiveRecord::Schema.define(version: 2020_05_01_071005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,11 +41,9 @@ ActiveRecord::Schema.define(version: 2020_04_27_095609) do
     t.bigint "user_id", null: false
     t.string "commentable_type"
     t.bigint "commentable_id"
-    t.bigint "vote_count", default: 0, null: false
-    t.bigint "upvote_count", default: 0, null: false
-    t.bigint "downvote_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "net_upvotes", default: 0, null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -81,11 +79,9 @@ ActiveRecord::Schema.define(version: 2020_04_27_095609) do
     t.datetime "published_at"
     t.bigint "comments_count", default: 0, null: false
     t.bigint "answers_count", default: 0, null: false
-    t.bigint "vote_count", default: 0, null: false
-    t.bigint "upvote_count", default: 0, null: false
-    t.bigint "downvote_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "net_upvotes", default: 0, null: false
     t.index ["title"], name: "index_questions_on_title", unique: true
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
@@ -133,9 +129,21 @@ ActiveRecord::Schema.define(version: 2020_04_27_095609) do
     t.index ["reset_token"], name: "index_users_on_reset_token", unique: true
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.integer "vote_type", default: 0, null: false
+    t.string "votable_type"
+    t.bigint "votable_id"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_votes_on_user_id"
+    t.index ["votable_type", "votable_id"], name: "index_votes_on_votable_type_and_votable_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "users"
   add_foreign_key "credit_transactions", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "questions", "users"
+  add_foreign_key "votes", "users"
 end

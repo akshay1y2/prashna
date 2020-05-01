@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  resources :votes, only: [:create]
+
   get 'topics', action: :search, controller: :topics
   get 'notifications_count', action: :count, controller: :notifications
   get 'mark_notification', action: :mark_viewed, controller: :notifications

@@ -8,6 +8,7 @@ class Question < ApplicationRecord
   has_many :credit_transactions, as: :creditable
   has_many :notifications, as: :notifiable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :restrict_with_error
+  has_many :votes, as: :votable, dependent: :restrict_with_error
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
 
@@ -73,7 +74,7 @@ class Question < ApplicationRecord
   end
 
   private def check_if_question_is_updatable
-    if vote_count > 0 || answers_count > 0 || comments_count > 0
+    if votes.count > 0 || answers_count > 0 || comments_count > 0
       errors.add(:base, I18n.t('question.errors.not_updatable'))
       throw :abort
     end

@@ -1,0 +1,3 @@
+<% @votable.reload %>
+votes_div = document.getElementById('<%= "vote-#{@vote.votable_type.downcase}-#{@vote.votable_id}" %>')
+votes_div.innerHTML = "<%= j votes_div( @vote.votable_type.downcase, @votable) %>"
