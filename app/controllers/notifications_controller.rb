@@ -2,7 +2,7 @@ class NotificationsController < ApplicationController
   before_action :set_notification, only: [:mark_viewed]
 
   def count
-    render json: { count: Notification.new_notifications_of_user(current_user).count }
+    render json: { count: current_user.reload.new_notifications_count }
   end
 
   def index
@@ -11,7 +11,7 @@ class NotificationsController < ApplicationController
 
   def mark_viewed
     if @notification.update(viewed: true)
-      render json: { status: true, bellCount: current_user.new_notifications_count }
+      render json: { status: true, bellCount: current_user.reload.new_notifications_count }
     else
       render json: { status: false }
     end
