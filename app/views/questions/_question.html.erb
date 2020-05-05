@@ -3,15 +3,18 @@
   <div class="card-body">
 
     <% if question.attachment.attached? %>
+      <% #FIXME_AB: question.attachment.image? -%>
       <% if question.attachment.content_type == 'image/jpeg' %>
         <%= image_tag question.attachment %>
       <% else %>
         <p class="card-title">
+          <% #FIXME_AB: please click the link below to downlod the file. LInk will the be name of the file like filename.pdf -%>
           <%= raw t '.file_attached', link: link_to('here', rails_blob_url(question.attachment, disposition: "attachment")) %>
         </p>
       <% end %>
     <% end %>
 
+    <% #FIXME_AB: question.presenter.render_content -%>
     <p class="card-text"><%= markdown(question.content) %></p>
     <hr/>
 
@@ -30,6 +33,7 @@
             Published: <%= question.published_at %> <br/>
             From: <%= question.user.name %> <br/>
           <% end %>
+          <% #FIXME_AB: Each topic should be link and that link will show questions filtered by that topic -%>
           Topics: <%= question.topic_names.join(', ') %>
         </p>
       </div>

@@ -61,6 +61,7 @@ class QuestionsController < ApplicationController
   end
 
   def drafts
+    #FIXME_AB: should show only current_user.questions.all_unpublished
     @questions = Question.all_unpublished.page(params[:page])
   end
 
@@ -90,6 +91,7 @@ class QuestionsController < ApplicationController
   end
 
   private def check_if_user_has_credits
+    #FIXME_AB: take this from env
     if current_user.credits < 1
       redirect_to root_path, notice: t('.not_enough_credits')
     end

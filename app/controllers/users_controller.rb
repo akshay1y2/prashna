@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:verify]
+  #FIXME_AB: we should also check that user is not logged in to verify. You can make another before action ensure_not_logged_in
   skip_before_action :authorize, only: [:new, :create, :verify]
   before_action :check_if_already_activated, only: [:verify]
 

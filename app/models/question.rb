@@ -16,7 +16,7 @@ class Question < ApplicationRecord
     validates :content, presence: true
     validates :content_words, length: {
       minimum: ENV['minimum_content_length'].to_i,
-      message: I18n.t('question.errors.content_length') 
+      message: I18n.t('question.errors.content_length')
     }
     validates :topics, length: {
       minimum: 1,
@@ -67,6 +67,7 @@ class Question < ApplicationRecord
   end
 
   private def check_if_user_has_credits
+    #FIXME_AB: don't hardcode 1. take from env
     if user.credits < 1
       errors.add(:base, I18n.t('question.errors.not_enough_credits'))
       throw :abort
@@ -108,6 +109,7 @@ class Question < ApplicationRecord
       topics: topic_names,
       head: I18n.t('notification.new_question_head'),
       body: title + I18n.t('notification.new_question_body'),
+      #FIXME_AB: make your own format. Create time_formats.rb in config/initializers/
       time: Time.current.strftime("%-d/%-m/%y: %H:%M %Z")
     })
   end

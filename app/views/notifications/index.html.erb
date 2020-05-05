@@ -12,10 +12,12 @@
         <%= content_tag :li, class: "list-group-item d-flex justify-content-between #{n.viewed ? 'list-group-item-dark' : 'list-group-item-primary' }" do %>
 
           <div class=" justify-content-start">
+            <% #FIXME_AB: use base_presenter.  n.presenter.display_message-%>
             <%= "#{n.id} - #{t(n.message)} - " %>
+            <% #FIXME_AB: if n.notifiable.is_a? Question -%>
             <%= link_to(n.notifiable.title, question_path(n.notifiable)) if n.notifiable %>
           </div>
-          <% unless n.viewed %>
+          <% unless n.viewed? %>
             <div class=" justify-content-end ok-btn">
               <%= link_to 'OK', 'javascript:void(0)', class: "badge badge-info", data: { id: n.id } %>
             </div>
