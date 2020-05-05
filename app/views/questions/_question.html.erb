@@ -22,7 +22,7 @@
           <%= votes_div :question, question %>
         </div>
         <div class="col-6">
-          <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-#{question.id}"} %>
+          <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-question-#{question.id}"} %>
         </div>
       <% end %>
 
@@ -37,6 +37,6 @@
       </div>
 
     </div>
-    <%= render template: 'comments/index', locals: { commentable: question } if question.published? %>
+    <%= render template: 'comments/index', locals: { commentable_type: :question, commentable: question } if question.published? %>
   </div>
 </div>

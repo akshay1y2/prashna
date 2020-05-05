@@ -10,6 +10,7 @@ class Question < ApplicationRecord
   has_many :notifications, as: :notifiable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :restrict_with_error
   has_many :votes, as: :votable, dependent: :restrict_with_error
+  has_many :answers, dependent: :restrict_with_error
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
 

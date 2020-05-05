@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :questions do
     get 'drafts', on: :collection
     resources :comments, only: [:create]
+    resources :answers, only: [:create]
   end
 
   get 'credit_transactions', to: 'credit_transactions#index'

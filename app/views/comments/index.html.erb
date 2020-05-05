@@ -1,4 +1,4 @@
-<%= content_tag :div, id: "comments-for-#{commentable.id}" do %>
+<%= content_tag :div, id: "comments-for-#{commentable_type}-#{commentable.id}" do %>
   <%= errors_explanation_div(@comment) if @comment.present? %>
   <%= form_with(model: [commentable, Comment.new], class: 'form-row') do |form| %>
 
