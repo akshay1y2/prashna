@@ -4,6 +4,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
+    <% #FIXME_AB: since we'll create a new layout for admin, this nav will break. -%>
     <ul class="navbar-nav">
       <% if current_user %>
         <% if current_user.admin %>

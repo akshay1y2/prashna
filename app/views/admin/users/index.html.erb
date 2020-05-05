@@ -15,8 +15,10 @@
       <tr>
         <td><%= user.name %></td>
         <td><%= user.email %></td>
+        <% #FIXME_AB: make this credit link to user's credit transaction page -%>
         <td><%= user.credits %></td>
         <td><%= link_to 'Show', admin_user_path(user) %></td>
+        <% #FIXME_AB: "are you sure to delete 'Akhil' -%>
         <td><%= link_to 'Destroy', admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

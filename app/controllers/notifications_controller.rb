@@ -18,6 +18,7 @@ class NotificationsController < ApplicationController
   end
 
   private def set_notification
+    #FIXME_AB: current_user.notifications.find
     unless @notification = Notification.find_by_id(params[:q])
       render json: { status: false }
     end

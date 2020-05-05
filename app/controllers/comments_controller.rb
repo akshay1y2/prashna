@@ -9,12 +9,14 @@ class CommentsController < ApplicationController
       else
         message = t('comment.not_saved')
       end
+      #FIXME_AB: lets not redirect. Append error message in the dom just above/below the comment text box.
       redirect_to @commentable, notice: message
     end
   end
 
   private def set_commentable
     if params[:question_id].present?
+      #FIXME_AB: Question.published.find so that we allow comments on published questions
       @commentable = Question.find_by_id(params[:question_id])
       if @commentable.blank?
         redirect_to root_path, notice: t('.question_not_found')
