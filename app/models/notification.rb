@@ -1,4 +1,5 @@
 class Notification < ApplicationRecord
+  include BasicPresenter::Concern
   paginates_per 10
 
   belongs_to :user

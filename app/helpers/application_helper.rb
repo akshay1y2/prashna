@@ -8,11 +8,6 @@ module ApplicationHelper
     end
   end
 
-  def markdown(text)
-    options = [:hard_wrap, :filter_html, :autolink, :no_intraemphasis, :fenced_code, :gh_blockcode]
-    Markdown.new(text, *options).to_html.html_safe
-  end
-
   def votes_div(type, votable)
     vote = Vote.by_user_on_votable(current_user, votable).first
     content_tag(:div, id: "vote-#{type.to_s}-#{votable.id}") do

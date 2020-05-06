@@ -6,3 +6,4 @@ en:
     activated: "User '%{name}' is activated."
     cannot_activate: "Cannot activate the user."
     already_active: 'User is already activated.'
+    logged_in: 'Cannot verify while logged in.'

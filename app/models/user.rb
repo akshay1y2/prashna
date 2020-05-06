@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  paginates_per 5
+
   has_secure_password
   has_one_attached :avatar
   has_many :credit_transactions, dependent: :restrict_with_error
@@ -12,7 +14,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
   validates :new_notifications_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :password, format: { with: /\A(?=.{6,})(?=.*\d)(?=.*[[:^alnum:]])/x }
+  validates :password, format: { with: /\A(?=.{6,})(?=.*\d)(?=.*[[:^alnum:]])/x }, if: :password
 
   with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
     validates :avatar

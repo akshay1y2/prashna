@@ -1,0 +1,51 @@
+<% content_for :js do %>
+  <%= javascript_pack_tag 'select_topics', 'data-turbolinks-track': 'reload' %>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<% end %>
+<% content_for :css do %>
+  <%= stylesheet_link_tag "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
+<% end %>
+
+<%= form_with(model: @user, url: admin_user_path(@user), local: true) do |form| %>
+  <%= errors_explanation_div(@user) %>
+
+  <div class="form-group">
+    <%= form.label :avatar %>
+    <%= form.file_field :avatar, class: 'form-control-sm' %>
+  </div>
+  <div class="form-group">
+    <%= form.label :topics %>
+    <%= form.text_field :topics, value: @topics, data: { url: topics_path }, class: 'form-control-sm' %>
+    <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control-sm' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :email %>
+    <%= form.text_field :email, class: 'form-control-sm' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :password %>
+    <%= form.password_field :password, class: 'form-control-sm' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :password_confirmation, 'Password Confirmation' %>
+    <%= form.password_field :password_confirmation, class: 'form-control-sm' %>
+  </div>
+
+  <div class="form-group form-check">
+    <%= form.check_box :admin, { checked: @user.admin?, class: 'form-check-input' }, true, false %>
+    <%= form.label :admin, 'Admin', class: 'form-check-label' %>
+  </div>
+
+  <div class="actions btn-toolbar">
+    <%= form.submit 'Update', class: "btn btn-primary" %>
+    <%= link_to 'Show all', admin_users_path, class: 'btn btn-secondary' %>
+  </div>
+<% end %>

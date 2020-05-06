@@ -29,8 +29,7 @@ class MarkNotifications{
 }
 
 document.addEventListener('turbolinks:load', function() {
-  // FIXME_AB: this selector is too generic. make it specific by id
-  const $list = $('ul.list-group');
+  const $list = $('ul#notifications-list');
   const data = {
     $items: $list.find('li.list-group-item-primary'),
     path: $list.data('path'),

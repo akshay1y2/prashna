@@ -1,4 +1,5 @@
 class Question < ApplicationRecord
+  include BasicPresenter::Concern
   attr_accessor :new_publish
   paginates_per 2
 
@@ -67,8 +68,7 @@ class Question < ApplicationRecord
   end
 
   private def check_if_user_has_credits
-    #FIXME_AB: don't hardcode 1. take from env
-    if user.credits < 1
+    if user.credits < ENV['ask_question_credit'].to_i
       errors.add(:base, I18n.t('question.errors.not_enough_credits'))
       throw :abort
     end
