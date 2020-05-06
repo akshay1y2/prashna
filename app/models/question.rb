@@ -1,4 +1,5 @@
 class Question < ApplicationRecord
+  include BasicPresenter::Concern
   attr_accessor :new_publish
   paginates_per 2
 
@@ -67,8 +68,7 @@ class Question < ApplicationRecord
   end
 
   private def check_if_user_has_credits
-    #FIXME_AB: don't hardcode 1. take from env
-    if user.credits < 1
+    if user.credits < ENV['ask_question_credit'].to_i
       errors.add(:base, I18n.t('question.errors.not_enough_credits'))
       throw :abort
     end
@@ -109,8 +109,7 @@ class Question < ApplicationRecord
       topics: topic_names,
       head: I18n.t('notification.new_question_head'),
       body: title + I18n.t('notification.new_question_body'),
-      #FIXME_AB: make your own format. Create time_formats.rb in config/initializers/
-      time: Time.current.strftime("%-d/%-m/%y: %H:%M %Z")
+      time: Time.current.to_s(:for_toasts)
     })
   end
 end

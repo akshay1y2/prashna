@@ -61,8 +61,7 @@ class QuestionsController < ApplicationController
   end
 
   def drafts
-    #FIXME_AB: should show only current_user.questions.all_unpublished
-    @questions = Question.all_unpublished.page(params[:page])
+    @questions = current_user.questions.all_unpublished.page(params[:page])
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -91,8 +90,7 @@ class QuestionsController < ApplicationController
   end
 
   private def check_if_user_has_credits
-    #FIXME_AB: take this from env
-    if current_user.credits < 1
+    if current_user.credits < ENV['ask_question_credit'].to_i
       redirect_to root_path, notice: t('.not_enough_credits')
     end
   end

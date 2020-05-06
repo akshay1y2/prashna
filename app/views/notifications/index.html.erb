@@ -6,16 +6,14 @@
   <% if @notifications.blank? %>
     <h2><%= t('.no_notifications') %></h2>
   <% else %>
-    <%= content_tag :ul, class: "list-group", data: { path: mark_notification_path } do %>
+    <%= content_tag :ul, id: 'notifications-list', class: "list-group", data: { path: mark_notification_path } do %>
 
       <% @notifications.each do |n| %>
         <%= content_tag :li, class: "list-group-item d-flex justify-content-between #{n.viewed ? 'list-group-item-dark' : 'list-group-item-primary' }" do %>
 
           <div class=" justify-content-start">
-            <% #FIXME_AB: use base_presenter.  n.presenter.display_message-%>
-            <%= "#{n.id} - #{t(n.message)} - " %>
-            <% #FIXME_AB: if n.notifiable.is_a? Question -%>
-            <%= link_to(n.notifiable.title, question_path(n.notifiable)) if n.notifiable %>
+            <%= n.presenter.display_message %>
+            <%= link_to(n.notifiable.title, question_path(n.notifiable)) if n.notifiable.is_a?(Question) %>
           </div>
           <% unless n.viewed? %>
             <div class=" justify-content-end ok-btn">

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Quora Admin" %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= content_for :js %>
+    <%= content_for :css %>
+    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Quora-clone(Prashna)" %>">
+  </head>
+
+  <body>
+
+    <header class="main">
+      <%= render 'layouts/admin_navigation' %>
+      <%= render 'layouts/notification' %>
+    </header>
+    <section class="content">
+      
+      <main class='<%= controller.controller_name %>'>
+        <% if notice %>
+          <aside id="notice"><%= notice %></aside>
+        <% end %>
+        
+        <div class="container"><%= yield %></div>
+        
+      </main>
+    </section>
+
+  </body>
+</html>

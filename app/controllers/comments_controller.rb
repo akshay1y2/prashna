@@ -2,22 +2,19 @@ class CommentsController < ApplicationController
   before_action :set_commentable
 
   def create
-    @comment = @commentable.comments.new(content: params[:comment][:content], user: current_user)
-    unless @comment.save
-      if @comment.errors.of_kind? :content, "can't be blank"
-        message = t('comment.blank')
-      else
-        message = t('comment.not_saved')
-      end
-      #FIXME_AB: lets not redirect. Append error message in the dom just above/below the comment text box.
-      redirect_to @commentable, notice: message
+    @comment = Comment.new(
+      content: params[:comment][:content],
+      user: current_user,
+      commentable: @commentable
+    )
+    if @comment.save
+      @commentable.reload
     end
   end
 
   private def set_commentable
     if params[:question_id].present?
-      #FIXME_AB: Question.published.find so that we allow comments on published questions
-      @commentable = Question.find_by_id(params[:question_id])
+      @commentable = Question.all_published.find_by_id(params[:question_id])
       if @commentable.blank?
         redirect_to root_path, notice: t('.question_not_found')
       end

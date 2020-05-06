@@ -10,7 +10,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def update
-    if @user.update(reset_password_params.merge(reset_token: nil, reset_sent_at: nil))
+    if @user.update(reset_password_params)
       redirect_to login_path, notice: t('.password_reset')
     else
       render :edit
@@ -19,7 +19,12 @@ class PasswordResetsController < ApplicationController
 
   private
     def reset_password_params
-      params.require(:user).permit(:password, :password_confirmation)
+      {
+        password: params[:user][:password].empty? ? ' ' : params[:user][:password],
+        password_confirmation: params[:user][:password_confirmation],
+        reset_token: nil,
+        reset_sent_at: nil
+      }
     end
 
     def find_user_by_email

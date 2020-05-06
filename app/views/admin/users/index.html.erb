@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Id</th>
       <th>Name</th>
       <th>Email</th>
       <th>Credits</th>
@@ -13,18 +14,19 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td><%= user.id %></td>
         <td><%= user.name %></td>
         <td><%= user.email %></td>
-        <% #FIXME_AB: make this credit link to user's credit transaction page -%>
-        <td><%= user.credits %></td>
-        <td><%= link_to 'Show', admin_user_path(user) %></td>
-        <% #FIXME_AB: "are you sure to delete 'Akhil' -%>
-        <td><%= link_to 'Destroy', admin_user_path(user), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to user.credits, credit_transactions_user_path(user) %></td>
+        <% unless user == current_user %>
+          <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
+          <td><%= link_to 'Destroy', admin_user_path(user), method: :delete, data: { confirm: "User '#{user.name}' will be deleted, are you sure?" } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New User', new_user_path %>
+<br/>
+<%= paginate @users %>
+<br/>
