@@ -73,6 +73,3 @@ gem 'kaminari', '~>1.2.0'
 
 # add presenter in views
 gem 'basic_presenter', '~>0.0.4'
-
-# for bootstrap functions
-# gem 'bootstrap-sass', '~> 3.4.1'

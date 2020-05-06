@@ -1,7 +1,10 @@
 module Admin
   class BaseController < ApplicationController
+<<<<<<< HEAD
     layout 'admin'
 
+=======
+>>>>>>> fixed CR changes
     before_action :authorize_admin
 
     private def authorize_admin

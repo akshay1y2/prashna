@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 module Admin
   class UsersController < BaseController
     before_action :set_user, :check_if_updating_self, only: [:edit, :update, :destroy]
@@ -40,22 +41,35 @@ module Admin
 #   class UsersController
 #   end
 # end
+=======
+module Admin
+  class UsersController < BaseController
+    before_action :set_user, :check_if_updating_self, only: [:edit, :update, :destroy]
+>>>>>>> fixed CR changes
 
-#FIXME_AB: Also all admin controller should inherit from AdminBaseController
-class Admin::UsersController < ApplicationController
+    def index
+      @users = User.all.page(params[:page])
+    end
 
-  #FIXME_AB: admin section will have a seperate admin layout, specify in admin base controler
+    def edit
+      @topics = @user.topic_names.join(', ')
+    end
 
-  #FIXME_AB: move this to admin base controller
-  before_action :authorize_admin
-  before_action :set_user, only: [:show, :destroy]
-  #FIXME_AB: admin should be able to edit/update other users. including user's admin role
+    def update
+      @user.set_topics params[:user][:topics]
+      @user.admin = params[:user][:admin].present?
+      respond_to do |format|
+        if @user.update(user_params)
+          format.html { redirect_to admin_users_path, notice: 'User Successfully Updated.' }
+          format.json { render :show, status: :ok, location: @user }
+        else
+          format.html { render :edit }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      end
+    end
 
-  def index
-    #FIXME_AB: paginated list
-    @users = User.all
-  end
-
+<<<<<<< HEAD
   def destroy
     #FIXME_AB: logged in user should not be able to delete himself. Check this in before action
     #FIXME_AB: link to destroy should also not come in view for myself
@@ -71,16 +85,33 @@ class Admin::UsersController < ApplicationController
     end
 
 <<<<<<< HEAD
+=======
+    def destroy
+      respond_to do |format|
+        if @user.destroy
+          format.html { redirect_to admin_users_url, notice: t('.destroyed') }
+          format.json { head :no_content }
+        else
+          format.html { redirect_to admin_users_path(@admin), notice: t('.not_destroyed') }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+>>>>>>> fixed CR changes
     private def set_user
       unless @user = User.find_by_id(params[:id])
         redirect_to admin_users_path, notice: 'User not found!'
       end
+<<<<<<< HEAD
 =======
   #FIXME_AB: this should go in admin base controller
   private def authorize_admin
     unless current_user.admin
       redirect_to root_path, notice: t('.access_denied')
 >>>>>>> Added more CR comments
+=======
+>>>>>>> fixed CR changes
     end
 
     private def check_if_updating_self
