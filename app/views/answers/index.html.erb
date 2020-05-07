@@ -1,7 +1,9 @@
 <div class="card border-secondary mb-3">
   <h3 class="card-header">Answers</h3>
   <div class="card-body">
-    <%= form_with(model: [question, Answer.new], local: true) do |form| %>
+
+    <%= errors_explanation_div(@answer) %>
+    <%= form_with(model: [question, Answer.new]) do |form| %>
       <div class="form-group">
         <%= form.text_area :content, class: 'form-control', placeholder: "Answer", rows: '5' %>
         <small class="form-text text-muted"><%=raw t('questions.form.markdown_help_block')%></small>
@@ -10,17 +12,16 @@
         <%= form.submit 'Post', class: "btn btn-primary"  %>
       </div>
     <% end %>
+
+    <ul class="list-group">
+      <% question.answers.each do |answer| %>
+        <li class="list-group-item">
+          <%= content_tag :h5, "- #{answer.user.name}" %>
+          <%= content_tag :p, answer.presenter.render_content %>
+          <%= votes_div :answer, answer %>
+        </li>
+      <% end %>
+    </ul>
+
   </div>
 </div>
-
-<ul class="list-group">
-  <% question.answers.each do |answer| %>
-
-    <li class="list-group-item">
-      <%= content_tag :h5, "- #{answer.user.name}" %>
-      <%= content_tag :p, answer.content %>
-      <%= votes_div :answer, answer %>
-    </li>
-
-  <% end %>
-</ul>

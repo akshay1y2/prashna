@@ -3,12 +3,8 @@ class AnswersController < ApplicationController
 
   def create
     @answer = Answer.new(content: params[:answer][:content], user: current_user, question: @question)
-    if @answer.validate
-      notice = 'Answer submitted'
-    else
-      notice = 'not submitted'
-    end
-    redirect_to @question, notice: notice
+    @answer.save
+    render 'index', locals: { question: @question }, layout: false
   end
 
   private def set_question

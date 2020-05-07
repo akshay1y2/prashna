@@ -1,6 +1,6 @@
 module ApplicationHelper
   def errors_explanation_div(model)
-    return if model.errors.empty?
+    return if model.blank? || model.errors.empty?
     content_tag(:div, id: "error_explanation") do
       header = "#{pluralize(model.errors.count, 'error')} prohibited this #{model.class.name} from being saved:"
       list_items = model.errors.full_messages.map { |msg| content_tag(:li, msg) }
