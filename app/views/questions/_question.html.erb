@@ -30,8 +30,7 @@
             Published: <%= question.published_at %> <br/>
             From: <%= question.user.name %> <br/>
           <% end %>
-          <% #FIXME_AB: Each topic should be link and that link will show questions filtered by that topic -%>
-          Topics: <%= question.topic_names.join(', ') %>
+          Topics: <%= topic_links(question) %>
         </p>
       </div>
 
