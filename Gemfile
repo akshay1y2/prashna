@@ -42,6 +42,9 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'capistrano',                 '3.11.2'
+  gem 'capistrano-rails',           '1.4.0'
+  gem 'capistrano-passenger',       '0.2.0'
 end
 
 group :test do
@@ -56,8 +59,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # open emails when sent
-gem "letter_opener", '~>1.7.0', group: :development
-gem 'letter_opener_web', '~> 1.0', group: :production
+gem "letter_opener", '~>1.7.0' #, group: :development
+gem 'letter_opener_web', '~> 1.0' #, group: :production
 
 # to configure application
 gem 'figaro', '~> 1.1'
