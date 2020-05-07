@@ -26,4 +26,8 @@ module ApplicationHelper
       )
     end
   end
+
+  def topic_links(question)
+    question.topic_names.map { |t| link_to t, root_path(topics: t) }.join(', ').html_safe
+  end
 end
