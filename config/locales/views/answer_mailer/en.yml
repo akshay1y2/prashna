@@ -1,0 +1,4 @@
+en:
+  answer_mailer:
+    new_answer_posted:
+      subject: "Prashna: New answer posted"

@@ -10,7 +10,13 @@ class Answer < ApplicationRecord
     message: I18n.t('answer.errors.content_length') 
   }
 
+  after_commit :send_email_to_questioner, on: [:create]
+
   private def content_words
     content.split(' ')
+  end
+
+  private def send_email_to_questioner
+    AnswerMailer.with(id: id).new_answer_posted.deliver_later
   end
 end

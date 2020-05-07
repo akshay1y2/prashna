@@ -1,0 +1,9 @@
+<p>Hello <%= @question.user.name %>,</p>
+<p>A new answer has been posted for:
+  <%= link_to @question.title, question_url(@question) %><br/><br/>
+  <%= content_tag :p, @answer.presenter.render_content %><br/>
+  Go through the link below to check your question:<br/>
+  <%= link_to nil, question_url(@question) %><br/><br/>
+  Team,<br/>
+  Prashna
+</p>
