@@ -3,13 +3,16 @@ class ApplicationController < ActionController::Base
   before_action :authorize
   helper_method :current_user
 
-  layout -> { 'admin' if current_user.present? && current_user.admin? }
-
   def current_user
     @_current_user
   end
 
   protected def authorize
+    #FIXME_AB: if session[:user_id] && (@_current_user = User.find_by_id(session[:user_id]))
+    #FIXME_AB:   return
+    #FIXME_AB: end
+    #FIXME_AB: redirect.....
+
       if session[:user_id]
         @_current_user = User.find_by_id(session[:user_id])
         return if @_current_user.present?

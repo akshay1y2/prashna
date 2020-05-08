@@ -2,6 +2,7 @@ class CommentsController < ApplicationController
   before_action :set_commentable
 
   def create
+    #FIXME_AB: current_user.comments.build(...)
     @comment = Comment.new(
       content: params[:comment][:content],
       user: current_user,
