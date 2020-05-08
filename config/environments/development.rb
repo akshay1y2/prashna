@@ -62,7 +62,7 @@ Rails.application.configure do
 
   # ActionView::Template::Error (Missing host to link to!
   # Please provide the :host parameter, set default_url_options[:host], or set :only_path to true)
-  config.action_mailer.default_url_options = { host: ENV['host'] }
+  # config.action_mailer.default_url_options = { host: ENV['host'] }
 
   # preview mails
   config.action_mailer.delivery_method = :letter_opener

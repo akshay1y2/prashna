@@ -17,5 +17,6 @@ module Prashna
     # the framework and any gems in your application.
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+    config.action_mailer.default_url_options = { host: ENV['host'] }
   end
 end
