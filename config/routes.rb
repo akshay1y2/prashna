@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get 'verify/:token', action: :verify, as: 'verification_token'
       get 'reset/:token', action: :edit, controller: :password_resets, as: 'reset_token'
       post 'reset/:token', action: :update, controller: :password_resets, as: 'reset_password'
+      get 'credit_transactions', action: :index, controller: :credit_transactions
     end
     collection do
       get 'notifications', action: :index, controller: :notifications
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
   post 'password_resets/create'
 
   namespace :admin do
-    resources :users, only: [:index, :show, :destroy]
+    resources :users, only: [:index, :edit, :update, :destroy]
   end
 
   controller :sessions do

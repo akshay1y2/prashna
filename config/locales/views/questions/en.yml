@@ -12,4 +12,4 @@ en:
     show:
       confirm_delete: This Question will be deleted. Are you sure?.
     question:
-      file_attached: 'This question has an attachment download it from %{link}.'
+      file_attached: Please click on the link to download the file.

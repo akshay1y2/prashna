@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
   end
 
   protected def authorize
+    #FIXME_AB: if session[:user_id] && (@_current_user = User.find_by_id(session[:user_id]))
+    #FIXME_AB:   return
+    #FIXME_AB: end
+    #FIXME_AB: redirect.....
+
       if session[:user_id]
         @_current_user = User.find_by_id(session[:user_id])
         return if @_current_user.present?

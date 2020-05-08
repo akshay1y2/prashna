@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:verify]
+  before_action :set_user, :ensure_not_logged_in, only: [:verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
   before_action :check_if_already_activated, only: [:verify]
 
@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def profile
+    #FIXME_AB: you can directly use current_user in view
     @user = current_user
   end
 
@@ -73,6 +74,12 @@ class UsersController < ApplicationController
     def check_if_already_activated
       if @user.active?
         redirect_to login_path, notice: t('.already_active')
+      end
+    end
+
+    def ensure_not_logged_in
+      if session[:user_id].present?
+        redirect_to root_path, notice: t('.logged_in')
       end
     end
 end

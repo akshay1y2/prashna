@@ -1,4 +1,5 @@
 class Notification < ApplicationRecord
+  include BasicPresenter::Concern
   paginates_per 10
 
   belongs_to :user
@@ -11,6 +12,6 @@ class Notification < ApplicationRecord
   after_commit :set_new_notifications_count_of_user
 
   private def set_new_notifications_count_of_user
-    user.update(new_notifications_count: self.class.new_notifications_of_user(user).count)
+    user.update_columns(new_notifications_count: self.class.new_notifications_of_user(user).count)
   end
 end

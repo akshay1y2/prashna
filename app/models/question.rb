@@ -1,4 +1,5 @@
 class Question < ApplicationRecord
+  include BasicPresenter::Concern
   attr_accessor :new_publish
   paginates_per 2
 
@@ -16,7 +17,7 @@ class Question < ApplicationRecord
     validates :content, presence: true
     validates :content_words, length: {
       minimum: ENV['minimum_content_length'].to_i,
-      message: I18n.t('question.errors.content_length') 
+      message: I18n.t('question.errors.content_length')
     }
     validates :topics, length: {
       minimum: 1,
@@ -67,7 +68,7 @@ class Question < ApplicationRecord
   end
 
   private def check_if_user_has_credits
-    if user.credits < 1
+    if user.credits < ENV['ask_question_credit'].to_i
       errors.add(:base, I18n.t('question.errors.not_enough_credits'))
       throw :abort
     end

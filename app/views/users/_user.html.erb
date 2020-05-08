@@ -13,7 +13,7 @@
 
     <p>
       <strong>Credits:</strong>
-      <%= @user.credits %>
+      <%= link_to @user.credits, credit_transactions_user_path(@user) %>
     </p>
 
     <p>

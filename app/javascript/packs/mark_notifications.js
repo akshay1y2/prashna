@@ -29,7 +29,7 @@ class MarkNotifications{
 }
 
 document.addEventListener('turbolinks:load', function() {
-  const $list = $('ul.list-group');
+  const $list = $('ul#notifications-list');
   const data = {
     $items: $list.find('li.list-group-item-primary'),
     path: $list.data('path'),

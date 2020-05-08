@@ -61,7 +61,7 @@ class QuestionsController < ApplicationController
   end
 
   def drafts
-    @questions = Question.all_unpublished.page(params[:page])
+    @questions = current_user.questions.all_unpublished.page(params[:page])
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -90,13 +90,14 @@ class QuestionsController < ApplicationController
   end
 
   private def check_if_user_has_credits
-    if current_user.credits < 1
+    if current_user.credits < ENV['ask_question_credit'].to_i
       redirect_to root_path, notice: t('.not_enough_credits')
     end
   end
 
   private def get_questions_for_index
     questions = Question.all_published.order(published_at: 'desc')
+    #FIXME_AB: Lets have only one search text field in the frontend
     if params[:title].present?
       questions = questions.by_title(params[:title])
     end

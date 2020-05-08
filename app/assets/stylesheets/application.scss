@@ -15,3 +15,10 @@
  *= require_self
  */
 @import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
+
+.container{
+  background: whitesmoke;
+  border-radius: 10px;
+  box-shadow: 10px 10px 10px 10px #848484 ;
+  padding: 25px;
+}
