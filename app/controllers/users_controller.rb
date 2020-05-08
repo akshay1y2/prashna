@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def profile
+    #FIXME_AB: you can directly use current_user in view
     @user = current_user
   end
 

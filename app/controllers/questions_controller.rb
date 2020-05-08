@@ -97,6 +97,7 @@ class QuestionsController < ApplicationController
 
   private def get_questions_for_index
     questions = Question.all_published.order(published_at: 'desc')
+    #FIXME_AB: Lets have only one search text field in the frontend
     if params[:title].present?
       questions = questions.by_title(params[:title])
     end
