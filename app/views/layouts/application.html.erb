@@ -18,7 +18,7 @@
 
     <header class="main">
       <%= render 'layouts/navigation' %>
-      <%= render 'layouts/notification' %>
+      <%= render 'layouts/notification' if current_user.present? %>
     </header>
     <section class="content">
       

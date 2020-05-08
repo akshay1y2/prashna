@@ -1,7 +1,7 @@
 class NotificationsController < ApplicationController
   before_action :set_notification, only: [:mark_viewed]
 
-  def count
+  def poll
     render json: { count: current_user.reload.new_notifications_count }
   end
 

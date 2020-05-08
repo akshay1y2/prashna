@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resources :votes, only: [:create]
 
   get 'topics', action: :search, controller: :topics
-  get 'notifications_count', action: :count, controller: :notifications
+  get 'notifications_poll', action: :poll, controller: :notifications
   get 'mark_notification', action: :mark_viewed, controller: :notifications
   get 'password_resets/new'
   post 'password_resets/create'

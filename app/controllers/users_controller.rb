@@ -8,11 +8,6 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def profile
-    #FIXME_AB: you can directly use current_user in view
-    @user = current_user
-  end
-
   # GET /users/1/edit
   def edit
     @topics = current_user.topic_names.join(', ')

@@ -1,4 +1,5 @@
-<div class="toast" style="position: absolute; right: 0;" data-delay="5000">
+<%= content_tag :div, class: :toast, data: { path: notifications_poll_path, delay: "5000" }, style: "position: absolute; right: 0;" do %>
+
   <div class="toast-header">
     <strong class="mr-auto"></strong>
     <small></small>
@@ -7,7 +8,7 @@
     </button>
   </div>
   <div class="toast-body"></div>
-</div>
-<% if current_user.present? %>
-  <%= content_tag :div, '', data: { topics: current_user.topic_names, path: notifications_count_path }, id: 'user-data' %>
+
 <% end %>
+
+<%= javascript_pack_tag 'poll_notification', 'data-turbolinks-track': 'reload' %>

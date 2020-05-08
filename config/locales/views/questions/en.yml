@@ -7,8 +7,7 @@ en:
       submit: Submit
     search_form:
       filter: Filter
-      title: Title
-      topics: Topics
+      search: Search
     show:
       confirm_delete: This Question will be deleted. Are you sure?.
     question:

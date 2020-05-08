@@ -1,6 +1,6 @@
 <p>Hello <%= @user.name %>,</p>
 <p>Please verify your sign-up email by clicking the link below<br/>
-  <%= verification_token_user_url(@user, @user.confirm_token) %><br/>
+  <%= link_to nil, verification_token_user_url(@user, @user.confirm_token) %><br/>
   Team,<br/>
   Prashna
 </p>

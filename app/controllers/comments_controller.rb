@@ -2,10 +2,8 @@ class CommentsController < ApplicationController
   before_action :set_commentable
 
   def create
-    #FIXME_AB: current_user.comments.build(...)
-    @comment = Comment.new(
+    @comment = current_user.comments.build(
       content: params[:comment][:content],
-      user: current_user,
       commentable: @commentable
     )
     if @comment.save
