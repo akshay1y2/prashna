@@ -1,4 +1,4 @@
-<%= content_tag :div, class: :toast, data: { path: notifications_poll_path, delay: "5000" }, style: "position: absolute; right: 0;" do %>
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-path="<%= notifications_poll_path %>" data-notifications_path="<%= notifications_users_path %>">
 
   <div class="toast-header">
     <strong class="mr-auto"></strong>
@@ -9,6 +9,6 @@
   </div>
   <div class="toast-body"></div>
 
-<% end %>
+</div>
 
 <%= javascript_pack_tag 'poll_notification', 'data-turbolinks-track': 'reload' %>

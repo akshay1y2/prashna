@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post 'password_resets/create'
 
   namespace :admin do
+    get '/', to: 'users#index'
     resources :users, only: [:index, :edit, :update, :destroy]
   end
 
