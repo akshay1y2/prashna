@@ -22,7 +22,7 @@ class MarkNotifications{
       alert('something went wrong');
       return;
     }
-    $item.closest('li').removeClass('list-group-item-primary').addClass('list-group-item-dark');
+    $item.closest('li').removeClass('list-group-item-primary');
     $item.parent('div.ok-btn').remove();
     this.$bellCount.text(response.bellCount);
   }

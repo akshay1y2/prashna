@@ -42,7 +42,7 @@ class PollNotification {
       Total: ${response.total} unseen notifications,<br><hr/>
       click <a href='${this.notifications_path}'>here</a> to check.
     `);
-    this.$toast.toast('show');
+    // this.$toast.toast('show');
     this.$bell.text(response.total);
   }
 }
