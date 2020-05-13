@@ -15,16 +15,18 @@
 
     <p class="card-text"><%= question.presenter.render_content %></p><hr/>
 
-    <%= content_tag :div, class: "d-flex justify-content-between" do %>
+    <div class="d-flex">
 
       <% if question.published? %>
-        <div class="d-flex align-items-start justify-content-start">
+        <div class="col-2">
           <%= votes_div :question, question %>
+        </div>
+        <div class="col-6">
           <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-#{question.id}"} %>
         </div>
       <% end %>
 
-      <div class="justify-content-end">
+      <div class="col-4">
         <p class="card-text">
           <% if question.published? %>
             Published: <%= question.published_at %> <br/>
@@ -34,7 +36,7 @@
         </p>
       </div>
 
-    <% end %>
+    </div>
     <%= render template: 'comments/index', locals: { commentable: question } if question.published? %>
   </div>
 </div>

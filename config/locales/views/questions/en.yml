@@ -12,3 +12,5 @@ en:
       confirm_delete: This Question will be deleted. Are you sure?.
     question:
       file_attached: Please click on the link to download the file.
+    drafts:
+      drafts_heading: Drafts

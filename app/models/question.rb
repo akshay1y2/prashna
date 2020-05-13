@@ -102,9 +102,8 @@ class Question < ApplicationRecord
   end
 
   private def notify_users
-    topics.joins(:topics_users).distinct.pluck('topics_users.user_id').each do |id|
-      Notification.create(user_id: id, message: '.new_question', notifiable: self)
-    end
+    users_to_notfy = topics.joins(:topics_users).distinct.pluck('topics_users.user_id') - [user.id]
+    users_to_notfy.each { |id| notifications.create(user_id: id, message: '.new_question') }
     # ActionCable.server.broadcast('questions', json: {
     #   topics: topic_names,
     #   head: I18n.t('notification.new_question_head'),

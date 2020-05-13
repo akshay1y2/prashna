@@ -1,10 +1,7 @@
-<div class="container">
-  <div class="row">
-    <% if @questions.blank? %>
-      <h2>No Drafts present</h2>
-    <% else %>
-      <%= render @questions %>
-      <%= paginate @questions %>
-    <% end %>
-  </div>
-</div>
+<h1><%= t('.drafts_heading') %></h1>
+<% if @questions.blank? %>
+  <h2>No Drafts present</h2>
+<% else %>
+  <%= render @questions %>
+  <%= paginate @questions %>
+<% end %>
