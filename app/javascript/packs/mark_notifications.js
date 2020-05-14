@@ -6,15 +6,13 @@ class MarkNotifications{
   }
 
   init(){
-    this.$items.one('click', 'a.badge', event => {
-        $.ajax({
-          type: "GET",
-          url: this.path,
-          data: $.param({ q: event.target.dataset.id }),
-          success: (response) => this.onSuccess($(event.target), response),
-          error: (_, status, error) => console.log(`${status}: ${error}`)
-      });
-    });
+    this.$items.one('click', 'a.badge', event => $.ajax({
+      type: "GET",
+      url: this.path,
+      data: $.param({ q: event.target.dataset.id }),
+      success: (response) => this.onSuccess($(event.target), response),
+      error: (_, status, error) => console.log(`${status}: ${error}`)
+    }));
   }
 
   onSuccess($item, response){
@@ -22,7 +20,7 @@ class MarkNotifications{
       alert('something went wrong');
       return;
     }
-    $item.closest('li').removeClass('list-group-item-primary').addClass('list-group-item-dark');
+    $item.closest('li').removeClass('list-group-item-primary');
     $item.parent('div.ok-btn').remove();
     this.$bellCount.text(response.bellCount);
   }

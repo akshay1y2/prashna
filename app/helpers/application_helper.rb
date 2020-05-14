@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def votes_div(type, votable)
-    vote = Vote.by_user_on_votable(current_user, votable).first
+    vote = Vote.by_user(current_user).on_votable(votable).first
     content_tag(:div, id: "vote-#{type.to_s}-#{votable.id}") do
       link_to(
         image_tag('upvote.png'), 
@@ -28,6 +28,6 @@ module ApplicationHelper
   end
 
   def topic_links(question)
-    question.topic_names.map { |t| link_to t, root_path(topics: t) }.join(', ').html_safe
+    question.topic_names.map { |t| link_to t, root_path(topic: t) }.join(', ').html_safe
   end
 end

@@ -9,12 +9,13 @@ class User < ApplicationRecord
   has_many :questions, dependent: :restrict_with_error
   has_many :notifications, dependent: :destroy
   has_many :votes, dependent: :restrict_with_error
+  has_many :comments, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
   validates :new_notifications_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :password, format: { with: /\A(?=.{6,})(?=.*\d)(?=.*[[:^alnum:]])/x }, if: :password
+  validates :password, format: { with: /\A(?=.{6,})(?=.*\d)(?=.*[[:^alnum:]])/x, message: I18n.t('user.errors.password_format') }, if: :password
 
   with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
     validates :avatar
@@ -54,7 +55,11 @@ class User < ApplicationRecord
   end
 
   def topic_names
-    topics.pluck('name')
+    topics.pluck(:name)
+  end
+
+  def refresh_new_notification_count!
+    update_columns(new_notifications_count: notifications.new_notifications.count)
   end
 
   private

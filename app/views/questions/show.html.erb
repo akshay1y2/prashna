@@ -1,12 +1,4 @@
-<% content_for :js do %>
-  <%= javascript_pack_tag 'toggle_comments', 'data-turbolinks-track': 'reload' %>
-<% end %>
-
-<div class="container">
-  <div class="row">
-    <%= render @question, question: @question %>
-  </div>
-</div>
+<%= render @question, question: @question %>
 
 <%= link_to 'Back', questions_path, class: 'btn btn-primary' %>
 <% if @question.posted_by?(current_user) %>

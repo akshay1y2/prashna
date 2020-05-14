@@ -3,3 +3,4 @@ en:
     index:
       new_question: New question has been posted
       no_notifications: No notifications to show
+      index_heading: Notifications

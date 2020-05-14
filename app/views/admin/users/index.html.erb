@@ -18,8 +18,10 @@
           <td><%= user.id %></td>
           <td><%= user.name %></td>
           <td><%= user.email %></td>
-          <td><%= link_to user.credits, credit_transactions_user_path(user) %></td>
-          <% unless user == current_user %>
+          <td><%= link_to user.credits, credit_transactions_admin_user_path(user) %></td>
+          <% if user == current_user %>
+            <td colspan="2"></td>
+          <% else %>
             <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
             <td><%= link_to 'Destroy', admin_user_path(user), method: :delete, data: { confirm: "User '#{user.name}' will be deleted, are you sure?" } %></td>
           <% end %>

@@ -4,7 +4,6 @@ Rails.application.routes.draw do
       get 'verify/:token', action: :verify, as: 'verification_token'
       get 'reset/:token', action: :edit, controller: :password_resets, as: 'reset_token'
       post 'reset/:token', action: :update, controller: :password_resets, as: 'reset_password'
-      get 'credit_transactions', action: :index, controller: :credit_transactions
     end
     collection do
       get 'notifications', action: :index, controller: :notifications
@@ -17,16 +16,20 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  get 'credit_transactions', to: 'credit_transactions#index'
   resources :votes, only: [:create]
 
   get 'topics', action: :search, controller: :topics
-  get 'notifications_count', action: :count, controller: :notifications
+  get 'notifications_poll', action: :poll, controller: :notifications
   get 'mark_notification', action: :mark_viewed, controller: :notifications
   get 'password_resets/new'
   post 'password_resets/create'
 
   namespace :admin do
-    resources :users, only: [:index, :edit, :update, :destroy]
+    get '/', to: 'users#index'
+    resources :users, only: [:index, :edit, :update, :destroy] do
+      get 'credit_transactions', on: :member, to: 'credit_transactions#index'
+    end
   end
 
   controller :sessions do

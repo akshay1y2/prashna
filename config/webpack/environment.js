@@ -17,4 +17,6 @@ const aliasConfig = {
 
 environment.config.set('resolve.alias', aliasConfig);
 
+environment.splitChunks()
+
 module.exports = environment

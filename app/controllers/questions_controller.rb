@@ -97,12 +97,10 @@ class QuestionsController < ApplicationController
 
   private def get_questions_for_index
     questions = Question.all_published.order(published_at: 'desc')
-    #FIXME_AB: Lets have only one search text field in the frontend
-    if params[:title].present?
-      questions = questions.by_title(params[:title])
-    end
-    if params[:topics].present?
-      questions = questions.joins(:topics).where(topics: { id: Topic.get_ids_by_names(params[:topics]) })
+    if params[:search].present?
+      questions = questions.by_title(params[:search])
+    elsif params[:topic].present?
+      questions = questions.joins(:questions_topics).where(questions_topics: { topic_id: Topic.search(params[:topic]) })
     end
     questions.distinct
   end

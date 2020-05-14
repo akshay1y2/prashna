@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+<nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-dark">
   <a class="navbar-brand" href="/"><%= image_tag 'logo.svg', alt: 'prashna-logo' %></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -19,16 +19,17 @@
           <% end %>
         </li>
         <li class="nav-item">
-          <%= link_to  "logout", logout_path, method: :delete, class: 'nav-link' %>
+          <%= link_to  "Logout", logout_path, method: :delete, class: 'nav-link' %>
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to  "login", login_path, class: 'nav-link' %>
+          <%= link_to  "Login", login_path, class: 'nav-link' %>
         </li>
         <li class="nav-item">
-          <%= link_to  "sign-up", new_user_path, class: 'nav-link' %>
+          <%= link_to  "Sign-up", new_user_path, class: 'nav-link' %>
         </li>
       <% end %>
     </ul>
   </div>
+  <%= render "questions/search_form" if current_user %>
 </nav>

@@ -7,11 +7,12 @@ class Notification < ApplicationRecord
 
   validates :message, presence: true
 
-  scope :new_notifications_of_user, ->(user) { where(user: user, viewed: false) }
+  scope :new_notifications, ->{ where(viewed: false) }
+  scope :since_time, ->(time) { where('created_at > ?', time) }
 
   after_commit :set_new_notifications_count_of_user
 
   private def set_new_notifications_count_of_user
-    user.update_columns(new_notifications_count: self.class.new_notifications_of_user(user).count)
+    user.refresh_new_notification_count!
   end
 end

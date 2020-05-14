@@ -1,6 +1,4 @@
-<% content_for :js do %>
-  <%= javascript_pack_tag 'mark_notifications', 'data-turbolinks-track': 'reload' %>
-<% end %>
+<h2><%= t('.index_heading') %></h2>
 
 <div class="row">
   <% if @notifications.blank? %>
@@ -9,7 +7,7 @@
     <%= content_tag :ul, id: 'notifications-list', class: "list-group", data: { path: mark_notification_path } do %>
 
       <% @notifications.each do |n| %>
-        <%= content_tag :li, class: "list-group-item d-flex justify-content-between #{n.viewed ? 'list-group-item-dark' : 'list-group-item-primary' }" do %>
+        <%= content_tag :li, class: "list-group-item d-flex justify-content-between #{n.viewed? ? '' : 'list-group-item-primary' }" do %>
 
           <div class=" justify-content-start">
             <%= n.presenter.display_message %>

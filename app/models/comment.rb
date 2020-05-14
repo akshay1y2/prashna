@@ -1,6 +1,6 @@
 class Comment < ApplicationRecord
   belongs_to :user
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable, polymorphic: true, counter_cache: true
   has_many :votes, as: :votable, dependent: :restrict_with_error
 
   validates :content_words, length: {
@@ -9,6 +9,10 @@ class Comment < ApplicationRecord
   }
 
   before_create :check_if_question_is_published, if: -> { self.commentable.is_a? Question }
+
+  def refresh_votes!
+    update_columns(net_upvotes: votes.up_votes.count - votes.down_votes.count)
+  end
 
   private def content_words
     content.split(' ')
