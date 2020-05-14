@@ -1,7 +1,7 @@
 en:
   questions:
     form:
-      topics_help_block: Select the topics(tags) for the question.
+      topics_help_block: Select the topics ( ' , ' separated tags) for the question.
       markdown_help_block: The markdown format is enabled here. Click <a href='https://www.markdownguide.org/basic-syntax/' target=_blank>here</a> for more information.
       publish_now: Publish Now
       submit: Submit
