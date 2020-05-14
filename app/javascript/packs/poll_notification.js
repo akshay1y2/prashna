@@ -1,5 +1,3 @@
-// import "bootstrap"
-
 class PollNotification {
   constructor(data) {
     this.$toast = data.$toast;

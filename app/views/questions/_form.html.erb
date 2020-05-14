@@ -1,9 +1,6 @@
 <%= form_with(model: question, local: true, method: method) do |form| %>
   <%= errors_explanation_div(question) %>
 
-  <% content_for :js do %>
-    <%= javascript_pack_tag 'select_topics', 'data-turbolinks-track': 'reload' %>
-  <% end %>
   <% content_for :css do %>
     <%= stylesheet_link_tag "//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" %>
   <% end %>

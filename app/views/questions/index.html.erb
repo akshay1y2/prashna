@@ -1,7 +1,3 @@
-<% content_for :js do %>
-  <%= javascript_pack_tag 'toggle_comments', 'data-turbolinks-track': 'reload' %>
-<% end %>
-
 <div class="row">
   <%= render @questions %>
   <%= paginate @questions %>

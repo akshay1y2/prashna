@@ -6,15 +6,13 @@ class MarkNotifications{
   }
 
   init(){
-    this.$items.one('click', 'a.badge', event => {
-        $.ajax({
-          type: "GET",
-          url: this.path,
-          data: $.param({ q: event.target.dataset.id }),
-          success: (response) => this.onSuccess($(event.target), response),
-          error: (_, status, error) => console.log(`${status}: ${error}`)
-      });
-    });
+    this.$items.one('click', 'a.badge', event => $.ajax({
+      type: "GET",
+      url: this.path,
+      data: $.param({ q: event.target.dataset.id }),
+      success: (response) => this.onSuccess($(event.target), response),
+      error: (_, status, error) => console.log(`${status}: ${error}`)
+    }));
   }
 
   onSuccess($item, response){
