@@ -13,6 +13,6 @@ class Notification < ApplicationRecord
   after_commit :set_new_notifications_count_of_user
 
   private def set_new_notifications_count_of_user
-    user.update_columns(new_notifications_count: user.notifications.new_notifications.count)
+    user.refresh_new_notification_count!
   end
 end

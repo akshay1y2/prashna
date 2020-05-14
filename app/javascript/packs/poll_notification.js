@@ -1,3 +1,5 @@
+// import "bootstrap"
+
 class PollNotification {
   constructor(data) {
     this.$toast = data.$toast;
@@ -40,22 +42,21 @@ class PollNotification {
     this.$toast.find('.toast-header small').text(`since ${this.interval/1000}s`);
     this.$toast.find('.toast-body').html(`
       Total: ${response.total} unseen notifications,<br><hr/>
-      click <a href='${this.notifications_path}'>here</a> to check.
+      Click <a href='${this.notifications_path}'>here</a> to check.
     `);
-    // this.$toast.toast('show');
+    this.$toast.toast('show');
     this.$bell.text(response.total);
   }
 }
 
 document.addEventListener('turbolinks:load', function () {
   const $toast = $('.toast');
-  $toast.toast('show');
   const data = {
     $toast: $toast,
     $bell: $('#notification-bell-count'),
     url: $toast.data('path'),
     notifications_path: $toast.data('notifications_path'),
-    interval: 3000,
+    interval: 5000,
     iteration: 5
   };
   new PollNotification(data).init();

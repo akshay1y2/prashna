@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :questions, dependent: :restrict_with_error
   has_many :notifications, dependent: :destroy
   has_many :votes, dependent: :restrict_with_error
+  has_many :comments, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -55,6 +56,10 @@ class User < ApplicationRecord
 
   def topic_names
     topics.pluck(:name)
+  end
+
+  def refresh_new_notification_count!
+    update_columns(new_notifications_count: notifications.new_notifications.count)
   end
 
   private

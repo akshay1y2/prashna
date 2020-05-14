@@ -1,4 +1,5 @@
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-path="<%= notifications_poll_path %>" data-notifications_path="<%= notifications_users_path %>">
+<div aria-live="polite" role="status" aria-atomic="true" style="position: relative;">
+<div class="toast sticky-top" style="position: absolute; top: 0; right: 0;" data-autohide="false" data-path="<%= notifications_poll_path %>" data-notifications_path="<%= notifications_users_path %>">
 
   <div class="toast-header">
     <strong class="mr-auto"></strong>
@@ -10,5 +11,5 @@
   <div class="toast-body"></div>
 
 </div>
-
+</div>
 <%= javascript_pack_tag 'poll_notification', 'data-turbolinks-track': 'reload' %>

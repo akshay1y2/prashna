@@ -1,0 +1,4 @@
+en:
+  vote:
+    errors:
+      vote_present: The content is already voted by that user.

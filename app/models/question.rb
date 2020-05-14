@@ -56,11 +56,15 @@ class Question < ApplicationRecord
   end
 
   def topic_names
-    topics.pluck('name')
+    topics.pluck(:name)
   end
 
   def posted_by?(user_obj)
     user == user_obj
+  end
+
+  def refresh_votes!
+    update_columns(net_upvotes: votes.up_votes.count - votes.down_votes.count)
   end
 
   private def content_words
@@ -75,8 +79,7 @@ class Question < ApplicationRecord
   end
 
   private def check_if_question_is_updatable
-    #FIXME_AB: if votes.count.positive? || answers_count.positive? || comments_count.positive?
-    if votes.count > 0 || answers_count > 0 || comments_count > 0
+    if votes.count.positive? || answers_count.positive? || comments_count.positive?
       errors.add(:base, I18n.t('question.errors.not_updatable'))
       throw :abort
     end
@@ -105,11 +108,5 @@ class Question < ApplicationRecord
   private def notify_users
     users_to_notfy = topics.joins(:topics_users).distinct.pluck('topics_users.user_id') - [user.id]
     users_to_notfy.each { |id| notifications.create(user_id: id, message: '.new_question') }
-    # ActionCable.server.broadcast('questions', json: {
-    #   topics: topic_names,
-    #   head: I18n.t('notification.new_question_head'),
-    #   body: title + I18n.t('notification.new_question_body'),
-    #   time: Time.current.strftime("%-d/%-m/%y: %H:%M %Z")
-    # })
   end
 end

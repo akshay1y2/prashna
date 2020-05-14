@@ -1,3 +1,5 @@
+require("jquery-ui")
+
 class TopicSelector{
   constructor($input){
     this.$input = $input;
