@@ -54,7 +54,7 @@ class User < ApplicationRecord
   end
 
   def topic_names
-    topics.pluck('name')
+    topics.pluck(:name)
   end
 
   private

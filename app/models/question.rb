@@ -75,6 +75,7 @@ class Question < ApplicationRecord
   end
 
   private def check_if_question_is_updatable
+    #FIXME_AB: if votes.count.positive? || answers_count.positive? || comments_count.positive?
     if votes.count > 0 || answers_count > 0 || comments_count > 0
       errors.add(:base, I18n.t('question.errors.not_updatable'))
       throw :abort

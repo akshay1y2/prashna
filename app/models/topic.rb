@@ -16,6 +16,6 @@ class Topic < ApplicationRecord
   end
 
   def self.get_ids_by_names(names = '')
-    by_names(extract_names(names)).pluck('id')
+    by_names(extract_names(names)).pluck(:id)
   end
 end
