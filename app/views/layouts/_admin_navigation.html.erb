@@ -6,13 +6,21 @@
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <%= link_to  "Users", admin_users_path, class: 'nav-link' %>
+        <%= link_to  "Users", admin_users_path, class: 'nav-link btn btn-outline-dark' %>
       </li>
       <li class="nav-item">
-        <%= link_to  "Profile", profile_users_path, class: 'nav-link' %>
+        <%= link_to  "Profile", profile_users_path, class: 'nav-link btn btn-outline-dark' %>
       </li>
       <li class="nav-item">
-        <%= link_to  "New Question", new_question_path, class: 'nav-link' %>
+        <div class="dropdown">
+          <button class="nav-link btn btn-outline-dark dropdown-toggle" type="button" id="navQuestionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Question
+          </button>
+          <div class="dropdown-menu" aria-labelledby="navQuestionMenu">
+            <%= link_to "Ask new?", new_question_path, class: 'dropdown-item' %>
+            <%= link_to 'Drafts', drafts_questions_path, class: 'dropdown-item' %>
+          </div>
+        </div>
       </li>
       <li class="nav-item">
         <%= button_to  notifications_users_path, class: 'btn', method: :get do %>
@@ -21,7 +29,7 @@
         <% end %>
       </li>
       <li class="nav-item">
-        <%= link_to  "logout", logout_path, method: :delete, class: 'nav-link' %>
+        <%= link_to  "logout", logout_path, method: :delete, class: 'nav-link btn btn-outline-dark' %>
       </li>
     </ul>
   </div>
