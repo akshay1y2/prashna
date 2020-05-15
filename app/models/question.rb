@@ -1,7 +1,8 @@
 class Question < ApplicationRecord
   include BasicPresenter::Concern
+  include VotableFeatures
   attr_accessor :new_publish
-  paginates_per 2
+  paginates_per 6
 
   belongs_to :user
   has_one_attached :attachment
@@ -33,6 +34,7 @@ class Question < ApplicationRecord
 
   before_create :check_if_user_has_credits
   before_update :check_if_question_is_updatable
+  before_save :attachment_mime_type
   after_create_commit :deduct_credit_of_user
   after_destroy_commit :add_credit_back_to_user
 
@@ -53,7 +55,7 @@ class Question < ApplicationRecord
   end
 
   def set_topics(topic_names)
-    self.topics = Topic.get_topics_by_names(topic_names)
+    self.topics = Topic.get_topics_by_names(topic_names) unless published? 
   end
 
   def topic_names
@@ -62,10 +64,6 @@ class Question < ApplicationRecord
 
   def posted_by?(user_obj)
     user == user_obj
-  end
-
-  def refresh_votes!
-    update_columns(net_upvotes: votes.up_votes.count - votes.down_votes.count)
   end
 
   private def content_words
@@ -109,5 +107,12 @@ class Question < ApplicationRecord
   private def notify_users
     users_to_notfy = topics.joins(:topics_users).distinct.pluck('topics_users.user_id') - [user.id]
     users_to_notfy.each { |id| notifications.create(user_id: id, message: '.new_question') }
+  end
+
+  private def attachment_mime_type
+    if attachment.attached? && !(attachment.content_type == 'application/pdf' || attachment.image?)
+      errors.add(:attachment, I18n.t('question.errors.invalid_file'))
+      throw :abort
+    end
   end
 end

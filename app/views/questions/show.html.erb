@@ -5,11 +5,9 @@
   <%= link_to 'Edit', edit_question_path(@question), class: 'btn btn-secondary' %>
   <%= link_to 'Destroy', @question, method: :delete, data: { confirm: t('.confirm_delete') }, class: 'btn btn-danger' %>
 <% end %>
-
-<hr/>
-
-<div class="container">
-  <div class="row" id="answers-container">
+<% if @question.published? %>
+  <hr/>
+  <div class="card border-secondary mb-3" id="answers-container">
     <%= render template: 'answers/index', locals: { question: @question } %>
   </div>
-</div>
+<% end %>

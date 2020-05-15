@@ -18,11 +18,9 @@
     <div class="d-flex">
 
       <% if question.published? %>
-        <div class="col-2">
-          <%= votes_div :question, question %>
-        </div>
+        <div class="col-2"><%= votes_div :question, question %></div>
         <div class="col-6">
-          <%= link_to :comments, 'javascript:void(0)', class: "toggle-comments_btn btn btn-outline-primary", data: {for: "comments-for-question-#{question.id}"} %>
+          <a data-toggle="collapse" href="#commentsForQuestion<%= question.id %>" class="btn btn-outline-primary">Comments</a>
         </div>
       <% end %>
 
@@ -37,6 +35,8 @@
       </div>
 
     </div>
-    <%= render template: 'comments/index', locals: { commentable_type: :question, commentable: question } if question.published? %>
+    <div class="collapse" id="commentsForQuestion<%= question.id %>">
+      <%= render template: 'comments/index', locals: { commentable: question } if question.published? %>
+    </div>
   </div>
 </div>

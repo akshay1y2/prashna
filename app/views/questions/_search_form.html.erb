@@ -1,8 +1,15 @@
 <%= form_with url: root_path, local: true, method: :get, class:"form-inline" do |form| %>
   <div class="input-group">
     <div class="collapse" id="searchForm">
-      <%= form.text_field :search, class: 'form-control', placeholder: t(".search") %>
+      <%= form.text_field :search, value: @search, class: 'form-control', placeholder: t(".search") %>
+      <small id="searchHelpBlock" class="form-text text-muted"><%=t('.search_help_block')%></small>
     </div>
     <a data-toggle="collapse" href="#searchForm"><%= image_tag 'search.svg', class: "btn btn-outline-light" %></a>
   </div>
 <% end %>
+
+<%
+=begin%>
+ <small class="invalid-feedback">Please enter at least one word.</small> 
+<%
+=end%>

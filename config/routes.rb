@@ -18,6 +18,10 @@ Rails.application.routes.draw do
     resources :answers, only: [:create]
   end
 
+  resources :answers do
+    resources :comments, only: [:create]
+  end
+
   get 'credit_transactions', to: 'credit_transactions#index'
   resources :votes, only: [:create]
 

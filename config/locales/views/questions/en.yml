@@ -8,6 +8,7 @@ en:
     search_form:
       filter: Filter
       search: Search
+      search_help_block: Search a question by their titles.
     show:
       confirm_delete: This Question will be deleted. Are you sure?.
     question:

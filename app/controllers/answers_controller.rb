@@ -2,7 +2,10 @@ class AnswersController < ApplicationController
   before_action :set_question, only: [:create]
 
   def create
-    @answer = Answer.new(content: params[:answer][:content], user: current_user, question: @question)
+    @answer = current_user.answers.build(
+      content: params[:answer][:content],
+      question: @question
+    )
     @answer.save
     render 'index', locals: { question: @question }, layout: false
   end

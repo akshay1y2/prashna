@@ -11,32 +11,33 @@
     </div>
     <div class="form-group">
       <%= form.label :topics %>
-      <%= form.text_field :topics, value: @topics, data: { url: topics_path }, class: 'form-control-sm' %>
+      <%= form.text_field :topics, value: @topics, data: { url: topics_path }, class: 'form-control' %>
       <small id="topicsHelpBlock" class="form-text text-muted"><%=t('.topics_help_block')%></small>
     </div>
   <% end %>
 
   <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name, class: 'form-control-sm' %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
 
   <div class="form-group">
     <%= form.label :email %>
-    <%= form.text_field :email, class: 'form-control-sm' %>
+    <%= form.text_field :email, class: 'form-control' %>
   </div>
 
   <div class="form-group">
     <%= form.label :password %>
-    <%= form.password_field :password, class: 'form-control-sm' %>
+    <%= form.password_field :password, class: 'form-control' %>
   </div>
 
   <div class="form-group">
     <%= form.label :password_confirmation, 'Password Confirmation' %>
-    <%= form.password_field :password_confirmation, id: :user_password_confirmation, class: 'form-control-sm' %>
+    <%= form.password_field :password_confirmation, id: :user_password_confirmation, class: 'form-control' %>
   </div>
 
   <div class="actions">
-    <%= form.submit "#{user.active? ? 'Update' : 'Sign Up'}", class: "btn btn-primary btn-sm"  %>
+    <%= form.submit "#{user.active? ? 'Update' : 'Sign Up'}", class: "btn btn-primary btn"  %>
+    <%= link_to "Back", :back, class: 'btn btn-secondary'%>
   </div>
 <% end %>
