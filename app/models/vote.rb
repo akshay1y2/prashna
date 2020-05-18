@@ -11,8 +11,8 @@ class Vote < ApplicationRecord
   scope :down_votes, -> { where vote_type: :down }
 
   before_create :check_if_entry_is_duplicated
-  after_commit :set_net_upvotes_of_votable
   after_commit :update_answerer_credits, if: -> { self.votable.is_a? Answer }
+  after_commit :set_net_upvotes_of_votable
 
   private def check_if_entry_is_duplicated
     unless self.class.by_user(user).on_votable(votable).count.zero?
@@ -26,6 +26,6 @@ class Vote < ApplicationRecord
   end
 
   private def update_answerer_credits
-    p "Answerer credits: #{votable.user.credits}", "Net Upvotes: #{votable.net_upvotes}"
+    votable.update_answerer_credits
   end
 end

@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :restrict_with_error
 
   validates :name, presence: true
-  validates :email, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, uniqueness: { case_sensitive: false }, format: { with: /\A[\w\d][^@\s]*@[\w\d-]+(\.?[\w]+)*\z/ }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
   validates :new_notifications_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :password, format: { 
