@@ -23,7 +23,8 @@
     </tbody>
   </table>
 </div>
-
+<% #FIXME_AB: if no transaction show message -%>
+<% #FIXME_AB: if there are transactions, then add a last row showing final balance -%>
 <br/>
 <%= link_to "Back", :back, class: 'btn btn-primary' %>
 <%= paginate @credit_transactions %>

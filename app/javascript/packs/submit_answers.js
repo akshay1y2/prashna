@@ -1,3 +1,4 @@
+// FIXME_AB: on ajax request show loader/spinner
 class SubmitAnswer{
   constructor(container){
     this.$answersContainer = container;

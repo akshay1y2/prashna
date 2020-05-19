@@ -1,4 +1,18 @@
 class Question < ApplicationRecord
+
+
+  #FIXME_AB:
+  # includes extends
+  # accessors
+  # macros
+  # enums
+  # consants
+  # validations
+  # associatoins
+  # callbacks
+  # scopes
+
+
   include BasicPresenter::Concern
   include VotableFeatures
   attr_accessor :new_publish
@@ -55,7 +69,7 @@ class Question < ApplicationRecord
   end
 
   def set_topics(topic_names)
-    self.topics = Topic.get_topics_by_names(topic_names) unless published? 
+    self.topics = Topic.get_topics_by_names(topic_names) unless published?
   end
 
   def topic_names

@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
   before_action :authorize
   helper_method :current_user
 
-  layout -> { 'admin' if current_user.present? && current_user.admin? }
-
   def current_user
     @_current_user
   end

@@ -4,6 +4,12 @@ class Vote < ApplicationRecord
   belongs_to :user
 
   validates :vote_type, presence: true
+  #FIXME_AB: validation. user should not be able to vote on its own  content
+  #FIXME_AB: in view, button should be disabled
+
+  #FIXME_AB: if vote on question, then question shoudl be published
+  #FIXME_AB: if vote on comment, then question shoudl be published
+  #FIXME_AB: if vote on answer, then question shoudl be published
 
   scope :by_user,    ->(user_obj)    { where user: user_obj }
   scope :on_votable, ->(votable_obj) { where votable: votable_obj }
@@ -17,7 +23,7 @@ class Vote < ApplicationRecord
   private def check_if_entry_is_duplicated
     unless self.class.by_user(user).on_votable(votable).count.zero?
       errors.add(:base, I18n.t('vote.errors.vote_present'))
-      throw :abort    
+      throw :abort
     end
   end
 
@@ -26,6 +32,6 @@ class Vote < ApplicationRecord
   end
 
   private def update_answerer_credits
-    votable.update_answerer_credits
+    votable.update_answerer_credits!
   end
 end
