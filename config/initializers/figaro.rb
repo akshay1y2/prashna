@@ -1,2 +1,11 @@
-#FIXME_AB: add more required keys
-Figaro.require_keys("admin_email", "cookie_expiry_days", 'host')
+Figaro.require_keys(
+  "admin_email",
+  "cookie_expiry_days",
+  "host",
+  "reset_token_valid_hours",
+  "signup_credits",
+  "ask_question_credit",
+  "minimum_content_length",
+  "net_upvotes_for_answer",
+  "credits_for_answer"
+)

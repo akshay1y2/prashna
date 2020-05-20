@@ -8,7 +8,7 @@ class Answer < ApplicationRecord
   }
 
   belongs_to :user
-  belongs_to :question
+  belongs_to :question, counter_cache: true
   has_many :votes, as: :votable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :credit_transactions, as: :creditable
@@ -26,9 +26,8 @@ class Answer < ApplicationRecord
     end
   end
 
-  #FIXME_AB: move this to ApplicationRecord
-  private def content_words
-    content.split(' ')
+  def published?
+    question.published?    
   end
 
   private def send_email_to_questioner
@@ -36,7 +35,7 @@ class Answer < ApplicationRecord
   end
 
   private def check_if_question_is_published
-    unless question.published?
+    unless published?
       errors.add(:base, 'Question must be published')
       throw :abort
     end

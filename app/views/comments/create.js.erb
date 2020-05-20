@@ -1,2 +1,5 @@
 comment = document.getElementById("commentsFor<%= "#{@comment.commentable_type}#{@commentable.id}" %>")
 comment.innerHTML = "<%= j render(template: 'comments/index', locals: {commentable: @commentable}) %>"
+
+commentSpan = document.getElementById("commentsCountOf<%= "#{@comment.commentable_type}#{@commentable.id}" %>")
+commentSpan.innerText = "<%= @commentable.comments_count %>"

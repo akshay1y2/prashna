@@ -1,34 +1,10 @@
 class Question < ApplicationRecord
-
-
-  #FIXME_AB:
-  # includes extends
-  # accessors
-  # macros
-  # enums
-  # consants
-  # validations
-  # associatoins
-  # callbacks
-  # scopes
-
-
   include BasicPresenter::Concern
   include VotableFeatures
   attr_accessor :new_publish
   paginates_per 6
 
-  belongs_to :user
-  has_one_attached :attachment
-  has_and_belongs_to_many :topics
-  has_many :credit_transactions, as: :creditable
-  has_many :notifications, as: :notifiable, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :restrict_with_error
-  has_many :votes, as: :votable, dependent: :restrict_with_error
-  has_many :answers, dependent: :restrict_with_error
-
   validates :title, presence: true, uniqueness: { case_sensitive: false }
-
   with_options if: :published? do
     validates :content, presence: true
     validates :content_words, length: {
@@ -41,11 +17,19 @@ class Question < ApplicationRecord
     }
   end
 
+  belongs_to :user
+  has_one_attached :attachment
+  has_and_belongs_to_many :topics
+  has_many :credit_transactions, as: :creditable
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :restrict_with_error
+  has_many :votes, as: :votable, dependent: :restrict_with_error
+  has_many :answers, dependent: :restrict_with_error
+
   with_options if: :new_publish do
     before_validation :set_published_at
     after_commit :notify_users, on: [:create, :update]
   end
-
   before_create :check_if_user_has_credits
   before_update :check_if_question_is_updatable
   before_save :attachment_mime_type
@@ -78,10 +62,6 @@ class Question < ApplicationRecord
 
   def posted_by?(user_obj)
     user == user_obj
-  end
-
-  private def content_words
-    content.split(' ')
   end
 
   private def check_if_user_has_credits

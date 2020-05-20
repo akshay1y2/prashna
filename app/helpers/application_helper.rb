@@ -10,19 +10,22 @@ module ApplicationHelper
 
   def votes_div(type, votable)
     vote = Vote.by_user(current_user).on_votable(votable).first
+    enable = current_user.id != votable.user_id
     content_tag(:div, id: "vote-#{type.to_s}-#{votable.id}") do
-      link_to(
+      link_to_if(
+        enable,
         image_tag('upvote.png'), 
         votes_path(type => votable, vote: :up),
         method: :post, remote: true,
-        class: "btn btn-sm btn-outline-success #{vote && vote.up? ? 'border-right-0' : 'border-0'}"
+        class: "btn btn-sm rounded-circle #{vote && vote.up? ? 'btn-success mr-1' : 'btn-outline-success'}"
       ) +
-      content_tag(:em, votable.net_upvotes) +
-      link_to(
+      content_tag(:em, votable.net_upvotes, class: 'm-1 h6') +
+      link_to_if(
+        enable,
         image_tag('dnvote.png'),
         votes_path(type => votable, vote: :down),
         method: :post, remote: true,
-        class: "btn btn-sm btn-outline-warning #{vote && vote.down? ? 'border-left-0' : 'border-0'}"
+        class: "btn btn-sm rounded-circle #{vote && vote.down? ? 'btn-warning ml-1' : 'btn-outline-warning'}"
       )
     end
   end

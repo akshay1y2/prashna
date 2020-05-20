@@ -12,12 +12,12 @@ class Comment < ApplicationRecord
 
   before_create :check_if_question_is_published, if: -> { self.commentable.is_a? Question }
 
-  private def content_words
-    content.split(' ')
+  def published?
+    commentable.published?
   end
 
   def check_if_question_is_published
-    unless commentable.published?
+    unless published?
       errors.add(:base, 'Question must be published')
       throw :abort
     end

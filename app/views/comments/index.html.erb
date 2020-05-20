@@ -14,7 +14,10 @@
   <% commentable.comments.each do |comment| %>
 
     <li class="list-group-item">
-      <%= content_tag :h5, "- #{comment.user.name}" %>
+      <p class='mb-2'>
+        <strong class='h4'><%= comment.user.name %></strong><br/>
+        <em>- <%= time_ago_in_words(comment.created_at) %> ago</em>
+      </p>
       <%= content_tag :p, comment.content %>
       <%= votes_div :comment, comment %>
     </li>
