@@ -2,4 +2,4 @@ en:
   user:
     errors:
       inactive_update: 'cannot be updated before activation!'
-      password_format: 'should be minimum 6 character long, including at least 1 digit and 1 special-character.'
+      password_format: 'should be minimum 6 character long, having at least one digit, character and special-character.'

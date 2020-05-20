@@ -12,6 +12,6 @@ class CreditTransaction < ApplicationRecord
 
   private
     def update_user_credits
-      user.update(credits: user.credit_transactions.sum('credits'))
+      user.update_columns(credits: user.credit_transactions.sum('credits'))
     end
 end

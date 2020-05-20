@@ -13,10 +13,6 @@ body, p, ol, ul, td {
   font-size: 13px;
   line-height: 18px; }
 
-textarea{
-  max-width: 20em;
-}
-
 pre {
   background-color: #eee;
   padding: 10px;
@@ -39,8 +35,7 @@ td {
   padding: 0 5px 7px; }
 
 div.field,
-div.actions,
-div.form-group {
+div.actions {
   margin-bottom: 10px; }
 
 div.card {

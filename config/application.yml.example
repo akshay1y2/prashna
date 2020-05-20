@@ -18,6 +18,10 @@ development:
   signup_credits: '5'
   ask_question_credit: '1'
   minimum_content_length: '10'
+  answer_credit: '1'
+  net_upvotes_for_answer: '2'
+  net_upvotes_for_answer: '2'
+  credits_for_answer: '1'
 
 production:
   admin_email: 'admin@prashna.com'
@@ -27,6 +31,10 @@ production:
   signup_credits: '5'
   ask_question_credit: '1'
   minimum_content_length: '10'
+  answer_credit: '1'
+  net_upvotes_for_answer: '2'
+  net_upvotes_for_answer: '2'
+  credits_for_answer: '1'
 
 test:
   admin_email: 'admin@prashna.com'
@@ -36,3 +44,7 @@ test:
   signup_credits: '5'
   ask_question_credit: '1'
   minimum_content_length: '10'
+  answer_credit: '1'
+  net_upvotes_for_answer: '2'
+  net_upvotes_for_answer: '2'
+  credits_for_answer: '1'

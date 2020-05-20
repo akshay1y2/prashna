@@ -1,24 +1,26 @@
-<%= content_tag :div, id: "comments-for-#{commentable.id}" do %>
-  <%= errors_explanation_div(@comment) if @comment.present? %>
-  <%= form_with(model: [commentable, Comment.new], class: 'form-row') do |form| %>
+<%= errors_explanation_div(@comment) %>
 
-    <div class="p-2 flex-grow-1">
-      <%= form.text_field :content, class: 'form-control', placeholder: "Comment"%>
-    </div>
-    <div class="p-2">
-      <%= form.submit 'Post', class: "btn btn-primary btn-sm"  %>
-    </div>
-  <% end %>
+<%= form_with(model: [commentable, Comment.new], class: 'form-row') do |form| %>
 
-  <ul class="list-group">
-    <% commentable.comments.each do |comment| %>
-
-      <li class="list-group-item">
-        <%= content_tag :h5, "- #{comment.user.name}" %>
-        <%= content_tag :p, comment.content %>
-        <%= votes_div :comment, comment %>
-      </li>
-
-    <% end %>
-  </ul>
+  <div class="p-2 flex-grow-1">
+    <%= form.text_field :content, class: 'form-control', placeholder: "Comment"%>
+  </div>
+  <div class="p-2">
+    <%= form.submit 'Post', class: "btn btn-primary btn-sm"  %>
+  </div>
 <% end %>
+
+<ul class="list-group">
+  <% commentable.comments.each do |comment| %>
+
+    <li class="list-group-item">
+      <p class='mb-2'>
+        <strong class='h4'><%= comment.user.name %></strong><br/>
+        <em>- <%= time_ago_in_words(comment.created_at) %> ago</em>
+      </p>
+      <%= content_tag :p, comment.content %>
+      <%= votes_div :comment, comment %>
+    </li>
+
+  <% end %>
+</ul>

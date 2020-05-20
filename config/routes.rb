@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       get 'verify/:token', action: :verify, as: 'verification_token'
       get 'reset/:token', action: :edit, controller: :password_resets, as: 'reset_token'
       post 'reset/:token', action: :update, controller: :password_resets, as: 'reset_password'
+      get 'credit_transactions', action: :index, controller: :credit_transactions
     end
     collection do
       get 'notifications', action: :index, controller: :notifications
@@ -13,6 +14,11 @@ Rails.application.routes.draw do
 
   resources :questions do
     get 'drafts', on: :collection
+    resources :comments, only: [:create]
+    resources :answers, only: [:create]
+  end
+
+  resources :answers do
     resources :comments, only: [:create]
   end
 

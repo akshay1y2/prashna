@@ -1,0 +1,39 @@
+<h3 class="card-header">Answers</h3>
+<div class="card-body">
+
+  <%= errors_explanation_div(@answer) %>
+  <%= form_with(model: [question, Answer.new], id: 'answerInputForm') do |form| %>
+    <div class="form-group">
+      <%= form.text_area :content, class: 'form-control', placeholder: "Answer", rows: '5', value: @answer && @answer.errors.present? ? @answer.content : '' %>
+      <small class="form-text text-muted"><%=raw t('questions.form.markdown_help_block')%></small>
+    </div>
+    <div class="form-group">
+      <%= form.submit 'Post', class: "btn btn-primary"  %>
+    </div>
+  <% end %>
+
+  <ul class="list-group">
+    <% question.answers.order(net_upvotes: 'desc').each do |answer| %>
+      <li class="list-group-item" style="background-color: whitesmoke;">
+        <p class='mb-2'>
+          <strong class='h4'><%= answer.user.name %></strong><br/>
+          <em>- <%= time_ago_in_words(answer.created_at) %> ago</em>
+        </p>
+        <%= content_tag :p, answer.presenter.render_content %>
+        <div class="d-flex">
+          <div class="col-3"><%= votes_div :answer, answer %></div>
+          <div class="col-7">
+            <a data-toggle="collapse" href="#commentsForAnswer<%= answer.id %>" class="btn btn-sm btn-outline-primary">
+            Comments (<span id='commentsCountOfAnswer<%= answer.id %>'><%= answer.comments_count %></span>)
+            </a>
+          </div>
+        </div>
+
+        <div class="collapse" id="commentsForAnswer<%= answer.id %>">
+          <%= render template: 'comments/index', locals: { commentable: answer } %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+</div>

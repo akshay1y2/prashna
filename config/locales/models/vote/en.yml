@@ -2,3 +2,5 @@ en:
   vote:
     errors:
       vote_present: The content is already voted by that user.
+      voting_own_content: Cannot vote your own content.
+      not_published: The question is not published at this time.

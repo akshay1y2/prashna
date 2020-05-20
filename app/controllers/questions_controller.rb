@@ -98,6 +98,7 @@ class QuestionsController < ApplicationController
   private def get_questions_for_index
     questions = Question.all_published.order(published_at: 'desc')
     if params[:search].present?
+      @search = params[:search]
       questions = questions.by_title(params[:search])
     elsif params[:topic].present?
       questions = questions.joins(:questions_topics).where(questions_topics: { topic_id: Topic.search(params[:topic]) })

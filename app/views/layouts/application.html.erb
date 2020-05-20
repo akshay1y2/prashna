@@ -20,14 +20,14 @@
       <%= render 'layouts/notification' if current_user.present? %>
     </header>
     <section class="content">
-      
+
       <main class='<%= controller.controller_name %>'>
         <% if notice %>
           <aside id="notice"><%= notice %></aside>
         <% end %>
-        
+
         <div class="container"><%= yield %></div>
-        
+
       </main>
     </section>
 

@@ -49,6 +49,9 @@ class PollNotification {
 
 document.addEventListener('turbolinks:load', function () {
   const $toast = $('.toast');
+  if(!$toast.length){
+    return;
+  }
   const data = {
     $toast: $toast,
     $bell: $('#notification-bell-count'),

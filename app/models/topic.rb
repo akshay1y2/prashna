@@ -4,11 +4,11 @@ class Topic < ApplicationRecord
 
   validates :name, uniqueness: { case_sensitive: false }, presence: true
 
-  scope :search, ->(name = nil) { where("name like ?", "%#{name}%") }
+  scope :search, ->(name = nil) { where("name like ?", "%#{name.downcase}%") }
   scope :by_names, ->(list = []) { where(name: list) }
 
   def self.extract_names(names = '')
-    names.split(",").map(&:strip).reject(&:empty?)
+    names.downcase.split(",").map(&:strip).reject(&:empty?).uniq
   end
 
   def self.get_topics_by_names(names = '')

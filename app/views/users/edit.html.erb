@@ -1,5 +1,5 @@
-<h1><%=t('.edit_heading')%></h1>
-
-<%= render 'form', user: current_user, method: :put %>
-
-<%= link_to "Profile", profile_users_path, class: 'btn btn-secondary' %>
+<div class='col-lg-6 offset-lg-1'>
+  <h1><%=t('.edit_heading')%></h1>
+  <hr />
+  <%= render 'form', user: current_user, method: :put %>
+</div>

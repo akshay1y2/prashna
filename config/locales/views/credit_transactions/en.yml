@@ -2,3 +2,4 @@ en:
   credit_transactions:
     index:
       index_heading: 'Credit Transactions'
+      no_transactions: No transaction present.
