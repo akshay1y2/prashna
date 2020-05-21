@@ -22,6 +22,10 @@ Rails.application.routes.draw do
   get 'notifications', to: 'notifications#index'
   get 'credit_transactions', to: 'credit_transactions#index'
   resources :votes, only: [:create]
+  resources :packs, only: [:index] do
+    get 'payment', on: :member, action: :new_payment
+    post 'payment', on: :member, action: :create_payment
+  end
 
   get 'topics', action: :search, controller: :topics
   get 'notifications_poll', action: :poll, controller: :notifications

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_05_115748) do
+ActiveRecord::Schema.define(version: 2020_05_19_092617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,29 @@ ActiveRecord::Schema.define(version: 2020_05_05_115748) do
     t.bigint "notifiable_id"
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
     t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
+  create_table "payment_transactions", force: :cascade do |t|
+    t.integer "credits", default: 0, null: false
+    t.bigint "user_id", null: false
+    t.string "payable_type"
+    t.bigint "payable_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["payable_type", "payable_id"], name: "index_payment_transactions_on_payable_type_and_payable_id"
+    t.index ["user_id"], name: "index_payment_transactions_on_user_id"
+  end
+
+  create_table "purchase_packs", force: :cascade do |t|
+    t.integer "pack_type", default: 0, null: false
+    t.string "name", default: "", null: false
+    t.integer "credits", default: 0, null: false
+    t.decimal "original_price", default: "0.0", null: false
+    t.decimal "current_price", default: "0.0", null: false
+    t.string "image", default: "", null: false
+    t.string "description", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "questions", force: :cascade do |t|
@@ -158,6 +181,7 @@ ActiveRecord::Schema.define(version: 2020_05_05_115748) do
   add_foreign_key "comments", "users"
   add_foreign_key "credit_transactions", "users"
   add_foreign_key "notifications", "users"
+  add_foreign_key "payment_transactions", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "votes", "users"
 end

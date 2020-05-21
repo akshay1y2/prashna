@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :restrict_with_error
   has_many :comments, dependent: :restrict_with_error
   has_many :answers, dependent: :restrict_with_error
+  has_many :payment_transactions, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: /\A[\w\d][^@\s]*@[\w\d-]+(\.?[\w]+)*\z/ }

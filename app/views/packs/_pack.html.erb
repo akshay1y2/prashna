@@ -1,0 +1,23 @@
+<div class="card" style="width: 95%;">
+  <div class="row no-gutters">
+    <div class="col-2">
+      <%= image_tag pack.image, class: "card-img-top" %>
+    </div>
+
+    <div class="col-4">
+      <div class="card-body">
+        <h5 class="card-title"><%= pack.id %>. <%= pack.name %></h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+
+    <div class="col-4 m-2">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item h5">Credits: <%= pack.credits %></li>
+        <li class="list-group-item h5">Price: <del>$<%= pack.original_price %></del> $<%= pack.current_price %></li>
+      </ul>
+      <a href="<%= payment_pack_path(pack) %>" class="card-link btn btn-success">Buy</a>
+    </div>
+
+  </div>
+</div>
