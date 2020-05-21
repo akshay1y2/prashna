@@ -1,7 +1,6 @@
-<%= render current_user, user: current_user %>
+<%= render @user, user: @user %>
 
 <hr/>
 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-  <%= link_to t('.edit'), edit_user_path(current_user), class: 'btn btn-primary' %>
   <%= link_to "Back", :back, class: 'btn btn-secondary'%>
 </div>

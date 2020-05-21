@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :create_comment]
+  before_action :set_user_for_question, only: [:index]
   before_action :check_if_user_has_credits, only: [:new, :create]
   before_action :verify_user, only: [:edit, :update, :destroy]
 
@@ -95,6 +96,12 @@ class QuestionsController < ApplicationController
     end
   end
 
+  private def set_user_for_question
+    if params[:user].present?
+      redirect_to root_path, notice: t('.user_not_found') unless @user = User.find_by_id(params[:user])
+    end
+  end
+
   private def get_questions_for_index
     questions = Question.all_published.order(published_at: 'desc')
     if params[:search].present?
@@ -102,6 +109,8 @@ class QuestionsController < ApplicationController
       questions = questions.by_title(params[:search])
     elsif params[:topic].present?
       questions = questions.joins(:questions_topics).where(questions_topics: { topic_id: Topic.search(params[:topic]) })
+    elsif params[:user].present?
+      questions = @user.questions.all_published
     end
     questions.distinct
   end

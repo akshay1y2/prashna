@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, :ensure_not_logged_in, only: [:verify]
+  before_action :set_user, only: [:show]
+  before_action :set_user_to_verify, :ensure_not_logged_in, only: [:verify]
   skip_before_action :authorize, only: [:new, :create, :verify]
   before_action :check_if_already_activated, only: [:verify]
 
@@ -35,7 +36,7 @@ class UsersController < ApplicationController
     current_user.set_topics params[:user][:topics]
     respond_to do |format|
       if current_user.update(user_params)
-        format.html { redirect_to profile_users_path, notice: t('.updated') }
+        format.html { redirect_to profile_path, notice: t('.updated') }
         format.json { render :show, status: :ok, location: current_user }
       else
         format.html { render :edit }
@@ -55,6 +56,13 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
+      @user = User.find_by_id(params[:id])
+      if @user.blank?
+        redirect_to root_path, notice: t('.not_found')
+      end
+    end
+
+    def set_user_to_verify
       @user = User.find_by_id(params[:id])
       if @user.blank?
         redirect_to login_path, notice: t('.not_found')

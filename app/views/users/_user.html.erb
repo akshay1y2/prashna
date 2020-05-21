@@ -18,7 +18,9 @@
 
     <p>
       <strong>Topics:</strong>
-      <%= user.topic_names.join(', ') %>
+      <%= topic_links(user) %>
     </p>
   </div>
 </div>
+
+<%= link_to t('.questions'), root_path(user: user.id), class: 'btn btn-outline-primary' %>

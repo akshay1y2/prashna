@@ -1,4 +1,15 @@
-<div class="row">
-  <%= render @questions %>
-  <%= paginate @questions %>
-</div>
+<% if params[:topic].present? %>
+  <h2 class="alert alert-dark" role="alert"><%= t('.questions_by_topic') %> '<%= params[:topic] %>'</h2>
+<% elsif params[:search].present? %>
+  <h2 class="alert alert-dark" role="alert"><%= t('.questions_by_title') %> '<%= params[:search] %>'</h2>
+<% elsif params[:user].present? %>
+  <h2 class="alert alert-dark" role="alert"><%= t('.questions_by_user') %> '<%= @user ? @user.name : 'Unknown' %>'</h2>
+<% end %>
+
+<%= render @questions %>
+<%= paginate @questions %>
+
+<% unless @questions.present? %>
+  <h1 class="alert alert-dark" role="alert"><%= t('.no_questions') %></h1>
+<% end %>
+

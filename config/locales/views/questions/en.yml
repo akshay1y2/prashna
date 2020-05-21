@@ -16,3 +16,8 @@ en:
       file_attached: Please click on the link to download the file.
     drafts:
       drafts_heading: Drafts
+    index:
+      no_questions: No Question found.
+      questions_by_topic: 'Questions with Topic:'
+      questions_by_title: 'Search-Results for:'
+      questions_by_user: 'Questions by user:'
