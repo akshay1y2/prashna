@@ -97,6 +97,7 @@ class QuestionsController < ApplicationController
   end
 
   private def set_user_for_question
+    #FIXME_AB: refactor
     if params[:user].present?
       redirect_to root_path, notice: t('.user_not_found') unless @user = User.find_by_id(params[:user])
     end

@@ -1,4 +1,5 @@
 class PurchasePack < ApplicationRecord
+  #FIXME_AB: make a rake task to seed few packs
   enum pack_type: {
     default: 0,
     single: 1,
@@ -13,6 +14,8 @@ class PurchasePack < ApplicationRecord
 
   has_many :payment_transactions, as: :payable
   has_many :credit_transactions, as: :creditable
+
+  #FIXME_AB: add a field enabled: boolean. Only enabled one should be purchasable
 
   private def current_price_should_not_be_more_than_original
     errors.add :base, "'Current' Price cannot be more than 'Original' Price" if original_price < current_price
