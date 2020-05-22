@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_092617) do
     t.bigint "user_id", null: false
     t.string "payable_type"
     t.bigint "payable_id"
+    t.decimal "amount", default: "0.0", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["payable_type", "payable_id"], name: "index_payment_transactions_on_payable_type_and_payable_id"

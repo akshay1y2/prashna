@@ -103,15 +103,15 @@ class QuestionsController < ApplicationController
   end
 
   private def get_questions_for_index
-    questions = Question.all_published.order(published_at: 'desc')
+    questions = Question.all_published
     if params[:search].present?
       @search = params[:search]
-      questions = questions.by_title(params[:search])
+      questions = questions.where id: Question.search_for_ids(params[:search])
     elsif params[:topic].present?
-      questions = questions.joins(:questions_topics).where(questions_topics: { topic_id: Topic.search(params[:topic]) })
+      questions = Question.joins(:questions_topics).where(questions_topics: { topic_id: Topic.by_names([params[:topic]]) })
     elsif params[:user].present?
-      questions = @user.questions.all_published
+      questions = @user.questions
     end
-    questions.distinct
+    questions.distinct.order(published_at: 'desc')
   end
 end

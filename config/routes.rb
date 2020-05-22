@@ -21,10 +21,13 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#profile'
   get 'notifications', to: 'notifications#index'
   get 'credit_transactions', to: 'credit_transactions#index'
+  get 'payment_transactions', to: 'payment_transactions#index'
   resources :votes, only: [:create]
   resources :packs, only: [:index] do
-    get 'payment', on: :member, action: :new_payment
-    post 'payment', on: :member, action: :create_payment
+    member do
+      get 'payment', to: 'payment_transactions#new'
+      post 'payment', to: 'payment_transactions#create'
+    end
   end
 
   get 'topics', action: :search, controller: :topics

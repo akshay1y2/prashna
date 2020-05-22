@@ -39,6 +39,11 @@ class Question < ApplicationRecord
   scope :all_published, -> { where.not(published_at: nil) }
   scope :all_unpublished, -> { where(published_at: nil) }
   scope :by_title, ->(title = nil) { where("lower(title) like ?", "%#{title.downcase}%") }
+  scope :search_for_ids, ->(term = '') { find_by_sql ["SELECT id FROM questions WHERE title LIKE :term
+      UNION SELECT id FROM questions WHERE id IN(SELECT questions_topics.question_id 
+            FROM topics JOIN questions_topics ON questions_topics.topic_id = topics.id
+            WHERE topics.name LIKE :term)", { term: "%#{term.downcase}%" }]
+  }
 
   def to_param
     "#{id}-#{title.parameterize}"

@@ -17,29 +17,30 @@
     <%= image_tag "payment_types" %>
     <h1>Pay via Card</h1>
     <hr/>
-    <form>
+
+    <%= form_tag do %>
       <div class="form-group">
         <label for="cc-number" class="control-label mb-1">Card number</label>
-        <input id="cc-number" name="cc-number" class="form-control" required autocomplete="off">
+        <input id="cc-number" class="form-control" required placeholder="X - X - X" autocomplete="off">
       </div>
       <div class="row">
         <div class="form-group col-6">
-            <label for="cc-exp" class="control-label mb-1">Expiration</label>
-            <input id="cc-exp" class="form-control" required placeholder="MM / YY">
-          </div>
-          <div class="col-3">
-            <label for="x_card_code" class="control-label mb-1">CVV</label>
-            <input id="x_card_code" class="form-control" placeholder="XYZ" required autocomplete="off">
-          </div>
+          <label for="cc-exp" class="control-label mb-1">Expiration</label>
+          <input id="cc-exp" class="form-control" required placeholder="MM / YY" autocomplete="off">
         </div>
-        <div class="form-group">
-          <label for="x_zip" class="control-label mb-1">Postal code</label>
-          <input id="x_zip" name="x_zip" type="text" class="form-control" data-val="true" autocomplete="postal-code">
+        <div class="col-3">
+          <label for="x_card_code" class="control-label mb-1">CVV</label>
+          <input id="x_card_code" class="form-control" required placeholder="XYZ" autocomplete="off">
         </div>
-        <div class="form-submit">
-            <button id="payment-button" type="submit" class="btn btn-lg btn-success btn-block"> Make Payment </button>
-        </div>
-    </form>
+      </div>
+      <div class="form-group">
+        <label for="x_zip" class="control-label mb-1">Postal code</label>
+        <input id="x_zip" class="form-control" autocomplete="postal-code">
+      </div>
+      <div class="actions">
+        <%= submit_tag 'Make Payment', class: "btn btn-lg btn-success btn-block" %>
+      </div>
+    <% end %>
 
   </div>
 </div>

@@ -21,7 +21,17 @@
           </div>
         </li>
         <li class="nav-item">
-          <%= link_to "Buy Credits", packs_path, class: 'nav-link btn btn-outline-dark' %>
+        
+        <div class="dropdown">
+            <button class="nav-link btn btn-outline-dark dropdown-toggle" type="button" id="navPacksMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Buy Credits
+            </button>
+            <div class="dropdown-menu" aria-labelledby="navPacksMenu">
+              <%= link_to "Packs", packs_path, class: 'dropdown-item' %>
+              <%= link_to 'Transactions', payment_transactions_path, class: 'dropdown-item' %>
+            </div>
+          </div>
+        
         </li>
         <li class="nav-item">
           <%= button_to  notifications_path, class: 'btn', method: :get do %>

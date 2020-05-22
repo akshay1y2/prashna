@@ -4,6 +4,7 @@ class CreatePaymentTransactions < ActiveRecord::Migration[6.0]
       t.integer :credits, null: false, default: 0
       t.belongs_to :user, null: false, foreign_key: true
       t.references :payable, polymorphic: true
+      t.decimal :amount, default: 0, null: false
 
       t.timestamps
     end

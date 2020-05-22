@@ -4,7 +4,6 @@ class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
   has_many :credit_transactions, dependent: :restrict_with_error
-  has_one :credit_transaction, as: :creditable
   has_and_belongs_to_many :topics
   has_many :questions, dependent: :restrict_with_error
   has_many :notifications, dependent: :destroy
@@ -34,11 +33,7 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      credit_transactions.build(
-        credits: ENV['signup_credits'],
-        reason: 'signup',
-        creditable: self
-      )
+      build_credits_and_payment_transaction(PurchasePack.default.find_by_name('Sign-Up-Pack'))
       save
     else
       false
@@ -65,6 +60,19 @@ class User < ApplicationRecord
 
   def refresh_new_notification_count!
     update_columns(new_notifications_count: notifications.new_notifications.count)
+  end
+
+  def build_credits_and_payment_transaction(pack)
+    payment_transactions.build(
+      credits: pack.credits,
+      amount: pack.current_price,
+      payable: pack
+    )
+    credit_transactions.build(
+      credits: pack.credits,
+      reason: pack.name,
+      creditable: pack
+    )
   end
 
   private
