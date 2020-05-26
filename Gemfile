@@ -73,3 +73,6 @@ gem 'kaminari', '~>1.2.0'
 
 # add presenter in views
 gem 'basic_presenter', '~>0.0.4'
+
+# add payments interface
+gem 'stripe', '~>5.22.0'

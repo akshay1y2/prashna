@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_092617) do
+ActiveRecord::Schema.define(version: 2020_05_26_072320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,12 +87,16 @@ ActiveRecord::Schema.define(version: 2020_05_19_092617) do
   create_table "payment_transactions", force: :cascade do |t|
     t.integer "credits", default: 0, null: false
     t.bigint "user_id", null: false
-    t.string "payable_type"
-    t.bigint "payable_id"
     t.decimal "amount", default: "0.0", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["payable_type", "payable_id"], name: "index_payment_transactions_on_payable_type_and_payable_id"
+    t.bigint "purchase_pack_id"
+    t.integer "status", default: 0, null: false
+    t.string "token"
+    t.string "charge_id"
+    t.string "error_message"
+    t.string "customer_id"
+    t.index ["purchase_pack_id"], name: "index_payment_transactions_on_purchase_pack_id"
     t.index ["user_id"], name: "index_payment_transactions_on_user_id"
   end
 
@@ -106,6 +110,8 @@ ActiveRecord::Schema.define(version: 2020_05_19_092617) do
     t.string "description", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "enabled", default: true, null: false
+    t.string "stripe_plan_name"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -182,6 +188,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_092617) do
   add_foreign_key "comments", "users"
   add_foreign_key "credit_transactions", "users"
   add_foreign_key "notifications", "users"
+  add_foreign_key "payment_transactions", "purchase_packs"
   add_foreign_key "payment_transactions", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "votes", "users"

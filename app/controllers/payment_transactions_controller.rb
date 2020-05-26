@@ -15,8 +15,7 @@ class PaymentTransactionsController < ApplicationController
   end
 
   private def set_pack
-    #FIXME_AB: only enabled
-    unless @pack = PurchasePack.find_by_id(params[:id])
+    unless @pack = PurchasePack.enabled.find_by_id(params[:id])
       redirect_to packs_path, notice: 'Pack not found, please select a valid pack!'
     end
   end

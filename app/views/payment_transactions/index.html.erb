@@ -9,7 +9,7 @@
       <tr>
         <th>Id</th>
         <th>Credits</th>
-        <th>For</th>
+        <th>Pack</th>
         <th>Price</th>
       </tr>
     </thead>
@@ -19,7 +19,7 @@
         <tr>
           <td><%= pt.id %></td>
           <td><%= pt.credits %></td>
-          <td><%= pt.payable_type %> - <%= pt.payable_id %></td>
+          <td><%= pt.purchase_pack_id %></td>
           <td>$ <%= pt.amount %></td>
         </tr>
       <% end %>

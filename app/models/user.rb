@@ -66,7 +66,7 @@ class User < ApplicationRecord
     payment_transactions.build(
       credits: pack.credits,
       amount: pack.current_price,
-      payable: pack
+      purchase_pack: pack
     )
     credit_transactions.build(
       credits: pack.credits,
