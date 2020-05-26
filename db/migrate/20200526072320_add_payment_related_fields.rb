@@ -1,7 +1,8 @@
 class AddPaymentRelatedFields < ActiveRecord::Migration[6.0]
   def change
     add_column :purchase_packs, :enabled, :boolean, null: false, default: true
-    add_column :purchase_packs, :stripe_plan_name, :string
+
+    add_column :users, :stripe_token, :string
 
     remove_reference :payment_transactions, :payable, polymorphic: true
     add_reference :payment_transactions, :purchase_pack, foreign_key: true

@@ -1,3 +1,5 @@
+<script src="https://js.stripe.com/v3/"></script>
+
 <div class="row">
   <div class="card col-sm-10 col-md-5">
     <%= image_tag @pack.image, class: "card-img-top" %>
@@ -10,36 +12,25 @@
       <li class="list-group-item h5">Price: <del>$<%= @pack.original_price %></del> $<%= @pack.current_price %></li>
     </ul>
   </div>
-
-  <div class="col-md-1"><hr/></div>
   
-  <div class="col-sm-10 col-md-6">
-    <%= image_tag "payment_types" %>
-    <h1>Pay via Card</h1>
+  <div class="col-sm-10 col-md-6 offset-md-1">
     <hr/>
+    <%= form_with local: true, id: "payment-form", data: { token: Rails.configuration.stripe[:publishable_key]} do %>
+      <label for="card-element">
+        <div class="row">
+          <h3 class= 'col-7'>Pay via Card</h3>
+          <%= image_tag "payment_types", class: 'col-5' %>
+        </div>
+      </label>
+      <div id="card-element">
+        <!-- A Stripe Element will be inserted here. -->
+      </div>
 
-    <%= form_tag do %>
-      <div class="form-group">
-        <label for="cc-number" class="control-label mb-1">Card number</label>
-        <input id="cc-number" class="form-control" required placeholder="X - X - X" autocomplete="off">
-      </div>
-      <div class="row">
-        <div class="form-group col-6">
-          <label for="cc-exp" class="control-label mb-1">Expiration</label>
-          <input id="cc-exp" class="form-control" required placeholder="MM / YY" autocomplete="off">
-        </div>
-        <div class="col-3">
-          <label for="x_card_code" class="control-label mb-1">CVV</label>
-          <input id="x_card_code" class="form-control" required placeholder="XYZ" autocomplete="off">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="x_zip" class="control-label mb-1">Postal code</label>
-        <input id="x_zip" class="form-control" autocomplete="postal-code">
-      </div>
-      <div class="actions">
-        <%= submit_tag 'Make Payment', class: "btn btn-lg btn-success btn-block" %>
-      </div>
+      <!-- Used to display form errors. -->
+      <div id="card-errors" role="alert"></div>
+
+      <hr/>
+      <button class="btn btn-lg btn-success btn-block">Submit Payment</button>
     <% end %>
 
   </div>

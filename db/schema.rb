@@ -111,7 +111,6 @@ ActiveRecord::Schema.define(version: 2020_05_26_072320) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "enabled", default: true, null: false
-    t.string "stripe_plan_name"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -166,6 +165,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_072320) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "new_notifications_count", default: 0, null: false
+    t.string "stripe_token"
     t.index ["confirm_token"], name: "index_users_on_confirm_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["reset_token"], name: "index_users_on_reset_token", unique: true
