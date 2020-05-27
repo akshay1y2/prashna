@@ -1,7 +1,14 @@
+import {loadStripe} from '@stripe/stripe-js';
 class StripePayment {
   constructor(data) {
+    this.data = data;
+  }
+
+  async setup(){
+    var data = this.data;
     this.$form = data.$form;
-    this.stripe = Stripe(data.token);
+    // this.stripe = Stripe(data.token);
+    this.stripe = await loadStripe(data.token);
     this.elements = this.stripe.elements();
     this.$errorsContainer = this.$form.find(data.errorsContainer);
     this.elementsContainer = data.elementsContainer;
@@ -20,7 +27,10 @@ class StripePayment {
     });
   }
 
-  init() {
+  async init() {
+
+    await this.setup();
+
     this.card.mount(this.elementsContainer);
     this.card.on('change', (event) => this.showError(event.error));
 

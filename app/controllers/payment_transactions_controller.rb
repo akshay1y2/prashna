@@ -1,12 +1,23 @@
 class PaymentTransactionsController < ApplicationController
+  #FIXME_AB: before action to check param stripe token
   before_action :set_pack, only: [:new, :create]
-  rescue_from Stripe::StripeError, with: :catch_exception
+  # rescue_from Stripe::StripeError, with: :catch_exception
+
+#FIXME_AB: do lots of tagged logging.
 
   def index
     @payment_transactions = current_user.payment_transactions.order(created_at: 'desc').page(params[:page])
   end
 
   def create
+    #FIXME_AB: 1. current_user.ensure_stripe_customer_exists
+    #FIXME_AB: 2. create_pending_payment_transaction(@pack)
+    #FIXME_AB: 3. status, message = create_charge
+    #FIXME_AB: 4. if status == true
+    #FIXME_AB:           pending_payment_transaction.mark_paid!(charge) => create credit transaction => credits update
+    #FIXME_AB:    else
+    #FIXME_AB:          pending_payment_transaction.mark_failed!
+    #FIXME_AB:    end
     @payment_transaction = current_user.build_payment_transaction(@pack)
     create_charge(find_customer)
     if current_user.save
@@ -34,8 +45,11 @@ class PaymentTransactionsController < ApplicationController
         amount: (@pack.current_price * 100).to_int,
         source: params[:stripeToken],
         currency: 'inr',
+        #FIXME_AB: add payment transation id
+        #FIXME_AB: statement_descriptor
         description: customer.email
       })
+
       Stripe::Charge.update(charge.id, { customer: customer.id })
 
       if charge&.id.present?
@@ -48,14 +62,15 @@ class PaymentTransactionsController < ApplicationController
       charge
     end
 
+    #FIXME_AB: ensure_stripe_customer_exists
     def find_customer
       if current_user.stripe_token
-        Stripe::Customer.retrieve(current_user.stripe_token) 
+        Stripe::Customer.retrieve(current_user.stripe_token)
       else
         customer = Stripe::Customer.create(
           email: current_user.email,
           name: current_user.name,
-          address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}  
+          address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}
         )
         current_user.stripe_token = customer.id
       customer

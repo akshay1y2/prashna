@@ -1,3 +1,4 @@
+#FIXME_AB: fix currency
 class PurchasePack < ApplicationRecord
   enum pack_type: {
     default: 0,

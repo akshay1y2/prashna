@@ -8,5 +8,6 @@ Figaro.require_keys(
   "minimum_content_length",
   "net_upvotes_for_answer",
   "credits_for_answer",
-  "STRIPE_PUBLISHABLE_KEY"
+  "STRIPE_PUBLISHABLE_KEY",
+  "STRIPE_SECRET_KEY"
 )
