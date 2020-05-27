@@ -6,6 +6,7 @@ class StripePayment {
     this.$errorsContainer = this.$form.find(data.errorsContainer);
     this.elementsContainer = data.elementsContainer;
     this.card = this.elements.create('card', {
+      hidePostalCode: true,
       style: {
         base: {
           color: '#32325d',
@@ -20,17 +21,14 @@ class StripePayment {
   }
 
   init() {
-    // Add an instance of the card Element into the `card-element` <div>.
     this.card.mount(this.elementsContainer);
+    this.card.on('change', (event) => this.showError(event.error));
 
-    this.card.on('change', (event) => this.$errorsContainer.text(event.error ? event.error.message : ''));
-
-    this.$form.one('submit', (event) => {
+    this.$form.on('submit', (event) => {
       event.preventDefault();
-
       this.stripe.createToken(this.card).then((result) => {
         if (result.error) {
-          this.$errorsContainer.text(result.error.message);
+          this.showError(result.error);
         } else {
           this.stripeTokenHandler(result.token);
         }
@@ -38,14 +36,15 @@ class StripePayment {
     });
   }
 
-  // Submit the form with the token ID.
   stripeTokenHandler(token) {
-    var hiddenInput = document.createElement('input');
-    hiddenInput.setAttribute('type', 'hidden');
-    hiddenInput.setAttribute('name', 'stripeToken');
-    hiddenInput.setAttribute('value', token.id);
-    this.$form[0].appendChild(hiddenInput);
-    this.$form.submit();
+    this.$form.append(
+      $('<input/>').attr({ type: 'hidden', name: 'stripeToken', value: token.id })
+    );
+    this.$form.off('submit').submit();
+  }
+
+  showError(error){
+    this.$errorsContainer.text(error ? error.message : '');
   }
 }
 

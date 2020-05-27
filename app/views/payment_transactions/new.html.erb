@@ -16,22 +16,15 @@
   <div class="col-sm-10 col-md-6 offset-md-1">
     <hr/>
     <%= form_with local: true, id: "payment-form", data: { token: Rails.configuration.stripe[:publishable_key]} do %>
+
       <label for="card-element">
-        <div class="row">
-          <h3 class= 'col-7'>Pay via Card</h3>
-          <%= image_tag "payment_types", class: 'col-5' %>
-        </div>
+        <div class="row"><h3 class= 'col-7'>Pay via Card</h3><%= image_tag "payment_types", class: 'col-5' %></div>
       </label>
-      <div id="card-element">
-        <!-- A Stripe Element will be inserted here. -->
-      </div>
-
-      <!-- Used to display form errors. -->
-      <div id="card-errors" role="alert"></div>
-
-      <hr/>
+      <div id="card-element"></div>
+      <div id="card-errors" role="alert" style='background-color: #fa755a;'></div>
+      <br/>
       <button class="btn btn-lg btn-success btn-block">Submit Payment</button>
-    <% end %>
 
+    <% end %>
   </div>
 </div>

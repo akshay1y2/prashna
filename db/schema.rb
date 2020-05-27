@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_072320) do
+ActiveRecord::Schema.define(version: 2020_05_27_102422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,16 +86,15 @@ ActiveRecord::Schema.define(version: 2020_05_26_072320) do
 
   create_table "payment_transactions", force: :cascade do |t|
     t.integer "credits", default: 0, null: false
+    t.bigint "purchase_pack_id", null: false
     t.bigint "user_id", null: false
     t.decimal "amount", default: "0.0", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "purchase_pack_id"
     t.integer "status", default: 0, null: false
-    t.string "token"
+    t.string "stripe_token"
     t.string "charge_id"
     t.string "error_message"
-    t.string "customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["purchase_pack_id"], name: "index_payment_transactions_on_purchase_pack_id"
     t.index ["user_id"], name: "index_payment_transactions_on_user_id"
   end
@@ -108,9 +107,9 @@ ActiveRecord::Schema.define(version: 2020_05_26_072320) do
     t.decimal "current_price", default: "0.0", null: false
     t.string "image", default: "", null: false
     t.string "description", default: "", null: false
+    t.boolean "enabled", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "enabled", default: true, null: false
   end
 
   create_table "questions", force: :cascade do |t|

@@ -33,7 +33,9 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      build_credits_and_payment_transaction(PurchasePack.default.find_by_name('Sign-Up-Pack'))
+      pack = PurchasePack.default.find_by_name('Sign-Up-Pack')
+      build_payment_transaction(pack)
+      build_credit_transaction(pack)
       save
     else
       false
@@ -62,12 +64,15 @@ class User < ApplicationRecord
     update_columns(new_notifications_count: notifications.new_notifications.count)
   end
 
-  def build_credits_and_payment_transaction(pack)
+  def build_payment_transaction(pack)
     payment_transactions.build(
       credits: pack.credits,
       amount: pack.current_price,
       purchase_pack: pack
     )
+  end
+
+  def build_credit_transaction(pack)
     credit_transactions.build(
       credits: pack.credits,
       reason: pack.name,

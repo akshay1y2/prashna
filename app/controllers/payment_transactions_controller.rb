@@ -1,13 +1,13 @@
 class PaymentTransactionsController < ApplicationController
   before_action :set_pack, only: [:new, :create]
-  rescue_from Stripe::CardError, with: :catch_exception
+  rescue_from Stripe::StripeError, with: :catch_exception
 
   def index
     @payment_transactions = current_user.payment_transactions.order(created_at: 'desc').page(params[:page])
   end
 
   def create
-    current_user.build_credits_and_payment_transaction(@pack)
+    @payment_transaction = current_user.build_payment_transaction(@pack)
     create_charge(find_customer)
     if current_user.save
       redirect_to packs_path, notice: 'Transaction Done'
@@ -24,33 +24,41 @@ class PaymentTransactionsController < ApplicationController
       end
     end
 
-    def charges_params
-      params.permit(:stripeEmail, :stripeToken, :order_id)
+    def catch_exception(exception)
+      @payment_transaction.error_message = 'INVALID_STRIPE_OPERATION'
+      @payment_transaction.status = :failed
     end
 
-    def catch_exception(exception)
-      flash[:error] = exception.message
+    def create_charge(customer)
+      charge = Stripe::Charge.create({
+        amount: (@pack.current_price * 100).to_int,
+        source: params[:stripeToken],
+        currency: 'inr',
+        description: customer.email
+      })
+      Stripe::Charge.update(charge.id, { customer: customer.id })
+
+      if charge&.id.present?
+        @payment_transaction.charge_id = charge.id
+        @payment_transaction.status = :paid
+        current_user.build_credit_transaction(@pack)
+      else
+        @payment_transaction.status = :failed
+      end
+      charge
     end
 
     def find_customer
       if current_user.stripe_token
-        Stripe::Customer.retrieve(params[:stripeToken])
+        Stripe::Customer.retrieve(current_user.stripe_token) 
       else
         customer = Stripe::Customer.create(
-          email: stripe_email,
-          source: params[:stripeToken]
+          email: current_user.email,
+          name: current_user.name,
+          address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}  
         )
-        current_user.update(stripe_token: customer.id)
-        customer
+        current_user.stripe_token = customer.id
+      customer
       end
-    end
-  
-    def create_charge(customer)
-      Stripe::Charge.create(
-        customer: customer.id,
-        amount: @pack.current_price,
-        description: customer.email,
-        currency: DEFAULT_CURRENCY
-      )
     end
 end

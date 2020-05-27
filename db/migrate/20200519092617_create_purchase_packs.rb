@@ -8,6 +8,7 @@ class CreatePurchasePacks < ActiveRecord::Migration[6.0]
       t.decimal :current_price, null: false, default: 0
       t.string :image, null: false, default: ''
       t.string :description, null: false, default: ''
+      t.boolean :enabled, null: false, default: true
 
       t.timestamps
     end
