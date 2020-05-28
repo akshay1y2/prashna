@@ -5,7 +5,7 @@ document.addEventListener('turbolinks:load', function () {
       .on("ajax:beforeSend", () => {
         $spinner.fadeIn();
         $spinner.delay(1000).fadeOut();
-      }).on("ajax:success", () => $spinner.fadeOut()
-      ).on("ajax:error", () => $spinner.fadeOut()
+      }).on("ajax:complete", () => $spinner.fadeOut()
+      // ).on("ajax:error", () => $spinner.fadeOut()
       );
 });

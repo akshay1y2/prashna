@@ -46,7 +46,7 @@ class PaymentTransaction < ApplicationRecord
         refund_transaction_tasks
         logger.info("callbacks ran after marking as refunded")
       rescue Stripe::StripeError => error
-        logger.info("Exception Occured: #{error}")
+        logger.info("Exception Occurred: #{error}")
         error.message
       end
     end

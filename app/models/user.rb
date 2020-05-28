@@ -16,9 +16,9 @@ class User < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: false }, format: { with: /\A[\w\d][^@\s]*@[\w\d-]+(\.?[\w]+)*\z/ }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
   validates :new_notifications_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :password, format: { 
+  validates :password, format: {
     with: /\A(?=.{6,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[[:^alnum:]])/x,
-    message: I18n.t('user.errors.password_format') 
+    message: I18n.t('user.errors.password_format')
   }, if: :password
 
   with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
@@ -33,6 +33,7 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
+      #FIXME_AB: assign_signup_credits method
       pack = PurchasePack.default.find_by_name('Sign-Up-Pack')
       pt = create_pending_payment_transaction(pack)
       create_credit_transaction(pack)
@@ -65,10 +66,12 @@ class User < ApplicationRecord
   end
 
   def create_pending_payment_transaction(pack)
+    #FIXME_AB:  payment_transactions.pending.create(
     payment_transactions.create(
       credits: pack.credits,
       amount: pack.current_price,
       purchase_pack: pack,
+      #FIXME_AB: not needed status
       status: :pending
     )
   end
@@ -81,19 +84,20 @@ class User < ApplicationRecord
     )
   end
 
-  def create_refund_credit_transaction(pack)
+  def create_refund_credit_transaction(pack, reason ='Asked for refund.')
     credit_transactions.create(
       credits: -1 * pack.credits,
-      reason: 'Asked for refund.',
+      reason: reason,
       creditable: pack
     )
   end
 
   def ensure_stripe_customer_exists
+    #FIXME_AB: logging
     unless stripe_token?
       customer = Stripe::Customer.create(
         email: email,
-        name: name,
+        name: Rails.env + ' - ' +name,
         address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}
       )
       update(stripe_token: customer.id)

@@ -3,6 +3,7 @@ class PaymentTransactionsController < ApplicationController
   before_action :check_stripe_token_in_param, only: [:create]
 
   def index
+    #FIXME_AB: fix eager loading every where
     @payment_transactions = current_user.payment_transactions.order(created_at: 'desc').page(params[:page])
   end
 
@@ -47,12 +48,12 @@ class PaymentTransactionsController < ApplicationController
             amount: (@pack.current_price * 100).to_int,
             source: params[:stripeToken],
             currency: PurchasePack::CURRENCY,
-            description: "PurchasePack-#{@pack.id}",
-            statement_descriptor_suffix: 'Purchased credits.'
+            description: "#{Rails.env} - PurchasePack-#{@pack.id}",
+            statement_descriptor_suffix: "Prashna Pack-#{@pack.name}".first(22),
           }
           logger.info("Creating charge with data: #{charge_data}")
           @charge = Stripe::Charge.create(charge_data)
-    
+
           logger.info("Updating charge: #{@charge.id} with customer: #{customer.id}")
           Stripe::Charge.update(@charge.id, { customer: customer.id })
           return true
