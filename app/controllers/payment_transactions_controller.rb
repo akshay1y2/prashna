@@ -3,8 +3,7 @@ class PaymentTransactionsController < ApplicationController
   before_action :check_stripe_token_in_param, only: [:create]
 
   def index
-    #FIXME_AB: fix eager loading every where
-    @payment_transactions = current_user.payment_transactions.order(created_at: 'desc').page(params[:page])
+    @payment_transactions = current_user.payment_transactions.includes([:purchase_pack]).order(created_at: 'desc').page(params[:page])
   end
 
   def create
@@ -18,11 +17,11 @@ class PaymentTransactionsController < ApplicationController
       if status
         logger.info("marking transaction as paid!")
         @payment_transaction.mark_paid!(@charge, params[:stripeToken])
-        redirect_to packs_path, notice: 'Transaction Done'
+        redirect_to packs_path, notice: t('.transaction_success')
       else
         logger.info("marking transaction as failed!")
-        @payment_transaction.mark_failed!(@charge, message)
-        redirect_to packs_path, notice: 'Transaction Unsuccessful'
+        @payment_transaction.mark_failed!(message, params[:stripeToken])
+        redirect_to packs_path, notice: t('.transaction_failed', {error: message})
       end
     end
   end
@@ -31,13 +30,13 @@ class PaymentTransactionsController < ApplicationController
 
     def set_pack
       unless @pack = PurchasePack.enabled.find_by_id(params[:id])
-        redirect_to packs_path, notice: 'Pack not found, please select a valid pack!'
+        redirect_to packs_path, notice: t('.pack_not_found')
       end
     end
 
     def check_stripe_token_in_param
       if params[:stripeToken].blank?
-        redirect_to packs_path, notice: 'The Payment was not processed!'
+        redirect_to packs_path, notice: t('.payment_not_processed')
       end
     end
 

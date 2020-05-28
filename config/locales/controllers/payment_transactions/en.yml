@@ -1,0 +1,6 @@
+en:
+  payment_transactions:
+    pack_not_found: Pack not found, please select a valid pack!
+    payment_not_processed: Cannot process the payment, please try again!
+    transaction_success: The transaction is successful, thanks for purchase!
+    transaction_failed: Transaction failed, %{error}

@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   before_action :verify_user, only: [:edit, :update, :destroy]
 
   def index
-    @questions = get_questions_for_index.includes([:user, :attachment_attachment, :comments]).page(params[:page])
+    @questions = get_questions_for_index.includes([:attachment_attachment, :comments]).page(params[:page])
   end
 
   def show
@@ -67,7 +67,7 @@ class QuestionsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   private def set_question
-    @question = Question.find_by_id(params[:id])
+    @question = Question.includes([:user, :comments]).find_by_id(params[:id])
     if @question.blank?
       redirect_to root_path, notice: t('.question_not_found')
     end
@@ -103,12 +103,12 @@ class QuestionsController < ApplicationController
   end
 
   private def get_questions_for_index
-    questions = Question.all_published
+    questions = Question.all_published.includes([:user])
     if params[:search].present?
       @search = params[:search]
       questions = questions.where id: Question.search_for_ids(params[:search])
     elsif params[:topic].present?
-      questions = Question.joins(:questions_topics).where(questions_topics: { topic_id: Topic.by_names([params[:topic]]) })
+      questions = questions.joins(:questions_topics).where(questions_topics: { topic_id: Topic.by_names([params[:topic]]) })
     elsif params[:user].present?
       questions = @user.questions
     end

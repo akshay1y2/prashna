@@ -22,11 +22,11 @@ class PaymentTransaction < ApplicationRecord
     end
   end
 
-  def mark_failed!(charge, message)
-    logger.tagged('marking: paid') do
-      self.charge_response = charge
+  def mark_failed!(message, token)
+    logger.tagged('marking: failed') do
+      self.stripe_token = token
       self.error_message = message
-      logger.info("marking as failed! with charge: #{charge}, message: #{message}")
+      logger.info("marking as failed! with stripe_token: #{token}, message: #{message}")
       failed!
     end
   end

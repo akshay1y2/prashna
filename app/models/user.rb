@@ -33,11 +33,8 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      #FIXME_AB: assign_signup_credits method
-      pack = PurchasePack.default.find_by_name('Sign-Up-Pack')
-      pt = create_pending_payment_transaction(pack)
-      create_credit_transaction(pack)
-      save && pt.paid!
+      assign_signup_credits
+      save
     else
       false
     end
@@ -66,13 +63,10 @@ class User < ApplicationRecord
   end
 
   def create_pending_payment_transaction(pack)
-    #FIXME_AB:  payment_transactions.pending.create(
-    payment_transactions.create(
+    payment_transactions.pending.create(
       credits: pack.credits,
       amount: pack.current_price,
-      purchase_pack: pack,
-      #FIXME_AB: not needed status
-      status: :pending
+      purchase_pack: pack
     )
   end
 
@@ -93,14 +87,17 @@ class User < ApplicationRecord
   end
 
   def ensure_stripe_customer_exists
-    #FIXME_AB: logging
-    unless stripe_token?
-      customer = Stripe::Customer.create(
-        email: email,
-        name: Rails.env + ' - ' +name,
-        address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}
-      )
-      update(stripe_token: customer.id)
+    logger.tagged("payment_transaction: customer") do
+      unless stripe_token?
+        customer_data = {
+          email: email,
+          name: Rails.env + ' - ' + name,
+          address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}
+        }
+        logger.info("creating new customer with data: #{customer_data}")
+        customer = Stripe::Customer.create(customer_data)
+        update(stripe_token: customer.id)
+      end
     end
   end
 
@@ -111,5 +108,15 @@ class User < ApplicationRecord
 
     def send_verification_token
       UserMailer.with(id: id).verification.deliver_later
+    end
+
+    def assign_signup_credits
+      pack = PurchasePack.default.find_by_name('Sign-Up-Pack')
+      payment_transactions.paid.create(
+        credits: pack.credits,
+        amount: pack.current_price,
+        purchase_pack: pack
+      )
+      create_credit_transaction(pack)
     end
 end

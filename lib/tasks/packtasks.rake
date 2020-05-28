@@ -37,9 +37,10 @@ namespace :packs do
       credits: 5,
       original_price: 0.5e1,
       current_price: 0.0,
-      image: "freee",
+      image: "free",
       description: "Welcome Pack, offers free credits at signup to start with. Enjoy!", 
       enabled: true
     )
+    puts '='*10, 'Done'
   end
 end

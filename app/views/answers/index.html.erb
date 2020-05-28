@@ -13,7 +13,7 @@
   <% end %>
 
   <ul class="list-group">
-    <% question.answers.order(net_upvotes: 'desc').each do |answer| %>
+    <% question.answers.includes([:user, :comments]).order(net_upvotes: 'desc').each do |answer| %>
       <li class="list-group-item" style="background-color: whitesmoke;">
         <p class='mb-2'>
           <strong class='h4'><%= answer.user.name %></strong><br/>
