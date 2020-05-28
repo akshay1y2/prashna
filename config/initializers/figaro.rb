@@ -7,5 +7,7 @@ Figaro.require_keys(
   "ask_question_credit",
   "minimum_content_length",
   "net_upvotes_for_answer",
-  "credits_for_answer"
+  "credits_for_answer",
+  "STRIPE_PUBLISHABLE_KEY",
+  "STRIPE_SECRET_KEY"
 )

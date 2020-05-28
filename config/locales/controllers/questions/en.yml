@@ -4,6 +4,7 @@ en:
     question_not_found: Question not found!
     not_updateable: This question can not be changed now.
     not_enough_credits: Not enough credits to ask a question.
+    user_not_found: 'User not found.'
     create:
       published: The question is published successfully
       saved: The question is saved as a draft

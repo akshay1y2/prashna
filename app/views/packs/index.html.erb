@@ -1,0 +1,15 @@
+<div class="accordion" id="accordionExample">
+  <h2 class="mt-4 alert alert-dark" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    Single Credit Pack
+  </h2>
+  <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+    <% @purchase_packs[:single].each do |pack| %><%= render 'pack', pack: pack %><% end %>
+  </div>
+
+  <h2 class="mt-4 alert alert-dark collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+    Combo Packs
+  </h2>
+  <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
+    <% @purchase_packs[:combo].each do |pack| %><%= render 'pack', pack: pack %><% end %>
+  </div>
+</div>

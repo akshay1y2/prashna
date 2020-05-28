@@ -1,5 +1,13 @@
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
+  config.after_initialize do
+      Bullet.enable        = true
+      # Bullet.alert         = true
+      Bullet.bullet_logger = true
+      Bullet.console       = true
+    # Bullet.growl         = true
+      Bullet.rails_logger  = true
+      Bullet.add_footer    = true
+    end  # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -66,4 +74,12 @@ Rails.application.configure do
 
   # preview mails
   config.action_mailer.delivery_method = :letter_opener
+
+  # to notify when exception occurs
+  Rails.application.config.middleware.use ExceptionNotification::Rack,
+  email: {
+    email_prefix: '[Exception] ',
+    sender_address: %{"notifier" <notifier@example.com>},
+    exception_recipients: %w{exceptions@example.com}
+  }
 end

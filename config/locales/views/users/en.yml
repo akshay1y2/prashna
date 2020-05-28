@@ -6,5 +6,6 @@ en:
       edit_heading: Editing User
     show:
       edit: Edit profile
+      questions: Questions
     form:
       topics_help_block: Select the topics ( ' , ' separated tags) of your interest.

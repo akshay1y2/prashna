@@ -1,14 +1,10 @@
 Rails.application.routes.draw do
-  resources :users, only: [:new, :edit, :create, :update] do
+  resources :users, only: [:new, :edit, :create, :update, :show] do
     member do
       get 'verify/:token', action: :verify, as: 'verification_token'
       get 'reset/:token', action: :edit, controller: :password_resets, as: 'reset_token'
       post 'reset/:token', action: :update, controller: :password_resets, as: 'reset_password'
       get 'credit_transactions', action: :index, controller: :credit_transactions
-    end
-    collection do
-      get 'notifications', action: :index, controller: :notifications
-      get 'profile'
     end
   end
 
@@ -22,8 +18,17 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  get 'profile', to: 'users#profile'
+  get 'notifications', to: 'notifications#index'
   get 'credit_transactions', to: 'credit_transactions#index'
+  get 'payment_transactions', to: 'payment_transactions#index'
   resources :votes, only: [:create]
+  resources :packs, only: [:index] do
+    member do
+      get 'payment', to: 'payment_transactions#new'
+      post 'payment', to: 'payment_transactions#create'
+    end
+  end
 
   get 'topics', action: :search, controller: :topics
   get 'notifications_poll', action: :poll, controller: :notifications

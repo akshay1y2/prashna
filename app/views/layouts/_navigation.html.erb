@@ -7,7 +7,7 @@
     <ul class="navbar-nav">
       <% if current_user %>
         <li class="nav-item">
-          <%= link_to  "Profile", profile_users_path, class: 'nav-link btn btn-outline-dark' %>
+          <%= link_to  "Profile", profile_path, class: 'nav-link btn btn-outline-dark' %>
         </li>
         <li class="nav-item">
           <div class="dropdown">
@@ -21,7 +21,20 @@
           </div>
         </li>
         <li class="nav-item">
-          <%= button_to  notifications_users_path, class: 'btn', method: :get do %>
+        
+        <div class="dropdown">
+            <button class="nav-link btn btn-outline-dark dropdown-toggle" type="button" id="navPacksMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Buy Credits
+            </button>
+            <div class="dropdown-menu" aria-labelledby="navPacksMenu">
+              <%= link_to "Packs", packs_path, class: 'dropdown-item' %>
+              <%= link_to 'Transactions', payment_transactions_path, class: 'dropdown-item' %>
+            </div>
+          </div>
+        
+        </li>
+        <li class="nav-item">
+          <%= button_to  notifications_path, class: 'btn', method: :get do %>
             <%= image_tag('bell.svg', alt: 'notification-bell') %>
             <%= content_tag :span, current_user.new_notifications_count, class: "badge badge-light", id: "notification-bell-count" %>
           <% end %>

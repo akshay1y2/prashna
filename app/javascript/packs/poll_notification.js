@@ -57,7 +57,7 @@ document.addEventListener('turbolinks:load', function () {
     $bell: $('#notification-bell-count'),
     url: $toast.data('path'),
     notifications_path: $toast.data('notifications_path'),
-    interval: 5000,
+    interval: 40000,
     iteration: 5
   };
   new PollNotification(data).init();

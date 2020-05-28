@@ -1,0 +1,5 @@
+en:
+  payment_transactions:
+    index:
+      index_heading: Payment Transactions
+      no_transactions: No Transactions

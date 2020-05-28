@@ -1,10 +1,11 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy, :create_comment]
+  before_action :set_user_for_question, only: [:index]
   before_action :check_if_user_has_credits, only: [:new, :create]
   before_action :verify_user, only: [:edit, :update, :destroy]
 
   def index
-    @questions = get_questions_for_index.page(params[:page])
+    @questions = get_questions_for_index.includes([:user, :attachment_attachment, :comments]).page(params[:page])
   end
 
   def show
@@ -95,14 +96,22 @@ class QuestionsController < ApplicationController
     end
   end
 
+  private def set_user_for_question
+    if params[:user].present? && !(@user = User.find_by_id(params[:user]))
+      redirect_to root_path, notice: t('.user_not_found')
+    end
+  end
+
   private def get_questions_for_index
-    questions = Question.all_published.order(published_at: 'desc')
+    questions = Question.all_published
     if params[:search].present?
       @search = params[:search]
-      questions = questions.by_title(params[:search])
+      questions = questions.where id: Question.search_for_ids(params[:search])
     elsif params[:topic].present?
-      questions = questions.joins(:questions_topics).where(questions_topics: { topic_id: Topic.search(params[:topic]) })
+      questions = Question.joins(:questions_topics).where(questions_topics: { topic_id: Topic.by_names([params[:topic]]) })
+    elsif params[:user].present?
+      questions = @user.questions
     end
-    questions.distinct
+    questions.distinct.order(published_at: 'desc')
   end
 end

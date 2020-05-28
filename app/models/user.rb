@@ -4,21 +4,21 @@ class User < ApplicationRecord
   has_secure_password
   has_one_attached :avatar
   has_many :credit_transactions, dependent: :restrict_with_error
-  has_one :credit_transaction, as: :creditable
   has_and_belongs_to_many :topics
   has_many :questions, dependent: :restrict_with_error
   has_many :notifications, dependent: :destroy
   has_many :votes, dependent: :restrict_with_error
   has_many :comments, dependent: :restrict_with_error
   has_many :answers, dependent: :restrict_with_error
+  has_many :payment_transactions, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :email, uniqueness: { case_sensitive: false }, format: { with: /\A[\w\d][^@\s]*@[\w\d-]+(\.?[\w]+)*\z/ }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
   validates :new_notifications_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
-  validates :password, format: { 
+  validates :password, format: {
     with: /\A(?=.{6,})(?=.*[a-zA-Z])(?=.*\d)(?=.*[[:^alnum:]])/x,
-    message: I18n.t('user.errors.password_format') 
+    message: I18n.t('user.errors.password_format')
   }, if: :password
 
   with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
@@ -33,12 +33,11 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      credit_transactions.build(
-        credits: ENV['signup_credits'],
-        reason: 'signup',
-        creditable: self
-      )
-      save
+      #FIXME_AB: assign_signup_credits method
+      pack = PurchasePack.default.find_by_name('Sign-Up-Pack')
+      pt = create_pending_payment_transaction(pack)
+      create_credit_transaction(pack)
+      save && pt.paid!
     else
       false
     end
@@ -64,6 +63,45 @@ class User < ApplicationRecord
 
   def refresh_new_notification_count!
     update_columns(new_notifications_count: notifications.new_notifications.count)
+  end
+
+  def create_pending_payment_transaction(pack)
+    #FIXME_AB:  payment_transactions.pending.create(
+    payment_transactions.create(
+      credits: pack.credits,
+      amount: pack.current_price,
+      purchase_pack: pack,
+      #FIXME_AB: not needed status
+      status: :pending
+    )
+  end
+
+  def create_credit_transaction(pack)
+    credit_transactions.create(
+      credits: pack.credits,
+      reason: pack.name,
+      creditable: pack
+    )
+  end
+
+  def create_refund_credit_transaction(pack, reason ='Asked for refund.')
+    credit_transactions.create(
+      credits: -1 * pack.credits,
+      reason: reason,
+      creditable: pack
+    )
+  end
+
+  def ensure_stripe_customer_exists
+    #FIXME_AB: logging
+    unless stripe_token?
+      customer = Stripe::Customer.create(
+        email: email,
+        name: Rails.env + ' - ' +name,
+        address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}
+      )
+      update(stripe_token: customer.id)
+    end
   end
 
   private

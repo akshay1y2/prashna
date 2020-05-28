@@ -1,0 +1,8 @@
+<p>Hello <%= @user.name %>,</p>
+<p>The Transaction of &#8377 <%= @pt.amount %> was Successful.<br/>
+   The Credits provided: <%= @pt.credits %><br/>
+   Total Credits: <%= @user.credits %><br/>
+   Checkout your Transactions: <%= link_to nil, payment_transactions_url %><br/>
+  Team,<br/>
+  Prashna
+</p>

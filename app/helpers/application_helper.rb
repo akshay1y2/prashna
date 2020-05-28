@@ -17,7 +17,7 @@ module ApplicationHelper
         image_tag('upvote.png'), 
         votes_path(type => votable, vote: :up),
         method: :post, remote: true,
-        class: "btn btn-sm rounded-circle #{vote && vote.up? ? 'btn-success mr-1' : 'btn-outline-success'}"
+        class: "btn btn-sm rounded-pill #{vote && vote.up? ? 'btn-success mr-1' : 'btn-outline-success'}"
       ) +
       content_tag(:em, votable.net_upvotes, class: 'm-1 h6') +
       link_to_if(
@@ -25,12 +25,12 @@ module ApplicationHelper
         image_tag('dnvote.png'),
         votes_path(type => votable, vote: :down),
         method: :post, remote: true,
-        class: "btn btn-sm rounded-circle #{vote && vote.down? ? 'btn-warning ml-1' : 'btn-outline-warning'}"
+        class: "btn btn-sm rounded-pill #{vote && vote.down? ? 'btn-warning ml-1' : 'btn-outline-warning'}"
       )
     end
   end
 
-  def topic_links(question)
-    question.topic_names.map { |t| link_to t, root_path(topic: t) }.join(', ').html_safe
+  def topic_links(model_obj)
+    model_obj.topic_names.map { |t| link_to t, root_path(topic: t) }.join(', ').html_safe
   end
 end
