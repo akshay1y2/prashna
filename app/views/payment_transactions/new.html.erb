@@ -16,7 +16,7 @@
     <%= form_with local: true, id: "payment-form", data: { token: Rails.configuration.stripe[:publishable_key]} do %>
 
       <label for="card-element">
-        <div class="row"><h3 class= 'col-7'>Pay via Card</h3><%= image_tag "payment_types", class: 'col-5' %></div>
+        <div class="row"><h3 class= 'col-7'>Pay via Card</h3><%= image_tag "payment_types.png", class: 'col-5' %></div>
       </label>
       <div id="card-element"></div>
       <div id="card-errors" role="alert" style='background-color: #fa755a;'></div>
