@@ -1,29 +1,28 @@
 class PaymentTransactionsController < ApplicationController
-  #FIXME_AB: before action to check param stripe token
   before_action :set_pack, only: [:new, :create]
-  # rescue_from Stripe::StripeError, with: :catch_exception
-
-#FIXME_AB: do lots of tagged logging.
+  before_action :check_stripe_token_in_param, only: [:create]
 
   def index
     @payment_transactions = current_user.payment_transactions.order(created_at: 'desc').page(params[:page])
   end
 
   def create
-    #FIXME_AB: 1. current_user.ensure_stripe_customer_exists
-    #FIXME_AB: 2. create_pending_payment_transaction(@pack)
-    #FIXME_AB: 3. status, message = create_charge
-    #FIXME_AB: 4. if status == true
-    #FIXME_AB:           pending_payment_transaction.mark_paid!(charge) => create credit transaction => credits update
-    #FIXME_AB:    else
-    #FIXME_AB:          pending_payment_transaction.mark_failed!
-    #FIXME_AB:    end
-    @payment_transaction = current_user.build_payment_transaction(@pack)
-    create_charge(find_customer)
-    if current_user.save
-      redirect_to packs_path, notice: 'Transaction Done'
-    else
-      redirect_to packs_path, notice: 'Transaction Unsuccessful'
+    logger.tagged("payment_transaction: create") do
+      logger.info("ensure if customer for user[#{current_user}] exists")
+      current_user.ensure_stripe_customer_exists
+      logger.info('creating a pending payment')
+      @payment_transaction = current_user.create_pending_payment_transaction(@pack)
+      status, message = create_charge(Stripe::Customer.retrieve(current_user.stripe_token))
+      logger.info("received status: #{status}, message: #{message} after creating charge.")
+      if status
+        logger.info("marking transaction as paid!")
+        @payment_transaction.mark_paid!(@charge, params[:stripeToken])
+        redirect_to packs_path, notice: 'Transaction Done'
+      else
+        logger.info("marking transaction as failed!")
+        @payment_transaction.mark_failed!(@charge, message)
+        redirect_to packs_path, notice: 'Transaction Unsuccessful'
+      end
     end
   end
 
@@ -35,45 +34,32 @@ class PaymentTransactionsController < ApplicationController
       end
     end
 
-    def catch_exception(exception)
-      @payment_transaction.error_message = 'INVALID_STRIPE_OPERATION'
-      @payment_transaction.status = :failed
+    def check_stripe_token_in_param
+      if params[:stripeToken].blank?
+        redirect_to packs_path, notice: 'The Payment was not processed!'
+      end
     end
 
     def create_charge(customer)
-      charge = Stripe::Charge.create({
-        amount: (@pack.current_price * 100).to_int,
-        source: params[:stripeToken],
-        currency: 'inr',
-        #FIXME_AB: add payment transation id
-        #FIXME_AB: statement_descriptor
-        description: customer.email
-      })
-
-      Stripe::Charge.update(charge.id, { customer: customer.id })
-
-      if charge&.id.present?
-        @payment_transaction.charge_id = charge.id
-        @payment_transaction.status = :paid
-        current_user.build_credit_transaction(@pack)
-      else
-        @payment_transaction.status = :failed
-      end
-      charge
-    end
-
-    #FIXME_AB: ensure_stripe_customer_exists
-    def find_customer
-      if current_user.stripe_token
-        Stripe::Customer.retrieve(current_user.stripe_token)
-      else
-        customer = Stripe::Customer.create(
-          email: current_user.email,
-          name: current_user.name,
-          address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}
-        )
-        current_user.stripe_token = customer.id
-      customer
+      logger.tagged("payment_transaction: create: charge") do
+        begin
+          charge_data = {
+            amount: (@pack.current_price * 100).to_int,
+            source: params[:stripeToken],
+            currency: PurchasePack::CURRENCY,
+            description: "PurchasePack-#{@pack.id}",
+            statement_descriptor_suffix: 'Purchased credits.'
+          }
+          logger.info("Creating charge with data: #{charge_data}")
+          @charge = Stripe::Charge.create(charge_data)
+    
+          logger.info("Updating charge: #{@charge.id} with customer: #{customer.id}")
+          Stripe::Charge.update(@charge.id, { customer: customer.id })
+          return true
+        rescue Stripe::StripeError => error
+          logger.info("Exception Occured: #{error}")
+          return [false, error.message]
+        end
       end
     end
 end

@@ -5,7 +5,7 @@ class QuestionsController < ApplicationController
   before_action :verify_user, only: [:edit, :update, :destroy]
 
   def index
-    @questions = get_questions_for_index.page(params[:page])
+    @questions = get_questions_for_index.includes([:user, :attachment_attachment, :comments]).page(params[:page])
   end
 
   def show

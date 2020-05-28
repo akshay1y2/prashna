@@ -76,3 +76,9 @@ gem 'basic_presenter', '~>0.0.4'
 
 # add payments interface
 gem 'stripe', '~>5.22.0'
+
+# to notify when exception occurs
+gem 'exception_notification', '~>4.4.0'
+
+# enable using `bundle exec rails g bullet:install`
+gem "bullet", '~>6.1.0'

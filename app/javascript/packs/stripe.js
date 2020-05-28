@@ -7,7 +7,6 @@ class StripePayment {
   async setup(){
     var data = this.data;
     this.$form = data.$form;
-    // this.stripe = Stripe(data.token);
     this.stripe = await loadStripe(data.token);
     this.elements = this.stripe.elements();
     this.$errorsContainer = this.$form.find(data.errorsContainer);

@@ -1,4 +1,5 @@
 en:
   payment_transactions:
-    index_heading: Payment Transactions
-    no_transactions: No Transactions
+    index:
+      index_heading: Payment Transactions
+      no_transactions: No Transactions

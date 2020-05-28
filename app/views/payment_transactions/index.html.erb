@@ -8,9 +8,12 @@
     <thead class = 'thead-dark'>
       <tr>
         <th>Id</th>
+        <th>Status</th>
         <th>Credits</th>
         <th>Pack</th>
         <th>Price</th>
+        <th>Paid</th>
+        <th>Refunded</th>
       </tr>
     </thead>
 
@@ -18,9 +21,12 @@
       <% @payment_transactions.each do |pt| %>
         <tr>
           <td><%= pt.id %></td>
+          <td><%= pt.status %></td>
           <td><%= pt.credits %></td>
-          <td><%= pt.purchase_pack_id %></td>
-          <td>$ <%= pt.amount %></td>
+          <td><%= pt.purchase_pack.name %></td>
+          <td>&#8377 <%= pt.amount %></td>
+          <td><%= pt.paid_at? ? time_ago_in_words(pt.paid_at) : '-' %></td>
+          <td><%= pt.refunded_at? ? time_ago_in_words(pt.refunded_at) : '-' %></td>
         </tr>
       <% end %>
     </tbody>

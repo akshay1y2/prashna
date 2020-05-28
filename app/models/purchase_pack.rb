@@ -1,5 +1,6 @@
-#FIXME_AB: fix currency
 class PurchasePack < ApplicationRecord
+  CURRENCY = 'INR'
+
   enum pack_type: {
     default: 0,
     single: 1,

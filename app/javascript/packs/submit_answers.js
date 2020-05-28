@@ -2,27 +2,19 @@ class SubmitAnswer{
   constructor(data){
     this.$container = data.$container;
     this.answerFormId = data.answerFormId;
-    this.$spinner = data.$spinner;
   }
 
   init(){
     this.$container
-      .on("ajax:beforeSend", this.answerFormId, (event) => this.$spinner.fadeIn()
-      ).on("ajax:success", this.answerFormId, (event) => {
-        this.$container.html(event.detail[2].responseText);
-        this.$spinner.fadeOut();
-      }).on("ajax:error", this.answerFormId, (event) => {
-        alert(event.detail[1])
-        this.$spinner.fadeOut();
-      });
+      .on("ajax:success", this.answerFormId, (event) => this.$container.html(event.detail[2].responseText))
+      .on("ajax:error", this.answerFormId, (event) => alert(event.detail[1]));
   }
 }
 
 document.addEventListener('turbolinks:load', function() {
   const data = {
     $container: $("#answers-container"),
-    answerFormId: "#answerInputForm",
-    $spinner: $('#spinnerNotifier')
+    answerFormId: "#answerInputForm"
   };
   new SubmitAnswer(data).init();
 });

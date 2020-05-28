@@ -34,9 +34,9 @@ class User < ApplicationRecord
       self.active = true
       self.confirm_token = nil
       pack = PurchasePack.default.find_by_name('Sign-Up-Pack')
-      build_payment_transaction(pack)
-      build_credit_transaction(pack)
-      save
+      pt = create_pending_payment_transaction(pack)
+      create_credit_transaction(pack)
+      save && pt.paid!
     else
       false
     end
@@ -64,20 +64,40 @@ class User < ApplicationRecord
     update_columns(new_notifications_count: notifications.new_notifications.count)
   end
 
-  def build_payment_transaction(pack)
-    payment_transactions.build(
+  def create_pending_payment_transaction(pack)
+    payment_transactions.create(
       credits: pack.credits,
       amount: pack.current_price,
-      purchase_pack: pack
+      purchase_pack: pack,
+      status: :pending
     )
   end
 
-  def build_credit_transaction(pack)
-    credit_transactions.build(
+  def create_credit_transaction(pack)
+    credit_transactions.create(
       credits: pack.credits,
       reason: pack.name,
       creditable: pack
     )
+  end
+
+  def create_refund_credit_transaction(pack)
+    credit_transactions.create(
+      credits: -1 * pack.credits,
+      reason: 'Asked for refund.',
+      creditable: pack
+    )
+  end
+
+  def ensure_stripe_customer_exists
+    unless stripe_token?
+      customer = Stripe::Customer.create(
+        email: email,
+        name: name,
+        address: {city: '', country: '', line1: '', line2: "", postal_code: '', state: ''}
+      )
+      update(stripe_token: customer.id)
+    end
   end
 
   private
