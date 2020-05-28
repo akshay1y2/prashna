@@ -43,6 +43,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    resources :questions, only: [:index]
+  end
+
   controller :sessions do
     get 'login', action: :new
     post 'login', action: :create
