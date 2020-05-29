@@ -20,6 +20,13 @@
       <strong>Topics:</strong>
       <%= topic_links(user) %>
     </p>
+
+    <% if user == current_user %>
+      <p>
+        <strong>Auth Token:</strong>
+        <%= current_user.auth_token %>
+      </p>
+    <% end %>
   </div>
 </div>
 

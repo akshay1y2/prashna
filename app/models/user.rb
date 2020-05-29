@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :payment_transactions, dependent: :restrict_with_error
 
   validates :name, presence: true
+  validates :auth_token, uniqueness: true, allow_nil: false, if: :active?
   validates :email, uniqueness: { case_sensitive: false }, format: { with: /\A[\w\d][^@\s]*@[\w\d-]+(\.?[\w]+)*\z/ }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
   validates :new_notifications_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
@@ -24,6 +25,7 @@ class User < ApplicationRecord
   with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
     validates :avatar
     validates :topics
+    validates :auth_token
   end
 
   before_create :set_verification_token, unless: :admin
@@ -33,6 +35,7 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
+      self.auth_token = SecureRandom.urlsafe_base64
       assign_signup_credits
       save
     else

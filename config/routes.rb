@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :questions, only: [:index]
+    get 'feed', to: 'questions#feed'
   end
 
   controller :sessions do
