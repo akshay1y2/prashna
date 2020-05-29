@@ -69,7 +69,7 @@ gem 'figaro', '~> 1.1'
 gem 'redcarpet', '~>3.5.0'
 
 # paginate the questions index
-gem 'kaminari', '~>1.2.0'
+gem 'kaminari', '~>1.2.1'
 
 # add presenter in views
 gem 'basic_presenter', '~>0.0.4'
