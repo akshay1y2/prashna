@@ -8,6 +8,7 @@ class MarkSpam {
     this.$modal.on('show.bs.modal', (event) => {
       this.$form.find('.spam-successful-message').text('');
       this.$form.find('.spam-unsuccessful-message').text('');
+      this.$form.find('textarea').val('');
       this.setTargettedSpammable(event.relatedTarget);
       this.$form
         .on("ajax:success", (event) => this.submitResponseHandler(event.detail[0]))

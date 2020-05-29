@@ -7,7 +7,7 @@ class SpamsController < ApplicationController
       spammable: @spammable
     )
     if spam.save
-      render json: {status: true, message: 'Reported as spam'}
+      render json: {status: true, message: t('.successful')}
     else
       render json: {status: false, message: spam.errors.full_messages[0]}
     end
@@ -19,7 +19,7 @@ class SpamsController < ApplicationController
     elsif spammable[0] == 'answer' && @spammable = Answer.find_by_id(spammable[1])
     elsif spammable[0] == 'comment' && @spammable = Comment.find_by_id(spammable[1])
     else
-      render json: {status: false, message: 'Can not find what you are spamming.'}
+      render json: {status: false, message: t('.not_found')}
     end
   end
 end

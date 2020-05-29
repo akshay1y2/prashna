@@ -1,12 +1,18 @@
 class Spam < ApplicationRecord
-  validate :spammed_by_only_one_user
+  validate :spammed_by_only_one_user, :cannot_spam_own_content
 
   belongs_to :user
   belongs_to :spammable, polymorphic: true
 
-  def spammed_by_only_one_user
+  private def spammed_by_only_one_user
     if self.class.where(user: user, spammable: spammable).present?
-      errors.add(:base, 'You have already spammed this once.')
+      errors.add(:base, I18n.t('spam.errors.already_spammed'))
+    end
+  end
+
+  private def cannot_spam_own_content
+    if user == spammable.user
+      errors.add(:base, I18n.t('spam.errors.spamming_own'))
     end
   end
 end

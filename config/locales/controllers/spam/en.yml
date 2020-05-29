@@ -1,0 +1,5 @@
+en:
+  spams:
+    create:
+      successful: Reported as spam!
+      not_found: Can not find what you are spamming.

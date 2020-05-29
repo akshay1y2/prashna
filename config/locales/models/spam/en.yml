@@ -1,0 +1,5 @@
+en:
+  spam:
+    errors:
+      already_spammed: 'You have already spammed this once.'
+      spamming_own: 'You can not spam your own content.'
