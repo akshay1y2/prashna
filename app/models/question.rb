@@ -25,6 +25,7 @@ class Question < ApplicationRecord
   has_many :comments, as: :commentable, dependent: :restrict_with_error
   has_many :votes, as: :votable, dependent: :restrict_with_error
   has_many :answers, dependent: :restrict_with_error
+  has_many :spams, as: :spammable
 
   with_options if: :new_publish do
     before_validation :set_published_at

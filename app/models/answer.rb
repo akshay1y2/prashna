@@ -12,7 +12,7 @@ class Answer < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :credit_transactions, as: :creditable
-
+  has_many :spams, as: :spammable
 
   before_create :check_if_question_is_published
   after_commit :send_email_to_questioner, on: [:create]

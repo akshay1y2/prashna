@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_29_080216) do
+ActiveRecord::Schema.define(version: 2020_05_29_114104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,17 @@ ActiveRecord::Schema.define(version: 2020_05_29_080216) do
     t.index ["topic_id"], name: "index_questions_topics_on_topic_id"
   end
 
+  create_table "spams", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "spammable_type"
+    t.bigint "spammable_id"
+    t.string "reason", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spammable_type", "spammable_id"], name: "index_spams_on_spammable_type_and_spammable_id"
+    t.index ["user_id"], name: "index_spams_on_user_id"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "name", default: "other", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -200,5 +211,6 @@ ActiveRecord::Schema.define(version: 2020_05_29_080216) do
   add_foreign_key "payment_transactions", "purchase_packs"
   add_foreign_key "payment_transactions", "users"
   add_foreign_key "questions", "users"
+  add_foreign_key "spams", "users"
   add_foreign_key "votes", "users"
 end

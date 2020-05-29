@@ -4,6 +4,7 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :commentable, polymorphic: true, counter_cache: true
   has_many :votes, as: :votable, dependent: :restrict_with_error
+  has_many :spams, as: :spammable
 
   validates :content_words, length: {
     minimum: ENV['minimum_content_length'].to_i,

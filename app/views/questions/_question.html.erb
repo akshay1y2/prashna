@@ -24,6 +24,7 @@
             Comments (<span id='commentsCountOfQuestion<%= question.id %>'><%= question.comments_count %></span>)
           </a>
           <a href="<%= question_path(question) %>#answerInputForm" class="btn btn-outline-success">Answers (<%= question.answers_count %>)</a>
+          <a href="/" class="btn btn-outline-danger" data-toggle="modal" data-target="#spamModal" data-for="question-<%= question.id %>">Spam</a>
         </div>
       <% end %>
 

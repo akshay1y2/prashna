@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :restrict_with_error
   has_many :answers, dependent: :restrict_with_error
   has_many :payment_transactions, dependent: :restrict_with_error
+  has_many :spams, dependent: :restrict_with_error
 
   validates :name, presence: true
   validates :auth_token, uniqueness: true, allow_nil: false, if: :active?

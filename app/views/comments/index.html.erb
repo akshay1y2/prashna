@@ -19,7 +19,12 @@
         <em>- <%= time_ago_in_words(comment.created_at) %> ago</em>
       </p>
       <%= content_tag :p, comment.content %>
+      <div class='row'>
+
       <%= votes_div :comment, comment %>
+      <a href="/" class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#spamModal" data-for="comment-<%= comment.id %>">Spam</a>
+      </div>
+
     </li>
 
   <% end %>

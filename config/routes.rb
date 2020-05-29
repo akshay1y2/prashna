@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  resources :spams, only: [:create]
+
   get 'profile', to: 'users#profile'
   get 'notifications', to: 'notifications#index'
   get 'credit_transactions', to: 'credit_transactions#index'
