@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: votes
+#
+#  id           :bigint           not null, primary key
+#  vote_type    :integer          default("up"), not null
+#  votable_type :string
+#  votable_id   :bigint
+#  user_id      :bigint           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
 class Vote < ApplicationRecord
   enum vote_type: { up: 0, down: 1 }
   belongs_to :votable, polymorphic: true

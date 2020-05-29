@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                      :bigint           not null, primary key
+#  name                    :string
+#  email                   :string
+#  password_digest         :string
+#  admin                   :boolean          default(FALSE), not null
+#  credits                 :integer          default(0), not null
+#  active                  :boolean          default(FALSE), not null
+#  confirm_token           :string
+#  reset_token             :string
+#  reset_sent_at           :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  new_notifications_count :integer          default(0), not null
+#  stripe_token            :string
+#  auth_token              :string
+#
 class User < ApplicationRecord
   paginates_per 5
 
@@ -36,6 +56,7 @@ class User < ApplicationRecord
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
+      #FIXME_AB: set_auth_token
       self.auth_token = SecureRandom.urlsafe_base64
       assign_signup_credits
       save

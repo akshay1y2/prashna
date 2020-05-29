@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: comments
+#
+#  id               :bigint           not null, primary key
+#  content          :text             default(""), not null
+#  user_id          :bigint           not null
+#  commentable_type :string
+#  commentable_id   :bigint
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  net_upvotes      :integer          default(0), not null
+#
 class Comment < ApplicationRecord
   include VotableFeatures
   

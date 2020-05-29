@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: answers
+#
+#  id             :bigint           not null, primary key
+#  content        :text             default(""), not null
+#  question_id    :bigint           not null
+#  user_id        :bigint           not null
+#  comments_count :integer          default(0), not null
+#  net_upvotes    :integer          default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 class Answer < ApplicationRecord
   include BasicPresenter::Concern
   include VotableFeatures
@@ -12,6 +25,7 @@ class Answer < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :credit_transactions, as: :creditable
+  #FIXME_AB: dependent destroy
   has_many :spams, as: :spammable
 
   before_create :check_if_question_is_published
@@ -27,7 +41,7 @@ class Answer < ApplicationRecord
   end
 
   def published?
-    question.published?    
+    question.published?
   end
 
   private def send_email_to_questioner

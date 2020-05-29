@@ -5,6 +5,7 @@ module Api
 
     def index
       respond_to do |format|
+        #FIXME_AB: take env variable to show x records
         format.json { @questions = Question.all_published.includes([:user]).order(published_at: :desc) }
         format.html { render plain: 'Invalid URL' }
       end

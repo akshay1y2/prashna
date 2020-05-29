@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: notifications
+#
+#  id              :bigint           not null, primary key
+#  user_id         :bigint           not null
+#  message         :string           default(""), not null
+#  viewed          :boolean          default(FALSE), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  notifiable_type :string
+#  notifiable_id   :bigint
+#
 class Notification < ApplicationRecord
   include BasicPresenter::Concern
   paginates_per 10

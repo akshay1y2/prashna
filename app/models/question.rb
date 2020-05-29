@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: questions
+#
+#  id             :bigint           not null, primary key
+#  title          :string           default(""), not null
+#  content        :text             default(""), not null
+#  user_id        :bigint           not null
+#  published_at   :datetime
+#  comments_count :bigint           default(0), not null
+#  answers_count  :bigint           default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  net_upvotes    :integer          default(0), not null
+#
 class Question < ApplicationRecord
   include BasicPresenter::Concern
   include VotableFeatures
@@ -118,3 +133,8 @@ class Question < ApplicationRecord
     end
   end
 end
+
+
+
+# marked_abused default false
+# when abused marked => set it to true

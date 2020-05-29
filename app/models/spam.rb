@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: spams
+#
+#  id             :bigint           not null, primary key
+#  user_id        :bigint           not null
+#  spammable_type :string
+#  spammable_id   :bigint
+#  reason         :string           default(""), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 class Spam < ApplicationRecord
   validate :spammed_by_only_one_user, :cannot_spam_own_content
 

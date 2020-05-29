@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :api do
+  namespace :api, constraints: lambda { |req| req.format == :json } do
     resources :questions, only: [:index]
     get 'feed', to: 'questions#feed'
   end
