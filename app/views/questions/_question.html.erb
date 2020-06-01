@@ -4,7 +4,7 @@
 
     <% if question.attachment.attached? %>
       <% if question.attachment.image? %>
-        <%= image_tag question.attachment %>
+        <%= image_tag question.attachment, class: 'question-image' %>
       <% else %>
         <p class="card-title">
           <%= t('.file_attached') %>
