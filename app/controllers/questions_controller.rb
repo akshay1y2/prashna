@@ -62,7 +62,7 @@ class QuestionsController < ApplicationController
   end
 
   def drafts
-    @questions = current_user.questions.all_unpublished.page(params[:page])
+    @questions = current_user.questions.unpublished.page(params[:page])
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -103,7 +103,7 @@ class QuestionsController < ApplicationController
   end
 
   private def get_questions_for_index
-    questions = Question.all_published.includes([:user])
+    questions = Question.published.includes([:user])
     if params[:search].present?
       @search = params[:search]
       questions = questions.where id: Question.search_for_ids(params[:search])

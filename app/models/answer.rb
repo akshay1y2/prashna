@@ -10,6 +10,7 @@
 #  net_upvotes    :integer          default(0), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  marked_abuse   :boolean          default(FALSE)
 #
 class Answer < ApplicationRecord
   include BasicPresenter::Concern
@@ -25,11 +26,12 @@ class Answer < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :credit_transactions, as: :creditable
-  #FIXME_AB: dependent destroy
-  has_many :spams, as: :spammable
+  has_many :spams, as: :spammable, dependent: :destroy
 
   before_create :check_if_question_is_published
   after_commit :send_email_to_questioner, on: [:create]
+
+  default_scope { where marked_abuse: false }
 
   def update_answerer_credits!
     ct_sum = credit_transactions.where(user: user, reason: 'voted').sum(:credits)

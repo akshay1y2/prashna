@@ -23,6 +23,9 @@ development:
   net_upvotes_for_answer: '2'
   credits_for_answer: '1'
   public_api_request_limit: '60'
+  array_limit_for_json: '10'
+  net_abuse_reports_to_spam: '2'
+
 
 production:
   admin_email: 'admin@prashna.com'
@@ -37,6 +40,9 @@ production:
   net_upvotes_for_answer: '2'
   credits_for_answer: '1'
   public_api_request_limit: '60'
+  array_limit_for_json: '10'
+  net_abuse_reports_to_spam: '2'
+
 
 test:
   admin_email: 'admin@prashna.com'
@@ -51,3 +57,5 @@ test:
   net_upvotes_for_answer: '2'
   credits_for_answer: '1'
   public_api_request_limit: '60'
+  array_limit_for_json: '10'
+  net_abuse_reports_to_spam: '2'

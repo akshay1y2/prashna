@@ -10,5 +10,7 @@ Figaro.require_keys(
   "credits_for_answer",
   "STRIPE_PUBLISHABLE_KEY",
   "STRIPE_SECRET_KEY",
-  "public_api_request_limit"
+  "public_api_request_limit",
+  "array_limit_for_json",
+  "net_abuse_reports_to_spam"
 )

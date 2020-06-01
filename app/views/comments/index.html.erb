@@ -22,7 +22,11 @@
       <div class='row'>
 
       <%= votes_div :comment, comment %>
-      <a href="/" class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#spamModal" data-for="comment-<%= comment.id %>">Spam</a>
+      <% if current_user.spammed? (comment) %>
+        <a href="#" class="btn btn-sm btn-outline-danger ml-2 disabled" aria-disabled="true">Spam</a>
+      <% else %>
+        <a href="#" class="btn btn-sm btn-outline-danger ml-2" data-toggle="modal" data-target="#spamModal" data-for="comment-<%= comment.id %>">Spam</a>
+      <% end %>
       </div>
 
     </li>

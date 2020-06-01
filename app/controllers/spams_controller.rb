@@ -15,8 +15,7 @@ class SpamsController < ApplicationController
 
   private def set_spammable
     spammable = params[:spammable].split('-')
-    #FIXME_AB: publisable question
-    if spammable[0] == 'question' && @spammable = Question.find_by_id(spammable[1])
+    if spammable[0] == 'question' && @spammable = Question.published.find_by_id(spammable[1])
     elsif spammable[0] == 'answer' && @spammable = Answer.find_by_id(spammable[1])
     elsif spammable[0] == 'comment' && @spammable = Comment.find_by_id(spammable[1])
     else

@@ -52,12 +52,14 @@ class User < ApplicationRecord
   before_create :set_verification_token, unless: :admin
   after_commit :send_verification_token, unless: :admin, on: [:create]
 
+  scope :active, -> { where active: true }
+  scope :without_auth_token, -> { where auth_token: nil }
+
   def activate(token)
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
-      #FIXME_AB: set_auth_token
-      self.auth_token = SecureRandom.urlsafe_base64
+      set_auth_token
       assign_signup_credits
       save
     else
@@ -79,8 +81,16 @@ class User < ApplicationRecord
     self.topics = Topic.get_topics_by_names(topic_names)
   end
 
+  def set_auth_token
+    self.auth_token = SecureRandom.urlsafe_base64
+  end
+
   def topic_names
     topics.pluck(:name)
+  end
+
+  def spammed?(spammable)
+    spams.for_spammable(spammable).present?
   end
 
   def refresh_new_notification_count!

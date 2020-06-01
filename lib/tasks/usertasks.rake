@@ -12,15 +12,16 @@ namespace :user do
     end
   end
 
-#FIXME_AB: logging
   desc 'add auth_token to the active users without auth_token'
   task add_auth_tokens: :environment do
-    #FIXME_AB: User.active.without_auth_token.find....
-    User.where(auth_token: nil, active: true).find_in_batches do |users|
-      users.each do |user|
-        #FIXME_AB: set token method
-        user.auth_token = SecureRandom.urlsafe_base64
-        unless user.save
+    User.active.without_auth_token.find_each do |user|
+      Rails.logger.tagged 'user:add_auth_tokens' do
+        Rails.logger.info "[+] Adding auth_token to user_id: #{user.id}"
+        user.set_auth_token
+        if user.save
+          Rails.logger.info "[+] Added auth_token to user_id: #{user.id}"
+        else
+          Rails.logger.info "[-] Cannot add auth_token to user_id: #{user.id}, errors: #{user.errors}"
           puts "\nErrors while updating user with email: #{user.email}"
           user.errors.each{ |e, m| puts "- #{e}: #{m}" }
         end

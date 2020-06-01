@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_29_114104) do
+ActiveRecord::Schema.define(version: 2020_06_01_073418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 2020_05_29_114104) do
     t.integer "net_upvotes", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "marked_abuse", default: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 2020_05_29_114104) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "net_upvotes", default: 0, null: false
+    t.boolean "marked_abuse", default: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -131,6 +133,7 @@ ActiveRecord::Schema.define(version: 2020_05_29_114104) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "net_upvotes", default: 0, null: false
+    t.boolean "marked_abuse", default: false
     t.index ["title"], name: "index_questions_on_title", unique: true
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
