@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  resources :spams, only: [:create]
+
   get 'profile', to: 'users#profile'
   get 'notifications', to: 'notifications#index'
   get 'credit_transactions', to: 'credit_transactions#index'
@@ -41,6 +43,11 @@ Rails.application.routes.draw do
     resources :users, only: [:index, :edit, :update, :destroy] do
       get 'credit_transactions', on: :member, to: 'credit_transactions#index'
     end
+  end
+
+  namespace :api, constraints: lambda { |req| req.format == :json } do
+    resources :questions, only: [:index]
+    get 'feed', to: 'questions#feed'
   end
 
   controller :sessions do

@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
   end
 
   private def set_commentable
-    if params[:question_id] && @commentable = Question.all_published.find_by_id(params[:question_id])
+    if params[:question_id] && @commentable = Question.published.find_by_id(params[:question_id])
     elsif params[:answer_id] && @commentable = Answer.find_by_id(params[:answer_id])
     else
       redirect_to root_path, notice: t('comment.not_saved')

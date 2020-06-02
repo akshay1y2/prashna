@@ -11,7 +11,7 @@ class AnswersController < ApplicationController
   end
 
   private def set_question
-    @question = Question.all_published.find_by_id(params[:question_id])
+    @question = Question.published.find_by_id(params[:question_id])
     if @question.blank?
       redirect_to root_path, notice: t('.question_not_found')
     end

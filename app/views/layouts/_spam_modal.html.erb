@@ -1,0 +1,25 @@
+<div class="modal fade" id="spamModal" tabindex="-1" role="dialog" aria-labelledby="spamModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= t('.title') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= form_with model: Spam.new, id: 'spamForm' do |f| %>
+        <div class="modal-body">
+          <%= f.text_area :reason, placeholder: 'Reason..', class: 'form-control' %>
+          <div class='spam-successful-message' style='background-color: lightgreen;'></div>
+          <div class='spam-unsuccessful-message'  style='background-color: orange;'></div>
+        </div>
+        <div class="modal-footer actions">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <%= f.submit "Submit", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

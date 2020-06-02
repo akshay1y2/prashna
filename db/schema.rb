@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_28_073206) do
+ActiveRecord::Schema.define(version: 2020_06_01_073418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,8 +44,15 @@ ActiveRecord::Schema.define(version: 2020_05_28_073206) do
     t.integer "net_upvotes", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "marked_abuse", default: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
+  create_table "api_requests", force: :cascade do |t|
+    t.string "client_ip", default: "", null: false
+    t.string "path", default: "/api/", null: false
+    t.datetime "created_at", null: false
   end
 
   create_table "comments", force: :cascade do |t|
@@ -56,6 +63,7 @@ ActiveRecord::Schema.define(version: 2020_05_28_073206) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "net_upvotes", default: 0, null: false
+    t.boolean "marked_abuse", default: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -125,6 +133,7 @@ ActiveRecord::Schema.define(version: 2020_05_28_073206) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "net_upvotes", default: 0, null: false
+    t.boolean "marked_abuse", default: false
     t.index ["title"], name: "index_questions_on_title", unique: true
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
@@ -136,6 +145,17 @@ ActiveRecord::Schema.define(version: 2020_05_28_073206) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["question_id"], name: "index_questions_topics_on_question_id"
     t.index ["topic_id"], name: "index_questions_topics_on_topic_id"
+  end
+
+  create_table "spams", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "spammable_type"
+    t.bigint "spammable_id"
+    t.string "reason", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["spammable_type", "spammable_id"], name: "index_spams_on_spammable_type_and_spammable_id"
+    t.index ["user_id"], name: "index_spams_on_user_id"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -168,6 +188,7 @@ ActiveRecord::Schema.define(version: 2020_05_28_073206) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "new_notifications_count", default: 0, null: false
     t.string "stripe_token"
+    t.string "auth_token"
     t.index ["confirm_token"], name: "index_users_on_confirm_token", unique: true
     t.index ["email"], name: "index_users_on_email"
     t.index ["reset_token"], name: "index_users_on_reset_token", unique: true
@@ -193,5 +214,6 @@ ActiveRecord::Schema.define(version: 2020_05_28_073206) do
   add_foreign_key "payment_transactions", "purchase_packs"
   add_foreign_key "payment_transactions", "users"
   add_foreign_key "questions", "users"
+  add_foreign_key "spams", "users"
   add_foreign_key "votes", "users"
 end

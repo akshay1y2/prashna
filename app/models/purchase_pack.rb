@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: purchase_packs
+#
+#  id             :bigint           not null, primary key
+#  pack_type      :integer          default("default"), not null
+#  name           :string           default(""), not null
+#  credits        :integer          default(0), not null
+#  original_price :decimal(, )      default(0.0), not null
+#  current_price  :decimal(, )      default(0.0), not null
+#  image          :string           default(""), not null
+#  description    :string           default(""), not null
+#  enabled        :boolean          default(TRUE), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 class PurchasePack < ApplicationRecord
   CURRENCY = 'INR'
 

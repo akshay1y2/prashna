@@ -4,7 +4,7 @@
 
     <% if question.attachment.attached? %>
       <% if question.attachment.image? %>
-        <%= image_tag question.attachment %>
+        <%= image_tag question.attachment, class: 'question-image' %>
       <% else %>
         <p class="card-title">
           <%= t('.file_attached') %>
@@ -24,6 +24,11 @@
             Comments (<span id='commentsCountOfQuestion<%= question.id %>'><%= question.comments_count %></span>)
           </a>
           <a href="<%= question_path(question) %>#answerInputForm" class="btn btn-outline-success">Answers (<%= question.answers_count %>)</a>
+          <% if current_user.spammed? (question) %>
+            <a href="#" class="btn btn-outline-danger disabled" aria-disabled="true">Spam</a>
+          <% else %>
+            <a href="#" class="btn btn-outline-danger" data-toggle="modal" data-target="#spamModal" data-for="question-<%= question.id %>">Spam</a>
+          <% end %>
         </div>
       <% end %>
 

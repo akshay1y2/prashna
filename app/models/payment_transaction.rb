@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: payment_transactions
+#
+#  id               :bigint           not null, primary key
+#  credits          :integer          default(0), not null
+#  purchase_pack_id :bigint           not null
+#  user_id          :bigint           not null
+#  amount           :decimal(, )      default(0.0), not null
+#  status           :integer          default("pending"), not null
+#  stripe_token     :string
+#  charge_id        :string
+#  error_message    :string
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  paid_at          :datetime
+#  refunded_at      :datetime
+#  charge_response  :jsonb            not null
+#
 class PaymentTransaction < ApplicationRecord
   include NotDeleteable
   paginates_per 10

@@ -14,7 +14,7 @@
     <div class="col-4 m-2">
       <ul class="list-group list-group-flush">
         <li class="list-group-item h5">Credits: <%= pack.credits %></li>
-        <li class="list-group-item h5">Price: &#8377<del><%= pack.original_price %></del> $<%= pack.current_price %></li>
+        <li class="list-group-item h5">Price: <del>&#8377 <%= pack.original_price %></del> &#8377 <%= pack.current_price %></li>
       </ul>
       <a href="<%= payment_pack_path(pack) %>" class="card-link btn btn-success">Buy</a>
     </div>

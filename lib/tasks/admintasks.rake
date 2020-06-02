@@ -11,6 +11,7 @@ namespace :admin do
       email: input_for('Email: '),
       password: STDIN.getpass("Password:"),
       password_confirmation: STDIN.getpass("Confirm Password:"),
+      auth_token: SecureRandom.urlsafe_base64,
       admin: true,
       active: true
     )

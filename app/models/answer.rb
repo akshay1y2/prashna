@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: answers
+#
+#  id             :bigint           not null, primary key
+#  content        :text             default(""), not null
+#  question_id    :bigint           not null
+#  user_id        :bigint           not null
+#  comments_count :integer          default(0), not null
+#  net_upvotes    :integer          default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  marked_abuse   :boolean          default(FALSE)
+#
 class Answer < ApplicationRecord
   include BasicPresenter::Concern
   include VotableFeatures
@@ -12,10 +26,12 @@ class Answer < ApplicationRecord
   has_many :votes, as: :votable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :credit_transactions, as: :creditable
-
+  has_many :spams, as: :spammable, dependent: :destroy
 
   before_create :check_if_question_is_published
   after_commit :send_email_to_questioner, on: [:create]
+
+  default_scope { where marked_abuse: false }
 
   def update_answerer_credits!
     ct_sum = credit_transactions.where(user: user, reason: 'voted').sum(:credits)
@@ -27,7 +43,7 @@ class Answer < ApplicationRecord
   end
 
   def published?
-    question.published?    
+    question.published?
   end
 
   private def send_email_to_questioner

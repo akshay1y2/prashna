@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                      :bigint           not null, primary key
+#  name                    :string
+#  email                   :string
+#  password_digest         :string
+#  admin                   :boolean          default(FALSE), not null
+#  credits                 :integer          default(0), not null
+#  active                  :boolean          default(FALSE), not null
+#  confirm_token           :string
+#  reset_token             :string
+#  reset_sent_at           :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  new_notifications_count :integer          default(0), not null
+#  stripe_token            :string
+#  auth_token              :string
+#
 class User < ApplicationRecord
   paginates_per 5
 
@@ -11,8 +31,10 @@ class User < ApplicationRecord
   has_many :comments, dependent: :restrict_with_error
   has_many :answers, dependent: :restrict_with_error
   has_many :payment_transactions, dependent: :restrict_with_error
+  has_many :spams, dependent: :restrict_with_error
 
   validates :name, presence: true
+  validates :auth_token, uniqueness: true, allow_nil: false, if: :active?
   validates :email, uniqueness: { case_sensitive: false }, format: { with: /\A[\w\d][^@\s]*@[\w\d-]+(\.?[\w]+)*\z/ }
   validates :reset_token, :confirm_token, uniqueness: { case_sensitive: false }, allow_nil: true
   validates :new_notifications_count, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
@@ -24,15 +46,20 @@ class User < ApplicationRecord
   with_options unless: :active?, absence: { message: I18n.t('user.errors.inactive_update') } do
     validates :avatar
     validates :topics
+    validates :auth_token
   end
 
   before_create :set_verification_token, unless: :admin
   after_commit :send_verification_token, unless: :admin, on: [:create]
 
+  scope :active, -> { where active: true }
+  scope :without_auth_token, -> { where auth_token: nil }
+
   def activate(token)
     if token == confirm_token
       self.active = true
       self.confirm_token = nil
+      set_auth_token
       assign_signup_credits
       save
     else
@@ -54,8 +81,16 @@ class User < ApplicationRecord
     self.topics = Topic.get_topics_by_names(topic_names)
   end
 
+  def set_auth_token
+    self.auth_token = SecureRandom.urlsafe_base64
+  end
+
   def topic_names
     topics.pluck(:name)
+  end
+
+  def spammed?(spammable)
+    spams.for_spammable(spammable).present?
   end
 
   def refresh_new_notification_count!

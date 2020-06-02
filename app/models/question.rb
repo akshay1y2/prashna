@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: questions
+#
+#  id             :bigint           not null, primary key
+#  title          :string           default(""), not null
+#  content        :text             default(""), not null
+#  user_id        :bigint           not null
+#  published_at   :datetime
+#  comments_count :bigint           default(0), not null
+#  answers_count  :bigint           default(0), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  net_upvotes    :integer          default(0), not null
+#  marked_abuse   :boolean          default(FALSE)
+#
 class Question < ApplicationRecord
   include BasicPresenter::Concern
   include VotableFeatures
@@ -25,6 +41,7 @@ class Question < ApplicationRecord
   has_many :comments, as: :commentable, dependent: :restrict_with_error
   has_many :votes, as: :votable, dependent: :restrict_with_error
   has_many :answers, dependent: :restrict_with_error
+  has_many :spams, as: :spammable
 
   with_options if: :new_publish do
     before_validation :set_published_at
@@ -36,16 +53,16 @@ class Question < ApplicationRecord
   after_create_commit :deduct_credit_of_user
   after_destroy_commit :add_credit_back_to_user
 
-  scope :all_published, -> { where.not(published_at: nil) }
-  scope :all_unpublished, -> { where(published_at: nil) }
+  scope :published, -> { where.not(published_at: nil).where(marked_abuse: false) }
+  scope :unpublished, -> { where(published_at: nil).or(where(marked_abuse: true)) }
   scope :by_title, ->(title = nil) { where("lower(title) like ?", "%#{title.downcase}%") }
 
-   def self.search_for_ids(term = '')
-    find_by_sql ["SELECT id FROM questions WHERE title LIKE :term
-      UNION SELECT id FROM questions WHERE id IN(SELECT questions_topics.question_id
-      FROM topics JOIN questions_topics ON questions_topics.topic_id = topics.id
-      WHERE topics.name LIKE :term)", { term: "%#{term.downcase}%" }]
-   end
+  def self.search_for_ids(term = '')
+  find_by_sql ["SELECT id FROM questions WHERE title LIKE :term
+    UNION SELECT id FROM questions WHERE id IN(SELECT questions_topics.question_id
+    FROM topics JOIN questions_topics ON questions_topics.topic_id = topics.id
+    WHERE topics.name LIKE :term)", { term: "%#{term.downcase}%" }]
+  end
 
   def to_param
     "#{id}-#{title.parameterize}"
