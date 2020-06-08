@@ -69,7 +69,7 @@ class User < ApplicationRecord
 
   def send_reset_link
     update(reset_token: SecureRandom.urlsafe_base64, reset_sent_at: Time.current)
-    UserMailer.with(id: id).reset_password.deliver_later
+    UserMailer.delay.reset_password(id)
   end
 
   def verify_password_reset_token(token)
@@ -142,7 +142,7 @@ class User < ApplicationRecord
     end
 
     def send_verification_token
-      UserMailer.with(id: id).verification.deliver_later
+      UserMailer.delay.verification(id)
     end
 
     def assign_signup_credits

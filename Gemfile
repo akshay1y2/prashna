@@ -83,3 +83,9 @@ gem 'exception_notification', '~>4.4.0'
 
 # enable using `bundle exec rails g bullet:install`
 gem "bullet", '~>6.1.0'
+
+# running jobs in background
+gem 'delayed_job_active_record', '~>4.1.4'
+
+# use 'rake jobs:work' to run jobs
+gem "daemons", '~>1.3.1'

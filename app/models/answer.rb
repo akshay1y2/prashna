@@ -47,7 +47,7 @@ class Answer < ApplicationRecord
   end
 
   private def send_email_to_questioner
-    AnswerMailer.with(id: id).new_answer_posted.deliver_later
+    AnswerMailer.delay.new_answer_posted(id)
   end
 
   private def check_if_question_is_published

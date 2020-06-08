@@ -73,11 +73,11 @@ class PaymentTransaction < ApplicationRecord
 
   private def successful_transaction_tasks
     user.create_credit_transaction(purchase_pack)
-    PaymentTransactionMailer.with(id: id).paid.deliver_later
+    PaymentTransactionMailer.delay.paid(id)
   end
 
   private def refund_transaction_tasks
     user.create_refund_credit_transaction(purchase_pack)
-    PaymentTransactionMailer.with(id: id).refunded.deliver_later
+    PaymentTransactionMailer.delay.refunded(id)
   end
 end
