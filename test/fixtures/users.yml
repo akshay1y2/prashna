@@ -1,15 +1,35 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# == Schema Information
+#
+# Table name: users
+#
+#  id                      :bigint           not null, primary key
+#  name                    :string
+#  email                   :string
+#  password_digest         :string
+#  admin                   :boolean          default(FALSE), not null
+#  credits                 :integer          default(0), not null
+#  active                  :boolean          default(FALSE), not null
+#  confirm_token           :string
+#  reset_token             :string
+#  reset_sent_at           :datetime
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  new_notifications_count :integer          default(0), not null
+#  stripe_token            :string
+#  auth_token              :string
+#
 
 one:
-  name: MyString
-  email: MyString
-  password_digest: MyString
-  role: MyString
+  id: 1
+  name: user-one
+  email: u_one@mail.com
+  password_digest: $2a$12$sEUMDYctapJ63paqtrhPWOWstyRPGbvzpeNkdGs.ddiT1tgqHAlBW
   credits: 1
+  active: true
 
 two:
-  name: MyString
-  email: MyString
-  password_digest: MyString
-  role: MyString
-  credits: 1
+  id: 2
+  name: user-two
+  email: u_two@mail.com
+  password_digest: $2a$12$sEUMDYctapJ63paqtrhPWOWstyRPGbvzpeNkdGs.ddiT1tgqHAlBW
+  active: true
