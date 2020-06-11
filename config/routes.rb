@@ -39,7 +39,8 @@ Rails.application.routes.draw do
   post 'password_resets/create'
 
   namespace :admin do
-    get '/', to: 'users#index'
+    root to: 'users#index'
+    get 'send_daily_report', to: 'daily_reports#send_report'
     resources :users, only: [:index, :edit, :update, :destroy] do
       get 'credit_transactions', on: :member, to: 'credit_transactions#index'
     end

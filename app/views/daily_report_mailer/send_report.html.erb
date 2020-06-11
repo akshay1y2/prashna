@@ -1,0 +1,8 @@
+<p>Hello Team,</p>
+<p>These are the new Questions posted since last day,
+  <% @questions.each do |question| %>
+    <p><%= question.id %>. <%= link_to question.title, question_url(question) %></p>
+  <% end %>
+  Admin,<br/>
+  Prashna
+</p>

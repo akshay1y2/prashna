@@ -18,8 +18,8 @@ require 'test_helper'
 
 class QuestionTest < ActiveSupport::TestCase
   def setup
-    @user = users(:one)
-    @question = Question.new user: @user
+    @user = FactoryBot.create :user
+    @question = FactoryBot.build :question, user: @user
   end
 
   test 'should create draft' do
@@ -30,6 +30,7 @@ class QuestionTest < ActiveSupport::TestCase
   end
 
   test 'should not create question' do
+    @question.title = ''
     assert_no_difference ['Question.count', '@user.credit_transactions.count'] do
       assert_not @question.save
     end
@@ -41,7 +42,6 @@ class QuestionTest < ActiveSupport::TestCase
     @question.new_publish = true
     @question.title = 'title'
     @question.content = '| '*10
-    @question.topics.build(name: 'rails')
     assert_difference 'Question.published.count', 1 do
       assert @question.save
     end
@@ -52,27 +52,24 @@ class QuestionTest < ActiveSupport::TestCase
     assert_no_difference 'Question.published.count' do
       assert_not @question.save
     end
-    assert_includes @question.errors.keys, :title
-    assert_includes @question.errors.keys, :content
     assert_includes @question.errors.keys, :content_words
-    assert_includes @question.errors.keys, :topics
   end
 
   test 'should update question' do
-    @question = questions(:one)
-    assert @question.topics.create(name: 'rails')
+    @question.save
     assert @question.update(content: '| '*10, published_at: Time.current)
   end
 
   test 'should not update question' do
-    @question = questions(:one)
+    @question.save
     assert_not @question.update(content: '| '*10, comments_count: 1)
     assert_includes @question.errors[:base], "This question contains a response. Hence, not updatable."
   end
 
   test 'should destroy question' do
+    @question.save
     assert_difference 'Question.count' => -1, '@user.credit_transactions.count' => 1 do
-      questions(:one).destroy
+      @question.destroy
     end
   end
 end
