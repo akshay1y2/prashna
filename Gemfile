@@ -56,6 +56,8 @@ group :test do
   gem 'webdrivers'
   # factory_bot for writing tests
   gem 'factory_bot_rails', '~>5.2.0'
+  # to check the test coverage 'xdg-open coverage/index.html'
+  gem 'simplecov', '~>0.18.5', require: false
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
