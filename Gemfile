@@ -71,7 +71,7 @@ gem 'letter_opener_web', '~> 1.0' #, group: :production
 gem 'figaro', '~> 1.1'
 
 # for markdown format
-gem 'redcarpet', '~>3.5.0'
+gem 'redcarpet', '~>3.5.1'
 
 # paginate the questions index
 gem 'kaminari', '~>1.2.1'
